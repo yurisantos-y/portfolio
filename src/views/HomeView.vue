@@ -3,7 +3,21 @@
 </script>
 
 <template>
-  <div class="home-container"></div>
+  <div class="home-container">
+    <h1>Olá! 👋 <br>
+    Eu sou <span>Yuri Santos</span></h1>
+    <p>
+      Sou estudante de Ciência da Computação na UTFPR (Universidade <br>
+      Tecnológica Federal do Paraná), com foco de aprendizado em front-end e <br>
+       ciência de dados.
+    </p>
+    <div class="linkLP">
+      <button>
+        <a href="google.com"><img src="" alt="">link</a>
+      </button>
+    </div>
+  </div>
+
 
   <div class="corpo">
 
