@@ -12,7 +12,9 @@
       <div class="right-links">
         <RouterLink class="linknb" to="/">Download CV</RouterLink>
         <RouterLink class="linknb" to="/">Projetos</RouterLink>
-        <img id="languagenb" src="../assets/language.png" alt="">
+        <button class="linknb" id="btn">
+          <img id="btnlanguage" src="../assets/language.png" alt="">
+        </button>
       </div>
     </nav>
   </div>
@@ -22,10 +24,13 @@
 @import '../scss/style.scss';
 
 .navbar {
+  position: absolute;
   background-color: $cor-dark;
   width: 80vw;
   max-width: 1420px;
   margin: 30px auto 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +39,7 @@
   font-weight: 200;
 }
 
-.nav-container {
+.nav-container {  
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -55,24 +60,34 @@
 
 .linknb {
   color: $cor-light;
-  padding: 1rem;  // Alterado para rem
-  margin: 0 1rem;  // Alterado para rem
+  padding: 1rem;
+  margin: 0 1rem;
   text-decoration: none;
 }
 
 #logonb {
-  max-width: 3.5rem;  // Alterado para rem
-  max-height: 3.5rem;  // Alterado para rem
+  max-width: 3.5rem;
+  max-height: 3.5rem;
   width: auto;
   height: auto;
 }
 
-#languagenb{
-  max-width: 2rem;  // Alterado para rem
-  max-height: 2rem;  // Alterado para rem
-  width: auto;
-  height: auto;
-  margin: auto;
+#btn{
+  background-color: transparent;
+  border: none;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1.5rem;
+  cursor: pointer;
 }
+
+#btnlanguage{
+  width: 2rem;
+  height: 2rem;
+}
+
 
 </style>

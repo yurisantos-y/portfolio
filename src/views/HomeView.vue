@@ -15,8 +15,11 @@
 @import '../scss/style.scss';
 
 .home-container{
-  height: 70vh;
+  height: 90vh;
+  width: 100%;
   background-color: $cor-light;
+  border-radius: 0 0 60px 60px;
+  overflow-x: hidden;
 }
 
 .corpo{
