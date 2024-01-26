@@ -14,12 +14,16 @@
 .card-container {
   display: flex;
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 580px;
 }
 
 .cardProjeto{
-  width: 150px;
-  height: 150px;
+  width: 450px;
+  height: 450px;
   background-color: $cor-primaria;
+  border-radius: 16px;
   margin-right: 10px;
 }
 </style>
