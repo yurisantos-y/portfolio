@@ -1,3 +1,6 @@
+<script>
+</script>
+
 <template>
   <div class="card-container">
     <div class="cardProjeto">
@@ -57,6 +60,7 @@
     margin-top: 10px;
     border-radius: 10px;
     border: 0.5px solid $cor-light;
+    animation: slide 1s;
   }
 
   .description {
@@ -67,22 +71,19 @@
     margin-top: 10px;
     border-radius: 16px;
     color: $cor-light;
+    animation: slideYPositivo 1s;
   }  
 
   .description,
   .tela{
     display: none;
-/*animation-name: slide;
-    animation-duration: .3s;
-    animation-timing-function: ease-in;
-    animation-fill-mode: forwards; */
-    animation: slide 1s ease forwards;
   }
 
   &:hover {
     .tela,
     .description {
       display: block;
+      transform: translateX(0);
     }
   }
 
@@ -156,9 +157,28 @@
 
 
 @keyframes slide {
-  to{
+  from {
+    opacity: 0;
+    transform: translateY(-1000%);
+  }
+
+  to {
     opacity: 1;
+    transform: translateX(0);
   }
 }
+
+@keyframes slideYPositivo {
+  from {
+    opacity: 0;
+    transform: translateY(1000%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 </style>
     
