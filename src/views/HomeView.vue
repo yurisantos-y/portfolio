@@ -46,7 +46,7 @@ import cardHome from '../components/cardHome.vue'
 @import '../scss/style.scss';
 
 .home-container{
-  height: 90vh;
+  height: 95vh;
   width: 100%;
   background-color: $cor-light;
   border-radius: 0 0 60px 60px;
@@ -55,31 +55,34 @@ import cardHome from '../components/cardHome.vue'
 
 .apresentacao{
   margin-top: 160px;
-  margin-left: 160px;
+  margin-left: 10%;
   color: $cor-dark;
 }
 
 .apresentacao h1{
   font-weight: 600;
-  font-size: 32px;
+  font-size: 3rem;
+  color: $cor-textDark;
+  margin-bottom: -25px;
 }
 
 .apresentacao h2{
   border-bottom: 2px solid $cor-primaria;
-  padding-bottom: 5px;
-  width: 380px;
-  font-size: 40px;
+  padding-bottom: 2px;
+  width: 450px;
+  font-size: 3rem;
   font-weight: 600;
+  color: $cor-textDark;
 }
 
 #myName{
   color: $cor-primaria;
-
 }
 
 .apresentacao p{
   margin-top: 10px;
   line-height: 1.6rem;
+  color: $cor-textDark;
 }
 
 .linkLP{
@@ -88,28 +91,26 @@ import cardHome from '../components/cardHome.vue'
   border-radius: 6px;
   background-color: $bg-icon;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 160px;
+  margin-left: 10%;
   margin-top: 20px;
 }
 
-.btnSocial{
+.btnSocial {
   width: 25px;
   border: none;
   background-color: transparent;
   cursor: pointer;
-  margin-right: 20px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
   fill: $icon-off;
 
-  &:hover{
+  &:hover {
     fill: red;
     transform: scale(1.2);
     transition: fill 0.3s ease, transform 0.3s ease;
   }
+
 }
 
 
