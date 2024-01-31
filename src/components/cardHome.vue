@@ -24,7 +24,27 @@
             </div>
       </div>
     </div>
-    <div class="cardProjeto"></div>
+    <div class="cardProjeto">
+      <div class="tela">
+        <div class="conteudoTela">
+          <button class="btnTela">website</button>
+        </div>
+      </div>
+      <div class="description">
+          <h1>LinkBio</h1>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum provident rem impedit,
+                ratione nihil perspiciatis sed tenetur dolorem temporibus cum quos voluptate et expedita
+                quaerat? Sed, harum! Vitae, quam necessitatibus?</p>
+            <div id="listaDescription">
+              <ul>
+                <li>Oi</li>
+                <li>Oi</li>
+                <li>Oi</li>
+                <li>Oi</li>
+              </ul>
+            </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -60,7 +80,7 @@
     margin-top: 10px;
     border-radius: 10px;
     border: 0.5px solid $cor-light;
-    animation: slide 1s;
+    animation: slide .3s;
   }
 
   .description {
@@ -71,7 +91,7 @@
     margin-top: 10px;
     border-radius: 16px;
     color: $cor-light;
-    animation: slideYPositivo 1s;
+    animation: slideYPositivo .3s;
   }  
 
   .description,
