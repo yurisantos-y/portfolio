@@ -1,48 +1,52 @@
-<script>
-</script>
-
 <template>
   <div class="card-container">
     <div class="cardProjeto">
+      <img src="../assets/projeto1.jpeg" alt="" class="card-image">
       <div class="tela">
         <div class="conteudoTela">
-          <button class="btnTela">website</button>
+          <button class="btnTela">Visit Website</button>
         </div>
       </div>
       <div class="description">
-          <h1>LinkBio</h1>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum provident rem impedit,
-                ratione nihil perspiciatis sed tenetur dolorem temporibus cum quos voluptate et expedita
-                quaerat? Sed, harum! Vitae, quam necessitatibus?</p>
-            <div id="listaDescription">
-              <ul>
-                <li>Oi</li>
-                <li>Oi</li>
-                <li>Oi</li>
-                <li>Oi</li>
-              </ul>
-            </div>
+        <h1>LinkBio</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum provident rem impedit,
+          ratione nihil perspiciatis sed tenetur dolorem temporibus cum quos voluptate et expedita
+          quaerat? Sed, harum! Vitae, quam necessitatibus?
+        </p>
+        <div id="listaDescription">
+          <ul>
+            <li>Oi</li>
+            <li>Oi</li>
+            <li>Oi</li>
+            <li>Oi</li>
+          </ul>
+        </div>
       </div>
     </div>
+    <!-- Repeat the card structure for other projects -->
     <div class="cardProjeto">
+      <img src="../assets/projeto2.jpeg" alt="" class="card-image">
       <div class="tela">
         <div class="conteudoTela">
-          <button class="btnTela">website</button>
+          <button class="btnTela">Visit Website</button>
         </div>
       </div>
       <div class="description">
-          <h1>LinkBio</h1>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum provident rem impedit,
-                ratione nihil perspiciatis sed tenetur dolorem temporibus cum quos voluptate et expedita
-                quaerat? Sed, harum! Vitae, quam necessitatibus?</p>
-            <div id="listaDescription">
-              <ul>
-                <li>Oi</li>
-                <li>Oi</li>
-                <li>Oi</li>
-                <li>Oi</li>
-              </ul>
-            </div>
+        <h1>LinkBio</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum provident rem impedit,
+          ratione nihil perspiciatis sed tenetur dolorem temporibus cum quos voluptate et expedita
+          quaerat? Sed, harum! Vitae, quam necessitatibus?
+        </p>
+        <div id="listaDescription">
+          <ul>
+            <li>Oi</li>
+            <li>Oi</li>
+            <li>Oi</li>
+            <li>Oi</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -57,6 +61,8 @@
   left: 50%;
   transform: translateX(-50%);
   top: 85%;
+  overflow: hidden;
+  border-radius: 16px;
 }
 
 .cardProjeto {
@@ -65,12 +71,25 @@
   height: 450px;
   max-width: 450px;
   max-height: 450px;
-  background-image: url('../assets/projeto1.jpeg');
-  background-position: center;
-  background-repeat: no-repeat;
   border-radius: 16px;
   margin-right: 10px;
   overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    position: absolute;
+    transition: transform 0.3s ease-in;
+  }
+
+  &:hover .card-image {
+    transform: scale(1.2);
+    filter: blur(10px);
+  }
 
   .tela {
     width: 95%;
@@ -80,7 +99,8 @@
     margin-top: 10px;
     border-radius: 10px;
     border: 0.5px solid $cor-light;
-    animation: slide .3s;
+    z-index: 2;
+    animation: fadeInUp .3s ease-in;
   }
 
   .description {
@@ -91,114 +111,96 @@
     margin-top: 10px;
     border-radius: 16px;
     color: $cor-light;
-    animation: slideYPositivo .3s;
-  }  
+    z-index: 3;
+    animation: fadeInUp .3s ease-in;
+  }
+  
 
   .description,
-  .tela{
+  .tela {
     display: none;
   }
 
-  &:hover {
-    .tela,
-    .description {
-      display: block;
-      transform: translateX(0);
+  &:hover .tela,
+  &:hover .description {
+    display: block;
+  }
+
+  .conteudoTela{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+  }
+  
+  .btnTela {
+    border: 0.5px solid $cor-light;
+    padding: 10px;
+    background-color: transparent;
+    color: $cor-light;
+    border-radius: 6px;
+    transition: .3s;
+    cursor: pointer;
+  }
+  
+  .btnTela:hover{
+    backdrop-filter: blur(2px);
+    scale: 1.1;
+  }
+  
+  .description{
+    text-align: center;
+  }
+  
+  .description h1{
+    font-size: 2rem;
+    font-weight: 500;
+  }
+  
+  .description p{
+    margin-bottom: 2%;
+    font-size: 0.9em;
+    font-weight: 300;
+    text-align: left;
+    padding: 12px;
+  }
+  
+  #listaDescription {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: auto;
+  }
+  
+  #listaDescription ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  #listaDescription li {
+    display: inline-block;
+    background-color: $icon-off;
+    width: 170px;
+    height: 32px;
+    border-radius: 6px;
+    text-align: center;
+    margin: 5px;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(2000px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
-
 }
-
-.conteudoTela{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-}
-
-.btnTela {
-  border: 0.5px solid $cor-light;
-  padding: 10px;
-  background-color: transparent;
-  color: $cor-light;
-  border-radius: 6px;
-  transition: .3s;
-  cursor: pointer;
-}
-
-.btnTela:hover{
-  backdrop-filter: blur(2px);
-  scale: 1.1;
-}
-
-.description{
-  text-align: center;
-}
-
-.description h1{
-  font-size: 2rem;
-  font-weight: 500;
-}
-
-.description p{
-  margin-bottom: 2%;
-  font-size: 0.9em;
-  font-weight: 300;
-  text-align: left;
-  padding: 12px;
-}
-
-#listaDescription {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  margin: auto;
-}
-
-#listaDescription ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-#listaDescription li {
-  display: inline-block;
-  background-color: $icon-off;
-  width: 170px;
-  height: 32px;
-  border-radius: 6px;
-  text-align: center;
-  margin: 5px;
-}
-
-
-@keyframes slide {
-  from {
-    opacity: 0;
-    transform: translateY(-1000%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideYPositivo {
-  from {
-    opacity: 0;
-    transform: translateY(1000%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 </style>
-    
