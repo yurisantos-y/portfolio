@@ -4,3 +4,12 @@
 body{
   background-color: $cor-dark;
 }
+
+body::-webkit-scrollbar{
+  width: 12px;
+}
+
+body::-webkit-scrollbar-thumb{
+  background-color: $cor-primaria;
+  border-radius: 4px;
+}

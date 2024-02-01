@@ -27,7 +27,7 @@
   position: absolute;
   background-color: $cor-dark;
   width: 80vw;
-  max-width: 1420px;
+  max-width: 1180px;
   margin: 30px auto 0;
   left: 50%;
   transform: translateX(-50%);

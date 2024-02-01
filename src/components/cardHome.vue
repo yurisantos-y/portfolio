@@ -169,17 +169,17 @@
   
   #listaDescription {
     display: flex;
-    align-items: center;
+    justify-content: center;
     cursor: pointer;
     margin: auto;
   }
   
   #listaDescription ul {
     list-style: none;
-    padding: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
   }
   
   #listaDescription li {
@@ -188,10 +188,12 @@
     width: 170px;
     height: 32px;
     border-radius: 6px;
-    text-align: center;
     margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-
+  
   @keyframes fadeInUp {
     from {
       opacity: 0;

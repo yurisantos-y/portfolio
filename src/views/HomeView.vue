@@ -1,14 +1,5 @@
 <script setup>
 import cardHome from '../components/cardHome.vue'
-function showMessage() {
-    var message = document.getElementById('message');
-    message.style.display = 'block';
-}
-
-function hideMessage() {
-    var message = document.getElementById('message');
-    message.style.display = 'none';
-}
 
 </script>
 
@@ -20,8 +11,11 @@ function hideMessage() {
       <p>
         Sou estudante de Ciência da Computação na UTFPR (Universidade <br>
         Tecnológica Federal do Paraná), com foco de aprendizado em front-end e <br>
-         ciência de dados.
+         engenharia de dados.
       </p>
+    </div>
+    <div class="bolaLP">
+
     </div>
     <div class="linkLP">
       <button class="btnSocial">
@@ -88,6 +82,14 @@ function hideMessage() {
       <button class="btnFigma">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M14 95.8C14 42.9 56.9 0 109.8 0H274.2C327.1 0 370 42.9 370 95.8C370 129.3 352.8 158.8 326.7 175.9C352.8 193 370 222.5 370 256C370 308.9 327.1 351.8 274.2 351.8H272.1C247.3 351.8 224.7 342.4 207.7 326.9V415.2C207.7 468.8 163.7 512 110.3 512C57.5 512 14 469.2 14 416.2C14 382.7 31.2 353.2 57.2 336.1C31.2 319 14 289.5 14 256C14 222.5 31.2 193 57.2 175.9C31.2 158.8 14 129.3 14 95.8zM176.3 191.6H109.8C74.2 191.6 45.4 220.4 45.4 256C45.4 291.4 74 320.2 109.4 320.4C109.5 320.4 109.7 320.4 109.8 320.4H176.3V191.6zM207.7 256C207.7 291.6 236.5 320.4 272.1 320.4H274.2C309.7 320.4 338.6 291.6 338.6 256C338.6 220.4 309.7 191.6 274.2 191.6H272.1C236.5 191.6 207.7 220.4 207.7 256zM109.8 351.8C109.7 351.8 109.5 351.8 109.4 351.8C74 352 45.4 380.8 45.4 416.2C45.4 451.7 74.6 480.6 110.3 480.6C146.6 480.6 176.3 451.2 176.3 415.2V351.8H109.8zM109.8 31.4C74.2 31.4 45.4 60.2 45.4 95.8C45.4 131.4 74.2 160.2 109.8 160.2H176.3V31.4H109.8zM207.7 160.2H274.2C309.7 160.2 338.6 131.4 338.6 95.8C338.6 60.2 309.7 31.4 274.2 31.4H207.7V160.2z"/></svg>
       </button>
+      <div class="bolaConhecimento"></div>
+    </div>
+    <div class="experiencia">
+      <h2>Experiência</h2>
+      <p>Estagiei como desenvolvedor web de março de 2023 a março de 2024,
+         criando um site de consultoria em PHP. Atualmente, tenho uma bolsa 
+         de iniciação científica focada no desenvolvimento de soluções para avicultura.
+         Adquiri habilidades sólidas em programação e aplico conhecimentos teóricos em projetos práticos.</p>
     </div>
   </div>
 
@@ -105,8 +107,8 @@ function hideMessage() {
 }
 
 .apresentacao{
-  margin-top: 160px;
-  margin-left: 10%;
+  margin-top: 200px;
+  margin-left: 12%;
   color: $cor-dark;
 }
 
@@ -136,13 +138,24 @@ function hideMessage() {
   color: $cor-textDark;
 }
 
+.bolaLP{
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: $cor-primaria;
+  top: 30%;
+  left: 73%;
+  filter: blur(78px);
+}
+
 .linkLP{
   width: 250px;
   height: 40px;
   border-radius: 6px;
   background-color: $bg-icon;
   display: flex;
-  margin-left: 10%;
+  margin-left: 12%;
   margin-top: 20px;
 }
 
@@ -165,7 +178,7 @@ function hideMessage() {
 }
 
 .corpo{
-  height: 2000px;
+  height: 1300px;
   background-color: $cor-dark;
   color: $cor-light;
 }
@@ -173,19 +186,20 @@ function hideMessage() {
 .conteudoAbout{
   margin-top: 30%;
   text-align: left;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 12%;
+  margin-right: 12%;
 }
 
-.conteudoAbout h2{
+.conteudoAbout h2, .experiencia h2{
   font-weight: 500;
-  font-size: 3rem;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
 }
 
-.conteudoAbout p{
-  width: 50%;
+.conteudoAbout p, .experiencia p{
+  width: 52%;
   font-weight: 300;
-  line-height: 120%;
+  line-height: 170%;
 }
 
 .lineAbout{
@@ -209,29 +223,6 @@ function hideMessage() {
   background-color: red;
 }
 
-.element {
-  padding: 20px;
-  background-color: #3498db;
-  color: #fff;
-  text-align: center;
-  cursor: pointer;
-}
-
-.element img{
-  max-width: 20px;
-  height: auto;
-}
-
-.message {
-  display: none;
-  position: absolute;
-  background-color: #2ecc71;
-  color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-
 .conhecimento {
   position: relative;
   width: 100%;
@@ -240,14 +231,14 @@ function hideMessage() {
 
 .conhecimento h2{
   color: $cor-light;
-  margin-left: 10%;
+  margin-left: 12%;
   margin-top: 30px;
   font-weight: 500;
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
 
 .conhecimento span{
-  margin-left: 10%;
+  margin-left: 12%;
   font-weight: 300;
 }
 
@@ -265,19 +256,67 @@ function hideMessage() {
   background-color: $transparente;
   border-radius: 10px;
   border: 0.5px solid $cor-light;
-  color: #fff;
+  color: $cor-light;
   cursor: pointer;
+  animation: appear linear both;
+  animation-timeline: view(block);
+  animation-range: cover 0% cover 25%;
 }
 
-.btnVue { top: 10%; left: 67%; }
-.btnHtml { top: 18%; left: 79%; }
-.btnCss { top: 30%; left: 69%; }
-.btnTs { top: 36%; left: 82%; }
-.btnJs { top: 46%; left: 62%; }
-.btnSass { top: 53%; left: 74%; }
-.btnPython { top: 59%; left: 84% }
-.btnMysql { top: 68%; left: 64% }
-.btnFigma { top: 77%; left: 75%}
+.btnVue { top: 12%; left: 67%; }
+.btnHtml { top: 20%; left: 79%; }
+.btnCss { top: 32%; left: 69%; }
+.btnTs { top: 40%; left: 82%; }
+.btnJs { top: 50%; left: 63%; }
+.btnSass { top: 58%; left: 74%; }
+.btnPython { top: 67%; left: 84%; }
+.btnMysql { top: 70%; left: 65%; }
+.btnFigma { top: 83%; left: 75%; }
+
+.btnMysql img{
+  max-width: 70px;
+}
+
+.btnJs img, .btnTs img{
+  max-width: 38px;
+  margin-top: 50%;
+  margin-left: 32%;
+}
+
+.btnVue svg, .btnSass svg{
+  max-width: 55px;
+}
+
+.bolaConhecimento{
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: $cor-primaria;
+  top: 65%;
+  left: 13%;
+  filter: blur(60px);
+}
+
+.experiencia{
+  margin-left: 12%;
+  margin-top: 40px;
+}
+
+.experiencia h2{
+  font: 100;
+}
+
+@keyframes appear {
+  from{
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  to{
+    opacity: 1;
+    translate: 0 0;
+  }
+}
 
 
 
