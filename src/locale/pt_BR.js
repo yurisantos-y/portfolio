@@ -9,9 +9,9 @@ export const pt_BR = {
 
   salutation: {
     hello: 'Olá',
-    myname: 'Sou Yuri dos Santos',
+    myname: 'Sou',
     legend: 'Sou estudante de Ciência da Computação na UTFPR (Universidade Tecnológica Federal do Paraná), com foco de aprendizado em front-end e engenharia de dados.',
-
+    projects: 'Projetos Principais',
   },
   
   about: {

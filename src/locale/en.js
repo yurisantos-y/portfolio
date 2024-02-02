@@ -9,8 +9,9 @@ export const en = {
 
   salutation: {
     hello: 'Hello',
-    myname: 'I am Yuri dos Santos',
+    myname: 'I am',
     legend: 'I am a Computer Science student at UTFPR (Federal Technological University of Paraná), with a focus on front-end and data engineering learning.',
+    projects: 'Main Projects',
 
   },
   

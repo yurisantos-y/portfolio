@@ -26,7 +26,7 @@
     </div>
     <!-- Repeat the card structure for other projects -->
     <div class="cardProjeto">
-      <img src="../assets/projeto2.jpeg" alt="" class="card-image">
+      <img src="../assets/projeto2.jpeg" alt="" class="card-image" id="secondProject">
       <div class="tela">
         <div class="conteudoTela">
           <button class="btnTela">Visit Website</button>
@@ -88,8 +88,9 @@
 
   &:hover .card-image {
     transform: scale(1.2);
-    filter: blur(10px);
+    filter: blur(10px) brightness(0.5);
   }
+
 
   .tela {
     width: 95%;

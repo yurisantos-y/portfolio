@@ -7,7 +7,7 @@ import cardHome from '../components/cardHome.vue'
   <div class="home-container">
     <div class="apresentacao">
       <h1>{{ $t('salutation.hello') }}</h1>
-      <h2>{{ $t('salutation.myname') }}</h2>
+      <h2 id="nameTitulo">{{ $t('salutation.myname') }} <span>Yuri Santos</span> </h2>
       <p>{{ $t('salutation.legend') }}</p>
     </div>
     <div class="bolaLP">
@@ -30,6 +30,11 @@ import cardHome from '../components/cardHome.vue'
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
       </button>
     </div>
+    <div>
+      <h2 id="titleProjetos">{{ $t( 'salutation.projects' ) }}</h2>
+    </div>
+
+    <!-- Chamada do Card -->
   <cardHome/>
 
 
@@ -98,7 +103,7 @@ import cardHome from '../components/cardHome.vue'
 }
 
 .apresentacao{
-  margin-top: 200px;
+  margin-top: 12%;
   margin-left: 12%;
   color: $cor-dark;
 }
@@ -113,17 +118,20 @@ import cardHome from '../components/cardHome.vue'
 .apresentacao h2{
   border-bottom: 2px solid $cor-primaria;
   padding-bottom: 2px;
-  width: 450px;
+  width: 425px;
   font-size: 3rem;
   font-weight: 600;
+  letter-spacing: 3px;
   color: $cor-textDark;
 }
 
-#myName{
+#nameTitulo span {
   color: $cor-primaria;
+  font-size: 3rem;
 }
 
 .apresentacao p{
+  max-width: 34%;
   margin-top: 10px;
   line-height: 1.6rem;
   color: $cor-textDark;
@@ -165,8 +173,20 @@ import cardHome from '../components/cardHome.vue'
     transform: scale(1.2);
     transition: fill 0.3s ease, transform 0.3s ease;
   }
-
 }
+
+#titleProjetos {
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  position: absolute;
+  color: $cor-dark;
+  width: 100%;
+  top: 76%;
+  transform: translateY(-50%);
+}
+
+
 
 .corpo{
   height: 1300px;
@@ -308,8 +328,4 @@ import cardHome from '../components/cardHome.vue'
     translate: 0 0;
   }
 }
-
-
-
-
 </style>
