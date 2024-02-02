@@ -6,13 +6,9 @@ import cardHome from '../components/cardHome.vue'
 <template>
   <div class="home-container">
     <div class="apresentacao">
-      <h1>Olá! <span id="mao"></span></h1>
-      <h2>Eu sou <span id="myName">Yuri Santos</span></h2>
-      <p>
-        Sou estudante de Ciência da Computação na UTFPR (Universidade <br>
-        Tecnológica Federal do Paraná), com foco de aprendizado em front-end e <br>
-         engenharia de dados.
-      </p>
+      <h1>{{ $t('salutation.hello') }}</h1>
+      <h2>{{ $t('salutation.myname') }}</h2>
+      <p>{{ $t('salutation.legend') }}</p>
     </div>
     <div class="bolaLP">
 
@@ -41,20 +37,18 @@ import cardHome from '../components/cardHome.vue'
 
   <div class="corpo">
     <div class="conteudoAbout">
-      <h2>Sobre mim</h2>
+      <h2>{{ $t( 'about.titleAbout' ) }}</h2>
         <div class="lineAbout">
-          <p>Meu foco principal está na codificação, estratégia e desenvolvimento, áreas em que venho aprimorando minhas
-            habilidades nos últimos dois anos. Em cada projeto que abraço, reconheço a importância de manter fluxos de trabalho eficientes,
-            promover uma comunicação sólida e aplicar uma dose significativa de autodisciplina para assegurar o sucesso.</p>
+          <p>{{ $t( 'about.text' ) }}</p>
     
            <div class="btnAbout">
-            <button id="idAdout">Sobre mim</button>
+            <button id="idAdout">{{ $t( 'about.btnAbout' ) }}</button>
            </div>
         </div>
     </div>
     <div class="conhecimento">
-      <h2>Conhecimentos</h2>
-      <span>/* Passe o mouse por cima das tecnologias para mais infomações*/</span>
+      <h2>{{ $t( 'know.titleKnow' ) }}</h2>
+      <span>{{ $t( 'know.textDefault' ) }}</span>
       <button class="btnVue">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M356.9 64.3H280l-56 88.6-48-88.6H0L224 448 448 64.3h-91.1zm-301.2 32h53.8L224 294.5 338.4 96.3h53.8L224 384.5 55.7 96.3z"/></svg>
       </button>
@@ -85,11 +79,8 @@ import cardHome from '../components/cardHome.vue'
       <div class="bolaConhecimento"></div>
     </div>
     <div class="experiencia">
-      <h2>Experiência</h2>
-      <p>Estagiei como desenvolvedor web de março de 2023 a março de 2024,
-         criando um site de consultoria em PHP. Atualmente, tenho uma bolsa 
-         de iniciação científica focada no desenvolvimento de soluções para avicultura.
-         Adquiri habilidades sólidas em programação e aplico conhecimentos teóricos em projetos práticos.</p>
+      <h2>{{ $t( 'experience.titleExperience' ) }}</h2>
+      <p>{{ $t( 'experience.textExperience' ) }}</p>
     </div>
   </div>
 

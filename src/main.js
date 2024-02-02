@@ -1,12 +1,27 @@
 import './scss/style.scss';
+import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n';
+import App from './App.vue';
+import router from './router';
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router' 
+import { pt_BR } from '../src/locale/pt_BR.js';
+import { en } from '../src/locale/en.js'; // Certifique-se de que o caminho do arquivo está correto
 
+const languages = {
+  pt_BR,
+  en
+}
 
-const app = createApp(App)
+const i18n = createI18n({
+  locale: 'pt_BR',
+  fallbackLocale: 'pt_BR',
+  messages: languages
+});
 
-app.use(router)
+const app = createApp(App);
 
-app.mount('#app')
+app.use(i18n); // Use o i18n aqui
+
+app.use(router);
+
+app.mount('#app');

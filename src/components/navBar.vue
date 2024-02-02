@@ -1,18 +1,30 @@
+<script>
+  export default {
+    methods: {
+      setLocale(locale) {
+        this.$i18n.locale = locale;
+      }
+    }
+  }
+
+</script>
+
+
 <template>
   <div class="navbar">
     <nav class="nav-container">
       <div class="left-links">
-        <RouterLink class="linknb" to="/about">Sobre</RouterLink>
-        <RouterLink class="linknb" to="/">Contato</RouterLink>
-        <RouterLink class="linknb" to="/">Blog</RouterLink>
+        <RouterLink class="linknb" to="/about">{{ $t( 'navbar.about' ) }}</RouterLink>
+        <RouterLink class="linknb" to="/">{{ $t( 'navbar.contact' ) }}</RouterLink>
+        <RouterLink class="linknb" to="/">{{ $t( 'navbar.blog' ) }}</RouterLink>
       </div>
       <div class="center-logo">
         <img id="logonb" src="../assets/logo.png" alt="">
       </div>
       <div class="right-links">
-        <RouterLink class="linknb" to="/">Download CV</RouterLink>
-        <RouterLink class="linknb" to="/">Projetos</RouterLink>
-        <button class="linknb" id="btn">
+        <RouterLink class="linknb" to="/">{{ $t( 'navbar.cv' ) }}</RouterLink>
+        <RouterLink class="linknb" to="/">{{ $t( 'navbar.projects' ) }}</RouterLink>
+        <button class="linknb" id="btn" @click="setLocale('en')">
           <img id="btnlanguage" src="../assets/language.png" alt="">
         </button>
       </div>

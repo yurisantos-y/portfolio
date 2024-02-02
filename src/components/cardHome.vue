@@ -197,7 +197,7 @@
   @keyframes fadeInUp {
     from {
       opacity: 0;
-      transform: translateY(2000px);
+      transform: translateY(200px);
     }
     to {
       opacity: 1;
