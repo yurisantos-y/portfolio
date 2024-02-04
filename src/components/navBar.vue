@@ -54,7 +54,7 @@ export default {
   background-color: $cor-dark;
   width: 80vw;
   max-width: 1260px;
-  margin: 30px auto 0;
+  margin: 20px auto 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
