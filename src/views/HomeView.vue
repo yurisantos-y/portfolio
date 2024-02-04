@@ -104,7 +104,7 @@ import cardHome from '../components/cardHome.vue'
 
 .apresentacao{
   margin-top: 12%;
-  margin-left: 12%;
+  margin-left: 10%;
   color: $cor-dark;
 }
 
@@ -118,7 +118,7 @@ import cardHome from '../components/cardHome.vue'
 .apresentacao h2{
   border-bottom: 2px solid $cor-primaria;
   padding-bottom: 2px;
-  width: 425px;
+  width: 500px;
   font-size: 3rem;
   font-weight: 600;
   letter-spacing: 3px;
@@ -137,16 +137,7 @@ import cardHome from '../components/cardHome.vue'
   color: $cor-textDark;
 }
 
-.bolaLP{
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background-color: $cor-primaria;
-  top: 30%;
-  left: 73%;
-  filter: blur(78px);
-}
+
 
 .linkLP{
   width: 250px;
@@ -154,7 +145,7 @@ import cardHome from '../components/cardHome.vue'
   border-radius: 6px;
   background-color: $bg-icon;
   display: flex;
-  margin-left: 12%;
+  margin-left: 10%;
   margin-top: 20px;
 }
 

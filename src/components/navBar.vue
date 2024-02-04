@@ -1,15 +1,3 @@
-<script>
-  export default {
-    methods: {
-      setLocale(locale) {
-        this.$i18n.locale = locale;
-      }
-    }
-  }
-
-</script>
-
-
 <template>
   <div class="navbar">
     <nav class="nav-container">
@@ -21,16 +9,42 @@
       <div class="center-logo">
         <img id="logonb" src="../assets/logo.png" alt="">
       </div>
-      <div class="right-links">
+      <div class="right-links" style="margin-left: auto;">
         <RouterLink class="linknb" to="/">{{ $t( 'navbar.cv' ) }}</RouterLink>
         <RouterLink class="linknb" to="/">{{ $t( 'navbar.projects' ) }}</RouterLink>
-        <button class="linknb" id="btn" @click="setLocale('en')">
-          <img id="btnlanguage" src="../assets/language.png" alt="">
-        </button>
+        
+        <label for="btnLanguage" :class="{ 'active-flag': englishChecked }">
+          <input type="checkbox" id="btnLanguage" v-model="englishChecked" @change="toggleLanguage('en')" class="hidden-checkbox">
+          <input type="checkbox" id="btnLanguage" v-model="portugueseChecked" @change="toggleLanguage('pt_BR')" class="hidden-checkbox">
+          
+          <img v-if="englishChecked" id="btnlanguage" @click="toggleLanguage('en')" src="../assets/flag-brazil.svg" alt="">
+          
+          <img v-else id="btnlanguage" @click="toggleLanguage('pt_BR')" src="../assets/flag-usa.svg" alt="">
+        </label>
       </div>
     </nav>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      englishChecked: false,
+    };
+  },
+  methods: {
+    toggleLanguage() {
+      this.englishChecked = !this.englishChecked;
+      const locale = this.englishChecked ? 'en' : 'pt_BR';
+      this.setLocale(locale);
+    },
+    setLocale(locale) {
+      this.$i18n.locale = locale;
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 @import '../scss/style.scss';
@@ -39,7 +53,7 @@
   position: absolute;
   background-color: $cor-dark;
   width: 80vw;
-  max-width: 1180px;
+  max-width: 1260px;
   margin: 30px auto 0;
   left: 50%;
   transform: translateX(-50%);
@@ -56,6 +70,10 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+}
+
+.right-links{
+  margin: 0 2rem;
 }
 
 .left-links,
@@ -75,6 +93,11 @@
   padding: 1rem;
   margin: 0 1rem;
   text-decoration: none;
+  transition: .3s ease;
+}
+
+.linknb:hover{
+  color: $cor-primaria;
 }
 
 #logonb {
@@ -84,22 +107,22 @@
   height: auto;
 }
 
-#btn{
-  background-color: transparent;
-  border: none;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 1.5rem;
+.hidden-checkbox {
+  position: absolute;
+  left: -9999px;
+}
+
+#btnlanguage {
+  margin-top: 30%;
+  max-width: 35px;
   cursor: pointer;
+  transition: transform 0.3s ease;
+  filter: grayscale(100%);
 }
 
-#btnlanguage{
-  width: 2rem;
-  height: 2rem;
+#btnlanguage:hover {
+  filter: grayscale(0);
+  transform: scale(1.2);
 }
-
 
 </style>
