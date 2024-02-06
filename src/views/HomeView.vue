@@ -1,6 +1,16 @@
 <script setup>
 import cardHome from '../components/cardHome.vue'
+import { ref } from 'vue'
 
+const showSpanDefault = ref(true);
+
+const hideSpanDefault = () => {
+  showSpanDefault.value = false;
+}
+
+const showSpanDefaultOnMouseLeave = () => {
+  showSpanDefault.value = true;
+}
 </script>
 
 <template>
@@ -53,33 +63,44 @@ import cardHome from '../components/cardHome.vue'
     </div>
     <div class="conhecimento">
       <h2>{{ $t( 'know.titleKnow' ) }}</h2>
-      <span id="textDef">{{ $t( 'know.textDefault' ) }}</span>
-      <button class="btnVue">
-        <p>{{$t('know.vue')}}</p>
+      <span v-if="showSpanDefault" id="spanDefault">{{ $t( 'know.textDefault' ) }}</span>
+      <button class="btnVue" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+        <p id="paragrafoVue">{{$t('know.vue')}}</p>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M356.9 64.3H280l-56 88.6-48-88.6H0L224 448 448 64.3h-91.1zm-301.2 32h53.8L224 294.5 338.4 96.3h53.8L224 384.5 55.7 96.3z"/></svg>
       </button>
-      <button class="btnHtml">
+      <button class="btnHtml" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+        <p id="paragrafoHtml">{{$t('know.html')}}</p>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M0 32l34.9 395.8L191.5 480l157.6-52.2L384 32H0zm308.2 127.9H124.4l4.1 49.4h175.6l-13.6 148.4-97.9 27v.3h-1.1l-98.7-27.3-6-75.8h47.7L138 320l53.5 14.5 53.7-14.5 6-62.2H84.3L71.5 112.2h241.1l-4.4 47.7z"/></svg>
       </button>
-      <button class="btnCss">
+      <button class="btnCss" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+        <p id="paragrafoCss">{{$t('know.css')}}</p>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M0 32l34.9 395.8L192 480l157.1-52.2L384 32H0zm313.1 80l-4.8 47.3L193 208.6l-.3 .1h111.5l-12.8 146.6-98.2 28.7-98.8-29.2-6.4-73.9h48.9l3.2 38.3 52.6 13.3 54.7-15.4 3.7-61.6-166.3-.5v-.1l-.2 .1-3.6-46.3L193.1 162l6.5-2.7H76.7L70.9 112h242.2z"/></svg>
       </button>
-      <button class="btnTs">
+      <button class="btnTs" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+        <p id="paragrafoTs">{{$t('know.ts')}}</p>
         <img src="../assets/TS.svg" alt="">
       </button>
-      <button class="btnJs">
+      <button class="btnJs" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+        <p id="paragrafoJs">{{$t('know.js')}}</p>
         <img src="../assets/JS.svg" alt="">
       </button>
-      <button class="btnSass">
+      <button class="btnSass" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+        <p id="paragrafoSass">{{$t('know.sass')}}</p>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M301.8 378.9c-.3 .6-.6 1.1 0 0zm249.1-87a131.2 131.2 0 0 0 -58 13.5c-5.9-11.9-12-22.3-13-30.1-1.2-9.1-2.5-14.5-1.1-25.3s7.7-26.1 7.6-27.2-1.4-6.6-14.3-6.7-24 2.5-25.3 5.9a122.8 122.8 0 0 0 -5.3 19.1c-2.3 11.7-25.8 53.5-39.1 75.3-4.4-8.5-8.1-16-8.9-22-1.2-9.1-2.5-14.5-1.1-25.3s7.7-26.1 7.6-27.2-1.4-6.6-14.3-6.7-24 2.5-25.3 5.9-2.7 11.4-5.3 19.1-33.9 77.3-42.1 95.4c-4.2 9.2-7.8 16.6-10.4 21.6-.4 .8-.7 1.3-.9 1.7 .3-.5 .5-1 .5-.8-2.2 4.3-3.5 6.7-3.5 6.7v.1c-1.7 3.2-3.6 6.1-4.5 6.1-.6 0-1.9-8.4 .3-19.9 4.7-24.2 15.8-61.8 15.7-63.1-.1-.7 2.1-7.2-7.3-10.7-9.1-3.3-12.4 2.2-13.2 2.2s-1.4 2-1.4 2 10.1-42.4-19.4-42.4c-18.4 0-44 20.2-56.6 38.5-7.9 4.3-25 13.6-43 23.5-6.9 3.8-14 7.7-20.7 11.4-.5-.5-.9-1-1.4-1.5-35.8-38.2-101.9-65.2-99.1-116.5 1-18.7 7.5-67.8 127.1-127.4 98-48.8 176.4-35.4 189.8-5.6 19.4 42.5-41.9 121.6-143.7 133-38.8 4.3-59.2-10.7-64.3-16.3-5.3-5.9-6.1-6.2-8.1-5.1-3.3 1.8-1.2 7 0 10.1 3 7.9 15.5 21.9 36.8 28.9 18.7 6.1 64.2 9.5 119.2-11.8 61.8-23.8 109.9-90.1 95.8-145.6C386.5 18.3 293-.2 204.6 31.2c-52.7 18.7-109.7 48.1-150.7 86.4-48.7 45.6-56.5 85.3-53.3 101.9 11.4 58.9 92.6 97.3 125.1 125.7-1.6 .9-3.1 1.7-4.5 2.5-16.3 8.1-78.2 40.5-93.7 74.7-17.5 38.8 2.9 66.6 16.3 70.4 41.8 11.6 84.6-9.3 107.6-43.6s20.2-79.1 9.6-99.5c-.1-.3-.3-.5-.4-.8 4.2-2.5 8.5-5 12.8-7.5 8.3-4.9 16.4-9.4 23.5-13.3-4 10.8-6.9 23.8-8.4 42.6-1.8 22 7.3 50.5 19.1 61.7 5.2 4.9 11.5 5 15.4 5 13.8 0 20-11.4 26.9-25 8.5-16.6 16-35.9 16-35.9s-9.4 52.2 16.3 52.2c9.4 0 18.8-12.1 23-18.3v.1s.2-.4 .7-1.2c1-1.5 1.5-2.4 1.5-2.4v-.3c3.8-6.5 12.1-21.4 24.6-46 16.2-31.8 31.7-71.5 31.7-71.5a201.2 201.2 0 0 0 6.2 25.8c2.8 9.5 8.7 19.9 13.4 30-3.8 5.2-6.1 8.2-6.1 8.2a.3 .3 0 0 0 .1 .2c-3 4-6.4 8.3-9.9 12.5-12.8 15.2-28 32.6-30 37.6-2.4 5.9-1.8 10.3 2.8 13.7 3.4 2.6 9.4 3 15.7 2.5 11.5-.8 19.6-3.6 23.5-5.4a82.2 82.2 0 0 0 20.2-10.6c12.5-9.2 20.1-22.4 19.4-39.8-.4-9.6-3.5-19.2-7.3-28.2 1.1-1.6 2.3-3.3 3.4-5C434.8 301.7 450.1 270 450.1 270a201.2 201.2 0 0 0 6.2 25.8c2.4 8.1 7.1 17 11.4 25.7-18.6 15.1-30.1 32.6-34.1 44.1-7.4 21.3-1.6 30.9 9.3 33.1 4.9 1 11.9-1.3 17.1-3.5a79.5 79.5 0 0 0 21.6-11.1c12.5-9.2 24.6-22.1 23.8-39.6-.3-7.9-2.5-15.8-5.4-23.4 15.7-6.6 36.1-10.2 62.1-7.2 55.7 6.5 66.6 41.3 64.5 55.8s-13.8 22.6-17.7 25-5.1 3.3-4.8 5.1c.5 2.6 2.3 2.5 5.6 1.9 4.6-.8 29.2-11.8 30.3-38.7 1.6-34-31.1-71.4-89-71.1zm-429.2 144.7c-18.4 20.1-44.2 27.7-55.3 21.3C54.6 451 59.3 421.4 82 400c13.8-13 31.6-25 43.4-32.4 2.7-1.6 6.6-4 11.4-6.9 .8-.5 1.2-.7 1.2-.7 .9-.6 1.9-1.1 2.9-1.7 8.3 30.4 .3 57.2-19.1 78.3zm134.4-91.4c-6.4 15.7-19.9 55.7-28.1 53.6-7-1.8-11.3-32.3-1.4-62.3 5-15.1 15.6-33.1 21.9-40.1 10.1-11.3 21.2-14.9 23.8-10.4 3.5 5.9-12.2 49.4-16.2 59.2zm111 53c-2.7 1.4-5.2 2.3-6.4 1.6-.9-.5 1.1-2.4 1.1-2.4s13.9-14.9 19.4-21.7c3.2-4 6.9-8.7 10.9-13.9 0 .5 .1 1 .1 1.6-.1 17.9-17.3 30-25.1 34.8zm85.6-19.5c-2-1.4-1.7-6.1 5-20.7 2.6-5.7 8.6-15.3 19-24.5a36.2 36.2 0 0 1 1.9 10.8c-.1 22.5-16.2 30.9-25.9 34.4z"/></svg>
       </button>
-      <button class="btnPython">
+      <button class="btnPython" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+        <p id="paragrafoPython">{{$t('know.python')}}</p>
+
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4 .1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8 .1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3 .1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z"/></svg>
       </button>
-      <button class="btnMysql">
+      <button class="btnMysql" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+        <p id="paragrafoMysql">{{$t('know.mysql')}}</p>
+
         <img src="../assets/mySQL.svg" alt="">
       </button>
-      <button class="btnFigma">
+      <button class="btnFigma" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+        <p id="paragrafoFigma">{{$t('know.figma')}}</p>
+
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M14 95.8C14 42.9 56.9 0 109.8 0H274.2C327.1 0 370 42.9 370 95.8C370 129.3 352.8 158.8 326.7 175.9C352.8 193 370 222.5 370 256C370 308.9 327.1 351.8 274.2 351.8H272.1C247.3 351.8 224.7 342.4 207.7 326.9V415.2C207.7 468.8 163.7 512 110.3 512C57.5 512 14 469.2 14 416.2C14 382.7 31.2 353.2 57.2 336.1C31.2 319 14 289.5 14 256C14 222.5 31.2 193 57.2 175.9C31.2 158.8 14 129.3 14 95.8zM176.3 191.6H109.8C74.2 191.6 45.4 220.4 45.4 256C45.4 291.4 74 320.2 109.4 320.4C109.5 320.4 109.7 320.4 109.8 320.4H176.3V191.6zM207.7 256C207.7 291.6 236.5 320.4 272.1 320.4H274.2C309.7 320.4 338.6 291.6 338.6 256C338.6 220.4 309.7 191.6 274.2 191.6H272.1C236.5 191.6 207.7 220.4 207.7 256zM109.8 351.8C109.7 351.8 109.5 351.8 109.4 351.8C74 352 45.4 380.8 45.4 416.2C45.4 451.7 74.6 480.6 110.3 480.6C146.6 480.6 176.3 451.2 176.3 415.2V351.8H109.8zM109.8 31.4C74.2 31.4 45.4 60.2 45.4 95.8C45.4 131.4 74.2 160.2 109.8 160.2H176.3V31.4H109.8zM207.7 160.2H274.2C309.7 160.2 338.6 131.4 338.6 95.8C338.6 60.2 309.7 31.4 274.2 31.4H207.7V160.2z"/></svg>
       </button>
       <div class="bolaConhecimento"></div>
@@ -109,22 +130,6 @@ import cardHome from '../components/cardHome.vue'
   color: $cor-dark;
   cursor: default;
 
-}
-
-.btnVue p {
-  display: none;
-  position: absolute;
-  width: 990%;
-  right: 200%;
-  top: -40%;
-}
-
-.btnVue:hover p {
-  display: block;
-
-  #textDef{
-    display: none;
-  }
 }
 
 .apresentacao h1{
@@ -207,8 +212,6 @@ import cardHome from '../components/cardHome.vue'
   transform: translateY(-50%);
 }
 
-
-
 .corpo{
   height: 1300px;
   background-color: $cor-dark;
@@ -265,13 +268,15 @@ import cardHome from '../components/cardHome.vue'
   color: $cor-light;
   margin-left: 12%;
   margin-top: 30px;
+  margin-bottom: 25px;
   font-weight: 500;
   font-size: 2.5rem;
 }
 
-.conhecimento span{
+#spanDefault{
   margin-left: 12%;
-  font-weight: 300;
+  font-weight: 400;
+  font-size: 1rem;
 }
 
 .conhecimento svg{
@@ -285,6 +290,8 @@ import cardHome from '../components/cardHome.vue'
   position: absolute;
   width: 80px;
   height: 80px;
+  max-width: 80px;
+  max-height: 80px;
   background-color: $transparente;
   border-radius: 10px;
   border: 0.5px solid $cor-light;
@@ -292,7 +299,7 @@ import cardHome from '../components/cardHome.vue'
   cursor: pointer;
   animation: appear linear both;
   animation-timeline: view(block);
-  animation-range: cover 0% cover 25%;
+  animation-range: cover 0% cover 15%;
 }
 
 .btnVue { top: 12%; left: 67%; }
@@ -319,14 +326,31 @@ import cardHome from '../components/cardHome.vue'
   max-width: 55px;
 }
 
+.btnVue p, .btnCss p, .btnHtml p, .btnFigma p, .btnJs p, .btnMysql p, .btnPython p, .btnSass p, .btnTs p
+ { display: none; position: absolute; }
+
+ .btnVue:hover p, .btnHtml:hover p, .btnTs:hover p, .btnCss:hover p, .btnJs:hover p,
+ .btnSass:hover p, .btnMysql:hover p, .btnPython:hover p, .btnFigma:hover p { display: block; font-size: 1rem; text-align: left;}
+
+.btnVue:hover p { width: 600%; right: 570%; top: -10%; }
+.btnHtml:hover p { width: 600%; right: 800%; top: -90%; }
+.btnCss:hover p { width: 600%; right: 609%; top: -209%; }
+.btnTs:hover p { width: 600%; right: 860%; top: -286%; }
+.btnJs:hover p { width: 600%; right: 490%; top: -385%; }
+.btnSass:hover p { width: 600%; right: 707%; top: -466%; }
+.btnMysql:hover p { width: 600%; right: 530%; top: -580%; }
+.btnPython:hover p { width: 600%; right: 900%; top: -555%; }
+.btnFigma:hover p { width: 600%; right: 725%; top: -713%; }
+
+
 .bolaConhecimento{
   position: absolute;
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   background-color: $cor-primaria;
   top: 65%;
-  left: 13%;
+  left: 14%;
   filter: blur(60px);
 }
 
