@@ -53,8 +53,9 @@ import cardHome from '../components/cardHome.vue'
     </div>
     <div class="conhecimento">
       <h2>{{ $t( 'know.titleKnow' ) }}</h2>
-      <span>{{ $t( 'know.textDefault' ) }}</span>
+      <span id="textDef">{{ $t( 'know.textDefault' ) }}</span>
       <button class="btnVue">
+        <p>{{$t('know.vue')}}</p>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M356.9 64.3H280l-56 88.6-48-88.6H0L224 448 448 64.3h-91.1zm-301.2 32h53.8L224 294.5 338.4 96.3h53.8L224 384.5 55.7 96.3z"/></svg>
       </button>
       <button class="btnHtml">
@@ -108,6 +109,22 @@ import cardHome from '../components/cardHome.vue'
   color: $cor-dark;
   cursor: default;
 
+}
+
+.btnVue p {
+  display: none;
+  position: absolute;
+  width: 990%;
+  right: 200%;
+  top: -40%;
+}
+
+.btnVue:hover p {
+  display: block;
+
+  #textDef{
+    display: none;
+  }
 }
 
 .apresentacao h1{

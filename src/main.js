@@ -5,7 +5,7 @@ import App from './App.vue';
 import router from './router';
 
 import { pt_BR } from '../src/locale/pt_BR.js';
-import { en } from '../src/locale/en.js'; // Certifique-se de que o caminho do arquivo está correto
+import { en } from '../src/locale/en.js';
 
 const languages = {
   pt_BR,
@@ -20,7 +20,7 @@ const i18n = createI18n({
 
 const app = createApp(App);
 
-app.use(i18n); // Use o i18n aqui
+app.use(i18n);
 
 app.use(router);
 
