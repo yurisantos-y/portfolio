@@ -132,7 +132,17 @@ const showSpanDefaultOnMouseLeave = () => {
     </div>
     <div class="experiencia">
       <h2>{{ $t( 'experience.titleExperience' ) }}</h2>
-      <p>{{ $t( 'experience.textExperience' ) }}</p>
+
+      <div class="flexExp">
+        <p>{{ $t( 'experience.textExperience' ) }}</p>
+          <div class="btnCV">
+            <button id="idCv">{{ $t( 'experience.downCv' ) }} 
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
+              <div class="bgArrow"></div>
+            </button>
+         </div>       
+
+      </div>
     </div>
   </div>
 
@@ -354,15 +364,8 @@ const showSpanDefaultOnMouseLeave = () => {
 .divVue p, .divTs  p, .divJs p, .divFigma p, .divHtml p, .divmySql p, .divPython p, .divSass p, .divCss p
  { display: none; position: absolute; }
 
-.divVue:hover  p, 
-.divTs:hover  p, 
-.divJs:hover  p, 
-.divFigma:hover  p, 
-.divHtml:hover  p, 
-.divmySql:hover  p, 
-.divPython:hover  p, 
-.divSass:hover  p, 
-.divCss:hover  p 
+.divVue:hover  p, .divTs:hover  p, .divJs:hover  p, .divFigma:hover  p, .divHtml:hover  p, .divmySql:hover  p, .divPython:hover  p,
+.divSass:hover  p, .divCss:hover  p 
 { display: block; 
   position: absolute; 
   font-size: 1rem; 
@@ -391,6 +394,51 @@ const showSpanDefaultOnMouseLeave = () => {
 .experiencia h2{
   font: 100;
 }
+
+.flexExp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btnCV{
+  max-width: 550px;
+  margin-right: 13.5%;
+}
+
+#idCv{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  width: 250px;
+  background: rgb(237,76,92);
+  background: linear-gradient(90deg, $cor-primaria 70%, $cor-lightEscura 70%);
+  color: $cor-light;
+  border-radius: 4px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+#idCv svg{
+  max-width: 25px;
+  margin-left: 54px;
+}
+
+#idCv:hover{
+  scale: 1.2;
+}
+
+/*.bgArrow{
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  display: flex !important;
+  align-items: baseline;
+  background-color: blue;
+}*/
+
 
 @keyframes appear {
   from{

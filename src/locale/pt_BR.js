@@ -3,12 +3,12 @@ export const pt_BR = {
     about: 'Sobre',
     contact: 'Contato',
     blog: 'Blog',
-    cv: 'Download CV',
+    cv: 'Baixar CV',
     projects: 'Projetos'
   },
 
   salutation: {
-    hello: 'Olá',
+    hello: 'Olá!',
     myname: 'Sou',
     legend: 'Sou estudante de Ciência da Computação na UTFPR (Universidade Tecnológica Federal do Paraná), com foco de aprendizado em front-end e engenharia de dados.',
     projects: 'Projetos Principais',
@@ -37,5 +37,6 @@ export const pt_BR = {
   experience: {
     titleExperience: 'Experiência',
     textExperience: 'Estagiei como desenvolvedor web de março de 2023 a março de 2024, criando um site de consultoria em PHP. Atualmente, tenho uma bolsa de iniciação científica focada no desenvolvimento de soluções para avicultura. Adquiri habilidades sólidas em programação e aplico conhecimentos teóricos em projetos práticos.',
+    downCv: 'Baixar Curriculo',
   }
 }

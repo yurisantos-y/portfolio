@@ -8,7 +8,7 @@ export const en = {
   },
 
   salutation: {
-    hello: 'Hello',
+    hello: 'Hello!',
     myname: 'I am',
     legend: 'I am a Computer Science student at UTFPR (Federal Technological University of Paraná), with a focus on front-end and data engineering learning.',
     projects: 'Main Projects',
@@ -38,5 +38,6 @@ export const en = {
   experience: {
     titleExperience: 'Experience',
     textExperience: 'I worked as a web developer from March 2023 to March 2024, creating a PHP-based consultancy website. Currently, I have a scientific initiation scholarship focused on developing solutions for poultry farming. I have gained strong programming skills and apply theoretical knowledge in practical projects.',
+    downCv: 'Download CV',
   }
 }
