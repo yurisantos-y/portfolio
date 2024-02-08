@@ -430,14 +430,6 @@ const showSpanDefaultOnMouseLeave = () => {
   background-color: $hover;
 }
 
-/*.bgArrow{
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  display: flex !important;
-  align-items: baseline;
-  background-color: blue;
-}*/
 
 
 @keyframes appear {
