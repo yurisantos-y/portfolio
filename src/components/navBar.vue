@@ -4,14 +4,14 @@
       <div class="left-links">
         <RouterLink class="linknb" to="/about">{{ $t( 'navbar.about' ) }}</RouterLink>
         <RouterLink class="linknb" to="/">{{ $t( 'navbar.contact' ) }}</RouterLink>
-        <RouterLink class="linknb" to="/">{{ $t( 'navbar.blog' ) }}</RouterLink>
+        <RouterLink class="linknb" to="/blog">{{ $t( 'navbar.blog' ) }}</RouterLink>
       </div>
       <div class="center-logo">
         <img id="logonb" src="../assets/logo.png" alt="">
       </div>
       <div class="right-links" style="margin-left: auto;">
         <RouterLink class="linknb" to="/">{{ $t( 'navbar.cv' ) }}</RouterLink>
-        <RouterLink class="linknb" to="/">{{ $t( 'navbar.projects' ) }}</RouterLink>
+        <RouterLink class="linknb" to="/projects">{{ $t( 'navbar.projects' ) }}</RouterLink>
         
         <label for="btnLanguage" :class="{ 'active-flag': englishChecked }">
           <input type="checkbox" id="btnLanguage" v-model="englishChecked" @change="toggleLanguage('en')" class="hidden-checkbox">

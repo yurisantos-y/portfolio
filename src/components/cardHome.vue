@@ -4,22 +4,17 @@
       <img src="../assets/projeto1.jpeg" alt="" class="card-image">
       <div class="tela">
         <div class="conteudoTela">
-          <button class="btnTela">Visit Website</button>
+          <button class="btnTela">{{ $t('card.titlebtn')}}</button>
         </div>
       </div>
       <div class="description">
         <h1>LinkBio</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum provident rem impedit,
-          ratione nihil perspiciatis sed tenetur dolorem temporibus cum quos voluptate et expedita
-          quaerat? Sed, harum! Vitae, quam necessitatibus?
-        </p>
+        <p>{{ $t('card.linkbioDesc')}}</p>
         <div id="listaDescription">
           <ul>
-            <li>Oi</li>
-            <li>Oi</li>
-            <li>Oi</li>
-            <li>Oi</li>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
           </ul>
         </div>
       </div>
@@ -29,22 +24,19 @@
       <img src="../assets/projeto2.jpeg" alt="" class="card-image" id="secondProject">
       <div class="tela">
         <div class="conteudoTela">
-          <button class="btnTela">Visit Website</button>
+          <button class="btnTela">{{ $t('card.titlebtn')}}</button>
         </div>
       </div>
       <div class="description">
-        <h1>LinkBio</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum provident rem impedit,
-          ratione nihil perspiciatis sed tenetur dolorem temporibus cum quos voluptate et expedita
-          quaerat? Sed, harum! Vitae, quam necessitatibus?
-        </p>
+        <h1>Prosperecf
+        </h1>
+        <p>{{ $t('card.prosperecfDesc')}}</p>
         <div id="listaDescription">
           <ul>
-            <li>Oi</li>
-            <li>Oi</li>
-            <li>Oi</li>
-            <li>Oi</li>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>PHP</li>
           </ul>
         </div>
       </div>
@@ -185,7 +177,7 @@
   
   #listaDescription li {
     display: inline-block;
-    background-color: $icon-off;
+    background-color: $bgcard;
     width: 170px;
     height: 32px;
     border-radius: 6px;

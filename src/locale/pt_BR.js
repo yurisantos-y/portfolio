@@ -38,5 +38,17 @@ export const pt_BR = {
     titleExperience: 'Experiência',
     textExperience: 'Estagiei como desenvolvedor web de março de 2023 a março de 2024, criando um site de consultoria em PHP. Atualmente, tenho uma bolsa de iniciação científica focada no desenvolvimento de soluções para avicultura. Adquiri habilidades sólidas em programação e aplico conhecimentos teóricos em projetos práticos.',
     downCv: 'Baixar Curriculo',
-  }
+  },
+
+  card: {
+    titlebtn: 'Visitar Website',
+    linkbioDesc: 'Este projeto foi criado com o objetivo de centralizar de maneira fácil e acessível os links para os meus contatos e redes sociais.',
+    prosperecfDesc: 'Este projeto foi desenvolvido durante o meu estágio e refere-se a uma página de consultoria criada para atender às necessidades específicas do proprietário da empresa.',
+  },
+
+  textAbout: {
+    title: 'Saudações, conheça um pouco mais sobre mim.',
+    desc: 'Me chamo Yuri dos Santos e entrei no mundo da programação em 2018, através de um curso de Visual Basic na instituição Dom Bosco. Desde então, tenho me dedicado intensamente, especialmente no front-end desde 2020. Estou confiante em integrar qualquer equipe, trazendo minha bagagem de conhecimento e experiência para contribuir significativamente. Estou pronto para novos desafios e para continuar crescendo nesse universoda programação.',
+    btn: 'Agende uma reunião'
+  },
 }

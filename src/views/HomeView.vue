@@ -162,7 +162,7 @@ const showSpanDefaultOnMouseLeave = () => {
 .apresentacao{
   margin-top: 11%;
   margin-left: 10%;
-  color: $cor-dark;
+  color: $cor-textDark;
   cursor: default;
 
 }
@@ -241,7 +241,7 @@ const showSpanDefaultOnMouseLeave = () => {
   font-size: 1.8rem;
   text-align: center;
   position: absolute;
-  color: $cor-dark;
+  color: $cor-textDark;
   width: 100%;
   top: 76%;
   transform: translateY(-50%);
@@ -290,7 +290,7 @@ const showSpanDefaultOnMouseLeave = () => {
 
 #idAdout:hover{
   scale: 1.2;
-  background-color: red;
+  background-color: $hover;
 }
 
 .conhecimento {
@@ -412,7 +412,6 @@ const showSpanDefaultOnMouseLeave = () => {
   align-items: center;
   border: none;
   width: 250px;
-  background: rgb(237,76,92);
   background: linear-gradient(90deg, $cor-primaria 70%, $cor-lightEscura 70%);
   color: $cor-light;
   border-radius: 4px;
@@ -428,6 +427,7 @@ const showSpanDefaultOnMouseLeave = () => {
 
 #idCv:hover{
   scale: 1.2;
+  background-color: $hover;
 }
 
 /*.bgArrow{

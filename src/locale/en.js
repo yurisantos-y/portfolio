@@ -39,5 +39,18 @@ export const en = {
     titleExperience: 'Experience',
     textExperience: 'I worked as a web developer from March 2023 to March 2024, creating a PHP-based consultancy website. Currently, I have a scientific initiation scholarship focused on developing solutions for poultry farming. I have gained strong programming skills and apply theoretical knowledge in practical projects.',
     downCv: 'Download CV',
-  }
+  },
+
+  card: {
+      titlebtn: 'Visit Website',
+      linkbioDesc: 'This project was created with the aim of centralizing in an easy and accessible way the links to my contacts and social networks.',
+      prosperecfDesc: 'This project was developed during my internship and refers to a consulting page created to meet the specific needs of the company owner.'
+  },
+
+  textAbout: {
+    title: 'Greetings, get to know me a little better.',
+    desc: 'My name is Yuri dos Santos and I entered the programming world in 2018, through a Visual Basic course at the Dom Bosco institution. Since then, I have been dedicating myself intensely, especially in front-end since 2020. I am confident in integrating any team, bringing my baggage of knowledge and experience to contribute significantly. I am ready for new challenges and to continue growing in this programming universe.',
+    btn: 'Schedule a meeting'
+    },
+    
 }
