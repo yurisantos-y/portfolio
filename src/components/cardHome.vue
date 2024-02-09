@@ -4,7 +4,9 @@
       <img src="../assets/projeto1.jpeg" alt="" class="card-image">
       <div class="tela">
         <div class="conteudoTela">
-          <button class="btnTela">{{ $t('card.titlebtn')}}</button>
+          <a href="https://yurisantos-y.github.io/linkbio/" target="_blank">
+            <button class="btnTela">{{ $t('card.titlebtn')}}</button>
+          </a>
         </div>
       </div>
       <div class="description">
@@ -24,7 +26,9 @@
       <img src="../assets/projeto2.jpeg" alt="" class="card-image" id="secondProject">
       <div class="tela">
         <div class="conteudoTela">
+          <a href="https://prosperecf.com.br/" target="_blank">
           <button class="btnTela">{{ $t('card.titlebtn')}}</button>
+        </a>
         </div>
       </div>
       <div class="description">

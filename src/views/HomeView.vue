@@ -57,7 +57,9 @@ const showSpanDefaultOnMouseLeave = () => {
           <p>{{ $t( 'about.text' ) }}</p>
     
            <div class="btnAbout">
-            <button id="idAdout">{{ $t( 'about.btnAbout' ) }}</button>
+            <Router-link to="/about">
+              <button id="idAdout">{{ $t( 'about.btnAbout' ) }}</button>
+            </Router-link>
            </div>
         </div>
     </div>

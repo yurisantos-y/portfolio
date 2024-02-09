@@ -3,9 +3,8 @@
     <div class="text">
       <h1>{{ $t('textAbout.title') }}</h1>
       <p>{{ $t('textAbout.desc') }}</p>
+      <button class="contrate">{{ $t('textAbout.btn') }}</button>
     </div>
-
-    <button class="contrate">{{ $t('textAbout.btn') }}</button>
   </div>
 </template>
 
@@ -14,9 +13,12 @@
 
 .container{
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   background-color: $cor-light;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .text {
@@ -28,7 +30,7 @@
 }
 
 .text h1{
-  padding-top: 14%;
+  margin-top: 8%;
   font-size: 2.8rem;
   margin-bottom: 20px;
 }

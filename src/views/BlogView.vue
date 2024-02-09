@@ -55,11 +55,11 @@
 
 
 .loading span:nth-child(1) {
-  animation-delay: 1s;
+  animation-delay: .1s;
 }
 
 .loading span:nth-child(2) {
-  animation-delay: 2s;
+  animation-delay: .2s;
 }
 
 .loading span:nth-child(3) {

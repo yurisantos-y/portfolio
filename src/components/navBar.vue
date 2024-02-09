@@ -7,7 +7,9 @@
         <RouterLink class="linknb" to="/blog">{{ $t( 'navbar.blog' ) }}</RouterLink>
       </div>
       <div class="center-logo">
-        <img id="logonb" src="../assets/logo.png" alt="">
+        <Router-link to="/">
+          <img id="logonb" src="../assets/logo.png" alt="">
+        </Router-link>
       </div>
       <div class="right-links" style="margin-left: auto;">
         <RouterLink class="linknb" to="/">{{ $t( 'navbar.cv' ) }}</RouterLink>
@@ -105,6 +107,7 @@ export default {
   max-height: 3.5rem;
   width: auto;
   height: auto;
+  margin-top: 5%;
 }
 
 .hidden-checkbox {
