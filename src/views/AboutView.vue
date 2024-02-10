@@ -3,10 +3,16 @@
     <div class="text">
       <h1>{{ $t('textAbout.title') }}</h1>
       <p>{{ $t('textAbout.desc') }}</p>
+      <modal/>
       <button class="contrate">{{ $t('textAbout.btn') }}</button>
     </div>
   </div>
+
 </template>
+
+<script>
+
+</script>
 
 <style lang="scss">
 @import '../scss/style.scss';

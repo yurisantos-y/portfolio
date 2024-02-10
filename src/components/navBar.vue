@@ -3,13 +3,11 @@
     <nav class="nav-container">
       <div class="left-links">
         <RouterLink class="linknb" to="/about">{{ $t( 'navbar.about' ) }}</RouterLink>
-        <RouterLink class="linknb" to="/">{{ $t( 'navbar.contact' ) }}</RouterLink>
+        <RouterLink class="linknb" to="/contact">{{ $t( 'navbar.contact' ) }}</RouterLink>
         <RouterLink class="linknb" to="/blog">{{ $t( 'navbar.blog' ) }}</RouterLink>
       </div>
       <div class="center-logo">
-        <Router-link to="/">
-          <img id="logonb" src="../assets/logo.png" alt="">
-        </Router-link>
+        <img id="logonb" src="../assets/logo.png" alt="">
       </div>
       <div class="right-links" style="margin-left: auto;">
         <RouterLink class="linknb" to="/">{{ $t( 'navbar.cv' ) }}</RouterLink>
@@ -29,10 +27,11 @@
 </template>
 
 <script>
+import Modal from './Modal.vue';
 export default {
   data() {
     return {
-      englishChecked: false,
+      englishChecked: false
     };
   },
   methods: {
@@ -43,10 +42,14 @@ export default {
     },
     setLocale(locale) {
       this.$i18n.locale = locale;
-    },
+    }
   },
+  components: {
+    Modal // Registre o componente modal aqui
+  }
 };
 </script>
+
 
 <style lang="scss">
 @import '../scss/style.scss';
@@ -107,7 +110,6 @@ export default {
   max-height: 3.5rem;
   width: auto;
   height: auto;
-  margin-top: 5%;
 }
 
 .hidden-checkbox {
