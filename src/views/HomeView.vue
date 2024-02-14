@@ -16,8 +16,8 @@ const showSpanDefaultOnMouseLeave = () => {
 <template>
   <div class="home-container">
     <div class="apresentacao">
-      <h1>{{ $t('salutation.hello') }}</h1>
-      <h2 id="nameTitulo">{{ $t('salutation.myname') }} <span>Yuri Santos</span> </h2>
+      <h1 id="nameTitulo">{{ $t('salutation.hello') }} <span>Yuri Santos</span></h1>
+      <h2>{{ $t('salutation.myname') }} </h2>
       <p>{{ $t('salutation.legend') }}</p>
     </div>
     <div class="bolaLP">
@@ -153,20 +153,24 @@ const showSpanDefaultOnMouseLeave = () => {
 <style lang="scss">
 @import '../scss/style.scss';
 
-.home-container{
+.home-container {
   height: 95vh;
   width: 100%;
+  background-image: url(../assets/bg.svg);
   background-color: $cor-light;
+  background-position: center;
+  background-size: cover;
   border-radius: 0 0 60px 60px;
   overflow-x: hidden;
 }
 
 .apresentacao{
   margin-top: 11%;
-  margin-left: 10%;
+  margin-left: auto;
+  margin-right: auto;
   color: $cor-textDark;
   cursor: default;
-
+  text-align: center;
 }
 
 .apresentacao h1{
@@ -174,17 +178,19 @@ const showSpanDefaultOnMouseLeave = () => {
   font-size: 3rem;
   color: $cor-textDark;
   margin-bottom: -25px;
-
+  text-align: center;
 }
 
 .apresentacao h2{
   border-bottom: 2px solid $cor-primaria;
   padding-bottom: 2px;
-  width: 450px;
+  width: 90%;
   font-size: 3rem;
   font-weight: 600;
   letter-spacing: 3px;
   color: $cor-textDark;
+  text-align: center;
+  margin: 0 auto;
 }
 
 #nameTitulo span {
@@ -195,6 +201,7 @@ const showSpanDefaultOnMouseLeave = () => {
   background-size: 300% 300%;
   animation: gradiente 2s ease-in-out infinite;
   font-size: 3rem;
+  text-align: center;
 }
 
 .apresentacao p{
@@ -202,6 +209,8 @@ const showSpanDefaultOnMouseLeave = () => {
   margin-top: 10px;
   line-height: 1.6rem;
   color: $cor-textDark;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .linkLP{
@@ -210,8 +219,11 @@ const showSpanDefaultOnMouseLeave = () => {
   border-radius: 6px;
   background-color: $bg-icon;
   display: flex;
-  margin-left: 10%;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 .btnSocial {
@@ -229,7 +241,6 @@ const showSpanDefaultOnMouseLeave = () => {
     transition: fill 0.3s ease, transform 0.3s ease;
   }
 }
-
 
 #btnGithub:hover{ fill: $git;}
 #btnLinkedIn:hover{ fill: $linkedIn;}

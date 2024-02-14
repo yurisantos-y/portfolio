@@ -2,6 +2,7 @@
   <div class="navbar">
     <nav class="nav-container">
       <div class="left-links">
+        <RouterLink class="linknb" to="/about">{{ $t( 'navbar.home' ) }}</RouterLink>
         <RouterLink class="linknb" to="/about">{{ $t( 'navbar.about' ) }}</RouterLink>
         <RouterLink class="linknb" to="/contact">{{ $t( 'navbar.contact' ) }}</RouterLink>
         <RouterLink class="linknb" to="/blog">{{ $t( 'navbar.blog' ) }}</RouterLink>
@@ -27,7 +28,6 @@
 </template>
 
 <script>
-import Modal from './Modal.vue';
 export default {
   data() {
     return {
@@ -44,9 +44,6 @@ export default {
       this.$i18n.locale = locale;
     }
   },
-  components: {
-    Modal // Registre o componente modal aqui
-  }
 };
 </script>
 

@@ -1,5 +1,6 @@
 export const pt_BR = {
   navbar: {
+    home: 'Home',
     about: 'Sobre',
     contact: 'Contato',
     blog: 'Blog',
@@ -8,8 +9,8 @@ export const pt_BR = {
   },
 
   salutation: {
-    hello: 'Olá!',
-    myname: 'Sou',
+    hello: 'Olá, meu nome é ',
+    myname: 'Eu arquiteto, escrevo e desenvolvo soluções web',
     legend: 'Sou estudante de Ciência da Computação na UTFPR (Universidade Tecnológica Federal do Paraná), com foco de aprendizado em front-end e engenharia de dados.',
     projects: 'Projetos Principais',
   },
