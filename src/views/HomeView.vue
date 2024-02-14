@@ -174,20 +174,18 @@ const showSpanDefaultOnMouseLeave = () => {
 }
 
 .apresentacao h1{
-  font-weight: 600;
-  font-size: 3rem;
+  font-weight: 800;
+  font-size: 3.2rem;
   color: $cor-textDark;
-  margin-bottom: -25px;
+  margin-bottom: -15px;
   text-align: center;
 }
 
 .apresentacao h2{
-  border-bottom: 2px solid $cor-primaria;
-  padding-bottom: 2px;
-  width: 90%;
-  font-size: 3rem;
-  font-weight: 600;
-  letter-spacing: 3px;
+  width: 85%;
+  font-size: 3.2rem;
+  font-weight: 800;
+  letter-spacing: -3px;
   color: $cor-textDark;
   text-align: center;
   margin: 0 auto;
@@ -205,7 +203,7 @@ const showSpanDefaultOnMouseLeave = () => {
 }
 
 .apresentacao p{
-  max-width: 34%;
+  max-width: 60%;
   margin-top: 10px;
   line-height: 1.6rem;
   color: $cor-textDark;
