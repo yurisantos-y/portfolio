@@ -56,7 +56,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 85%;
+  top: 92%;
   overflow: hidden;
   border-radius: 16px;
 }
@@ -69,6 +69,7 @@
   max-height: 450px;
   border-radius: 16px;
   margin-right: 10px;
+  margin-left: 10px;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;

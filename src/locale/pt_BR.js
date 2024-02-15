@@ -11,7 +11,7 @@ export const pt_BR = {
   salutation: {
     hello: 'Olá, meu nome é ',
     myname: 'Eu arquiteto, escrevo e desenvolvo soluções web',
-    legend: 'Sou estudante de Ciência da Computação na UTFPR (Universidade Tecnológica Federal do Paraná), com foco de aprendizado em front-end e engenharia de dados.',
+    legend: 'Sou estudante de Ciência da Computação na UTFPR (Universidade Tecnológica Federal do Paraná), com foco de aprendizado em front-end e desenvolvimento mobile.',
     projects: 'Projetos Principais',
   },
   

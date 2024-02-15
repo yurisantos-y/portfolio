@@ -8,12 +8,12 @@
     
         <nav class="nav-container">
           <div class="center-links">
-            <RouterLink class="linknb" to="/about">{{ $t("navbar.home") }}</RouterLink>
-            <RouterLink class="linknb" to="/about">{{ $t("navbar.about") }}</RouterLink>
-            <RouterLink class="linknb" to="/contact">{{ $t("navbar.contact") }}</RouterLink>
-            <RouterLink class="linknb" to="/blog">{{ $t("navbar.blog") }}</RouterLink>
-            <RouterLink class="linknb" to="/">{{ $t("navbar.cv") }}</RouterLink>
-            <RouterLink class="linknb" to="/projects">{{ $t("navbar.projects") }}</RouterLink>
+            <RouterLink class="linknb" to="/" exact >{{ $t("navbar.home") }}</RouterLink>
+            <RouterLink class="linknb" to="/about" exact >{{ $t("navbar.about") }}</RouterLink>
+            <RouterLink class="linknb" to="/contact" exact >{{ $t("navbar.contact") }}</RouterLink>
+            <RouterLink class="linknb" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
+            <a class="linknb" href="../assets/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
+            <RouterLink class="linknb" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
           </div>
         </nav>
     
@@ -34,7 +34,12 @@
 
 
 <script>
+import { RouterLink } from 'vue-router';
+
 export default {
+  components: {
+    RouterLink,
+  },
   data() {
     return {
       englishChecked: false,
@@ -52,7 +57,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss">
 @import "../scss/style.scss";
@@ -99,6 +103,11 @@ export default {
 
 .linknb:hover {
   color: $cor-primaria;
+}
+
+.linknb.router-link-exact-active {
+  color: $cor-primaria;
+  font-weight: 500;
 }
 
 #logonb {
@@ -164,6 +173,4 @@ export default {
     max-width: 500px;
   }
 }
-
-
 </style>

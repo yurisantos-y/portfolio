@@ -51,18 +51,29 @@ const showSpanDefaultOnMouseLeave = () => {
   </div>
 
   <div class="corpo">
-    <div class="conteudoAbout">
-      <h2>{{ $t( 'about.titleAbout' ) }}</h2>
-        <div class="lineAbout">
-          <p>{{ $t( 'about.text' ) }}</p>
-    
-           <div class="btnAbout">
-            <Router-link to="/about">
-              <button id="idAdout">{{ $t( 'about.btnAbout' ) }}</button>
-            </Router-link>
-           </div>
+    <div class="conteudos">
+      <div class="conteudoAbout">
+        <h2>{{ $t( 'about.titleAbout' ) }}</h2>
+          <div class="lineAbout">
+            <p>{{ $t( 'about.text' ) }}</p>
+          </div>
+          <a href="/about">
+            <button class="btnAbout" id="btnNewButton">{{ $t('about.btnAbout') }}</button>
+          </a> 
+      </div>
+
+      <div class="experiencia">
+        <h2>{{ $t( 'experience.titleExperience' ) }}</h2>
+        <div class="flexExperience">
+          <p>{{ $t( 'experience.textExperience' ) }}</p>
         </div>
+        <a href="/about">
+        <button class="btnExp" id="btnNewButton">{{ $t('experience.titleExperience') }}</button>
+        </a>
+      </div>      
     </div>
+
+
     <div class="conhecimento">
       <h2>{{ $t( 'know.titleKnow' ) }}</h2>
       <span v-if="showSpanDefault" id="spanDefault">{{ $t( 'know.textDefault' ) }}</span>
@@ -132,20 +143,6 @@ const showSpanDefaultOnMouseLeave = () => {
       </div>
       <div class="bolaConhecimento"></div>
     </div>
-    <div class="experiencia">
-      <h2>{{ $t( 'experience.titleExperience' ) }}</h2>
-
-      <div class="flexExp">
-        <p>{{ $t( 'experience.textExperience' ) }}</p>
-          <div class="btnCV">
-            <button id="idCv">{{ $t( 'experience.downCv' ) }} 
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
-              <div class="bgArrow"></div>
-            </button>
-         </div>       
-
-      </div>
-    </div>
   </div>
 
 </template>
@@ -154,7 +151,7 @@ const showSpanDefaultOnMouseLeave = () => {
 @import '../scss/style.scss';
 
 .home-container {
-  height: 95vh;
+  height: 100vh;
   width: 100%;
   background-image: url(../assets/bg.svg);
   background-color: $cor-light;
@@ -165,7 +162,7 @@ const showSpanDefaultOnMouseLeave = () => {
 }
 
 .apresentacao{
-  margin-top: 11%;
+  margin-top: 13%;
   margin-left: auto;
   margin-right: auto;
   color: $cor-textDark;
@@ -175,15 +172,15 @@ const showSpanDefaultOnMouseLeave = () => {
 
 .apresentacao h1{
   font-weight: 800;
-  font-size: 3.2rem;
+  font-size: 3.6rem;
   color: $cor-textDark;
-  margin-bottom: -15px;
+  margin-bottom: -5px;
   text-align: center;
 }
 
 .apresentacao h2{
-  width: 85%;
-  font-size: 3.2rem;
+  width: 90vw;
+  font-size: 3.6rem;
   font-weight: 800;
   letter-spacing: -3px;
   color: $cor-textDark;
@@ -198,15 +195,17 @@ const showSpanDefaultOnMouseLeave = () => {
   -webkit-text-fill-color: transparent;
   background-size: 300% 300%;
   animation: gradiente 2s ease-in-out infinite;
-  font-size: 3rem;
+  font-size: 3.6rem;
   text-align: center;
 }
 
 .apresentacao p{
-  max-width: 60%;
+  max-width: 60vw;
   margin-top: 10px;
-  line-height: 1.6rem;
-  color: $cor-textDark;
+  line-height: 1.8rem;
+  color: $text-gray;
+  font-size: 1.2rem;
+  font-weight: 500;
   text-align: center;
   margin: 0 auto;
 }
@@ -219,7 +218,7 @@ const showSpanDefaultOnMouseLeave = () => {
   display: flex;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20px;
+  margin-top: 26px;
   justify-content: center;
   align-items: center;
 }
@@ -254,7 +253,7 @@ const showSpanDefaultOnMouseLeave = () => {
   position: absolute;
   color: $cor-textDark;
   width: 100%;
-  top: 76%;
+  top: 84%;
   transform: translateY(-50%);
 }
 
@@ -264,44 +263,65 @@ const showSpanDefaultOnMouseLeave = () => {
   color: $cor-light;
 }
 
-.conteudoAbout{
-  margin-top: 30%;
-  text-align: left;
-  margin-left: 12%;
-  margin-right: 12%;
-}
-
-.conteudoAbout h2, .experiencia h2{
-  font-weight: 500;
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.conteudoAbout p, .experiencia p{
-  width: 52%;
-  font-weight: 300;
-  line-height: 170%;
-}
-
-.lineAbout{
+.conteudos {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
 }
 
-#idAdout {
+.conteudos a {
+  text-decoration: none;
+}
+
+.conteudos h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+}
+
+.conteudos p {
+  display: flex;
+  justify-content: start;
+  text-align: left;
+  line-height: 2rem;
+}
+
+.conteudoAbout, .experiencia {
+  flex: 1;
+  margin-right: 40px;
+  margin-bottom: 30px;
+  max-width: 40%;
+}
+
+.conteudoAbout {
+  margin-top: 500px;
+}
+
+.experiencia {
+  margin-top: 500px;
+}
+
+.btnAbout, .btnExp {
   border: none;
   background-color: $cor-primaria;
   color: $cor-light;
-  border-radius: 4px;
-  padding: 12px 20px;
+  padding: 5px 15px 5px 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  transition: .3s ease-in-out;
+  margin-top: 25px;
+  font-size: 1rem;
+  box-shadow: 0px 0px 15px $shadow;
   cursor: pointer;
-  transition: .3s;
 }
 
-#idAdout:hover{
-  scale: 1.2;
+
+.btnAbout:hover, .btnExp:hover {
   background-color: $hover;
+  transform: scale(1.2);
 }
 
 .conhecimento {
@@ -309,6 +329,7 @@ const showSpanDefaultOnMouseLeave = () => {
   width: 100%;
   height: 100vh;
 }
+
 
 .conhecimento h2{
   color: $cor-light;
@@ -395,50 +416,6 @@ const showSpanDefaultOnMouseLeave = () => {
   top: 65%;
   left: 14%;
   filter: blur(60px);
-}
-
-.experiencia{
-  margin-left: 12%;
-  margin-top: 40px;
-}
-
-.experiencia h2{
-  font: 100;
-}
-
-.flexExp {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.btnCV{
-  max-width: 550px;
-  margin-right: 13.5%;
-}
-
-#idCv{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: none;
-  width: 250px;
-  background: linear-gradient(90deg, $cor-primaria 70%, $cor-lightEscura 70%);
-  color: $cor-light;
-  border-radius: 4px;
-  padding: 12px 20px;
-  cursor: pointer;
-  transition: .3s;
-}
-
-#idCv svg{
-  max-width: 25px;
-  margin-left: 54px;
-}
-
-#idCv:hover{
-  scale: 1.2;
-  background-color: $hover;
 }
 
 
