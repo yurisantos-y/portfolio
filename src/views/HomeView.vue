@@ -442,4 +442,5 @@ const showSpanDefaultOnMouseLeave = () => {
     background-position: 0% 50%;
   }
 }
+
 </style>
