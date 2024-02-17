@@ -57,9 +57,9 @@
   @import '../scss/style.scss';
 
 .card-container {
-  display: flex; /* Alteração para flexbox */
-  justify-content: center; /* Alinha os itens no centro horizontalmente */
-  gap: 20px; /* Espaçamento entre os cards */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -210,10 +210,10 @@
 
 @media (max-width: 960px) {
   .card-container {
-    display: flex; /* Alteração para flexbox */
-    flex-wrap: wrap; /* Permite que os itens flexíveis sejam dispostos em várias linhas */
-    justify-content: center; /* Alinha os itens no centro horizontalmente */
-    gap: 20px; /* Espaçamento entre os cards */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);

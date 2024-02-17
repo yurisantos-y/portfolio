@@ -28,10 +28,24 @@
         </div>
       </div>
     </div>
+    <div class="esconde">
+      <div class="mobile-menu" v-if="showMobileMenu">
+        <div class="mobile-links">
+          <RouterLink class="linknb" to="/" exact >{{ $t("navbar.home") }}</RouterLink>
+          <RouterLink class="linknb" to="/about" exact >{{ $t("navbar.about") }}</RouterLink>
+          <RouterLink class="linknb" to="/contact" exact >{{ $t("navbar.contact") }}</RouterLink>
+          <RouterLink class="linknb" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
+          <a class="linknb" href="../assets/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
+          <RouterLink class="linknb" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
+        </div>
+      </div>
+      <div class="mobile-menu-toggle" @click="toggleMobileMenu">
+        <span class="menu-icon"></span>
+      </div>
+    </div>
+    
   </div>
 </template>
-
-
 
 <script>
 import { RouterLink } from 'vue-router';
@@ -43,6 +57,7 @@ export default {
   data() {
     return {
       englishChecked: false,
+      showMobileMenu: false,
     };
   },
   methods: {
@@ -54,6 +69,9 @@ export default {
     setLocale(locale) {
       this.$i18n.locale = locale;
     },
+    toggleMobileMenu() {
+      this.showMobileMenu = !this.showMobileMenu;
+    },
   },
 };
 </script>
@@ -64,6 +82,10 @@ export default {
 .navbar-wrapper {
   display: flex;
   justify-content: center;
+}
+
+.esconde {
+  display: none;
 }
 
 .navbar {
@@ -146,31 +168,95 @@ export default {
   transform: scale(1.2);
 }
 
-@media (max-width: 768px) {
-  .navbar {
-    width: 90%;
-  }
-
-  .global {
-    width: 90vw;
-  }
-
-  .nav-container {
-    max-width: 700px;
-  }
+.mobile-menu-toggle {
+  display: none;
 }
 
-@media (max-width: 576px) {
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $cor-dark;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mobile-menu-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.menu-icon,
+.menu-icon::before,
+.menu-icon::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: $cor-dark;
+  transition: transform 0.3s ease;
+}
+
+.menu-icon::before {
+  top: -6px;
+}
+
+.menu-icon::after {
+  top: 6px;
+}
+
+.menu-icon.open {
+  transform: rotate(45deg);
+}
+
+.menu-icon.open::before {
+  transform: rotate(90deg);
+  top: 0;
+}
+
+.menu-icon.open::after {
+  transform: rotate(90deg);
+  top: 0;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+  
   .navbar {
-    width: 95%;
+    display: none;
+  }
+  
+  .esconde{
+    display: block;
   }
 
-  .global {
-    width: 95vw;
-  }
 
-  .nav-container {
-    max-width: 500px;
+  .mobile-menu {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
 </style>
