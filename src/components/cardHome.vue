@@ -63,7 +63,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 720px;
+  top: 92%;
   overflow: hidden;
   border-radius: 16px;
 }

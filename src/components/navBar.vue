@@ -31,12 +31,22 @@
     <div class="esconde">
       <div class="mobile-menu" v-if="showMobileMenu">
         <div class="mobile-links">
-          <RouterLink class="linknb" to="/" exact >{{ $t("navbar.home") }}</RouterLink>
-          <RouterLink class="linknb" to="/about" exact >{{ $t("navbar.about") }}</RouterLink>
-          <RouterLink class="linknb" to="/contact" exact >{{ $t("navbar.contact") }}</RouterLink>
-          <RouterLink class="linknb" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
-          <a class="linknb" href="../assets/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
-          <RouterLink class="linknb" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
+          <RouterLink class="linknb-mobile" to="/" exact >{{ $t("navbar.home") }}</RouterLink>
+          <RouterLink class="linknb-mobile" to="/about" exact >{{ $t("navbar.about") }}</RouterLink>
+          <RouterLink class="linknb-mobile" to="/contact" exact >{{ $t("navbar.contact") }}</RouterLink>
+          <RouterLink class="linknb-mobile" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
+          <a class="linknb-mobile" href="../assets/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
+          <RouterLink class="linknb-mobile" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
+
+          <div class="right-language-mobile">
+            <label for="btnLanguage" :class="{ 'active-flag': englishChecked }">
+              <input type="checkbox" id="btnLanguage" v-model="englishChecked" @change="toggleLanguage" class="hidden-checkbox" />
+              <input type="checkbox" id="btnLanguage" v-model="portugueseChecked" @change="toggleLanguage" class="hidden-checkbox" />
+      
+              <img v-if="englishChecked" id="btnlanguage" @click="toggleLanguage('en')" src="../assets/flag-brazil.svg" alt="" />
+              <img v-else id="btnlanguage" @click="toggleLanguage('pt_BR')" src="../assets/flag-usa.svg" alt="" />
+            </label>
+          </div>
         </div>
       </div>
       <div class="mobile-menu-toggle" @click="toggleMobileMenu">
@@ -71,8 +81,22 @@ export default {
     },
     toggleMobileMenu() {
       this.showMobileMenu = !this.showMobileMenu;
+      const menuIcon = document.querySelector('.menu-icon');
+      menuIcon.classList.toggle('open');
     },
+    closeMobileMenuOnRouteChange() {
+      // Fecha o menu móvel quando uma página é selecionada
+      this.showMobileMenu = false;
+      const menuIcon = document.querySelector('.menu-icon');
+      menuIcon.classList.remove('open');
+    }
   },
+  mounted() {
+    // Adiciona um observador de rota para fechar o menu móvel quando uma página é selecionada
+    this.$router.afterEach(() => {
+      this.closeMobileMenuOnRouteChange();
+    });
+  }
 };
 </script>
 
@@ -127,7 +151,9 @@ export default {
   color: $cor-primaria;
 }
 
-.linknb.router-link-exact-active {
+.linknb.router-link-exact-active,
+.linknb-mobile.router-link-exact-active
+  {
   color: $cor-primaria;
   font-weight: 500;
 }
@@ -192,12 +218,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .mobile-menu-toggle {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 2.3rem;
+  right: 1.5rem;
   width: 2rem;
   height: 2rem;
   display: flex;
@@ -207,16 +234,34 @@ export default {
   z-index: 1000;
 }
 
+.right-language-mobile img{
+  margin-top: 35px;
+}
+
+.right-language-mobile:hover {
+  filter: grayscale(0);
+  transform: scale(1.2);
+}
+
+.linknb-mobile{
+  color: $cor-light;
+  padding: 1rem;
+  margin: 0 1rem;
+  text-decoration: none;
+  margin-bottom: 25px;
+}
+
 .menu-icon,
 .menu-icon::before,
 .menu-icon::after {
   content: "";
   position: absolute;
   width: 100%;
-  height: 2px;
+  height: 3px;
   background-color: $cor-dark;
-  transition: transform 0.3s ease;
+  transition: transform .3s ease;
 }
+
 
 .menu-icon::before {
   top: -6px;
@@ -227,26 +272,49 @@ export default {
 }
 
 .menu-icon.open {
+  background-color: $cor-light;
   transform: rotate(45deg);
 }
 
 .menu-icon.open::before {
+  background-color: $cor-light;
   transform: rotate(90deg);
   top: 0;
 }
 
 .menu-icon.open::after {
+  background-color: $cor-light;
   transform: rotate(90deg);
   top: 0;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 1050px){
+  .nav-container{
+    font-size: 14px;
+    margin: 0 1rem;
+  }
+
+  .linknb {
+    padding: 0;
+  }
+}
+
+@media (max-width: 789px) {
   .mobile-menu-toggle {
     display: block;
   }
   
-  .navbar {
+  .nav-container{
     display: none;
+  }
+
+  .right-language{
+    display: none;
+  }
+
+  .global {
+    display: flex;
+    justify-content: flex-start;
   }
   
   .esconde{
