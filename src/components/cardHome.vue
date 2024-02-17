@@ -72,8 +72,7 @@
   position: relative;
   width: 450px;
   height: 450px;
-  max-width: 450px;
-  max-height: 450px;
+  max-width: 85vw;
   border-radius: 16px;
   margin: 0 10px;
   overflow: hidden;
@@ -81,7 +80,7 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.cardProjeto .card-image {
+.card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -208,31 +207,19 @@
   }
 }
 
-@media (max-width: 960px) {
+@media screen and (max-width: 960px) {
   .card-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 720px;
-    overflow: hidden;
-    border-radius: 16px;
   }
-  
-  .card-content {
-    position: relative;
-    width: 100%;
-    max-width: 450px;
-    height: 450px;
-    max-height: 450px;
-    border-radius: 16px;
-    margin: 0 10px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
+
+  @media screen and (max-width: 536px) {
+    .card-container{
+      max-width: 90vw;
+    }
+
+
   }
 }  
   </style>
