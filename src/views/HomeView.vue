@@ -51,7 +51,11 @@ const showSpanDefaultOnMouseLeave = () => {
   </div>
 
   <div class="corpo">
-    <div class="conteudos">
+
+    <div class="btnProjects">
+      <button><a href="/projects">Veja mais</a></button>
+    </div>
+
       <div class="conteudoAbout">
         <h2>{{ $t( 'about.titleAbout' ) }}</h2>
           <div class="lineAbout">
@@ -62,6 +66,8 @@ const showSpanDefaultOnMouseLeave = () => {
           </a> 
       </div>
 
+      <hr id="hr">
+
       <div class="experiencia">
         <h2>{{ $t( 'experience.titleExperience' ) }}</h2>
         <div class="flexExperience">
@@ -71,7 +77,6 @@ const showSpanDefaultOnMouseLeave = () => {
         <button class="btnExp" id="btnNewButton">{{ $t('experience.titleExperience') }}</button>
         </a>
       </div>      
-    </div>
 
 
     <div class="conhecimento">
@@ -263,6 +268,19 @@ const showSpanDefaultOnMouseLeave = () => {
   color: $cor-light;
 }
 
+.btnProjects {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 400px;
+}
+
+.btnProjects a {
+  text-decoration: none;
+  color: $cor-light;
+}
+
 .conteudos {
   display: flex;
   align-items: center;
@@ -286,22 +304,50 @@ const showSpanDefaultOnMouseLeave = () => {
   line-height: 2rem;
 }
 
-.conteudoAbout, .experiencia {
-  flex: 1;
-  margin-right: 40px;
+.conteudoAbout, .experiencia{
+  max-width: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.conteudoAbout a, .experiencia a {
+  text-decoration: none;
+}
+
+.conteudoAbout h2, .experiencia h2{
   margin-bottom: 30px;
-  max-width: 40%;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.conteudoAbout p, .experiencia p {
+  font-size: 1.2rem;
+  line-height: 2rem;
 }
 
 .conteudoAbout {
-  margin-top: 500px;
+  margin-top: 60px;
 }
 
-.experiencia {
-  margin-top: 500px;
+#hr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  max-width: 70%;
+  height: 0.5px;
+  background-color: $transparente;
+  border: none;
+  border-radius: 2px;
 }
 
-.btnAbout, .btnExp {
+
+.btnAbout, .btnExp, .btnProjects button {
   border: none;
   background-color: $cor-primaria;
   color: $cor-light;
@@ -319,7 +365,7 @@ const showSpanDefaultOnMouseLeave = () => {
 }
 
 
-.btnAbout:hover, .btnExp:hover {
+.btnAbout:hover, .btnExp:hover, .btnProjects button:hover {
   background-color: $hover;
   transform: scale(1.2);
 }
@@ -418,7 +464,94 @@ const showSpanDefaultOnMouseLeave = () => {
   filter: blur(60px);
 }
 
+@media (max-width: 768px) {
+  .apresentacao h1 {
+    font-size: 2.4rem;
+  }
 
+  .apresentacao h2 {
+    font-size: 2.4rem;
+  }
+
+  .apresentacao p {
+    max-width: 80vw;
+    font-size: 1rem;
+  }
+
+  .linkLP {
+    width: 200px;
+    height: 35px;
+  }
+
+  .btnSocial {
+    width: 20px;
+  }
+
+  .corpo {
+    height: 1500px;
+  }
+
+  .conteudos h2 {
+    font-size: 1.8rem;
+  }
+
+  .conteudos p {
+    line-height: 1.8rem;
+  }
+
+  .btnAbout, .btnExp {
+    font-size: 0.9rem;
+  }
+
+  .conhecimento h2 {
+    font-size: 2rem;
+  }
+
+  .conhecimento button {
+    width: 60px;
+    height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+  }
+
+  .btnVue { top: 12%; left: 60%; }
+  .btnHtml { top: 20%; left: 70%; }
+  .btnCss { top: 32%; left: 62%; }
+  .btnTs { top: 40%; left: 75%; }
+  .btnJs { top: 50%; left: 58%; }
+  .btnSass { top: 58%; left: 69%; }
+  .btnPython { top: 67%; left: 79%; }
+  .btnMysql { top: 70%; left: 60%; }
+  .btnFigma { top: 83%; left: 70%; }
+
+  .btnMysql img {
+    max-width: 50px;
+  }
+
+  .btnJs img, .btnTs img {
+    max-width: 28px;
+    margin-top: 50%;
+    margin-left: 30%;
+  }
+
+  .btnVue svg, .btnSass svg {
+    max-width: 45px;
+  }
+
+  .divVue p, .divTs  p, .divJs p, .divFigma p, .divHtml p, .divmySql p, .divPython p, .divSass p, .divCss p {
+    font-size: 0.9rem;
+    margin-left: 10%;
+    max-width: 50%;
+  }
+
+  .bolaConhecimento {
+    width: 70px;
+    height: 70px;
+    top: 60%;
+    left: 10%;
+    filter: blur(40px);
+  }
+}
 
 @keyframes appear {
   from{
