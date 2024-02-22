@@ -305,7 +305,6 @@ const showSpanDefaultOnMouseLeave = () => {
 }
 
 .conteudoAbout, .experiencia{
-  max-width: 55%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -324,6 +323,9 @@ const showSpanDefaultOnMouseLeave = () => {
 }
 
 .conteudoAbout p, .experiencia p {
+  width: 55%;
+  max-width: 100%;
+  margin: 0 auto;
   font-size: 1.2rem;
   line-height: 2rem;
 }
@@ -464,31 +466,57 @@ const showSpanDefaultOnMouseLeave = () => {
   filter: blur(60px);
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
+  .home-container {
+    overflow: hidden;
+    height: 70vh;
+  }
+
+  .apresentacao {
+    margin-top: 18%;
+  }
+
   .apresentacao h1 {
-    font-size: 2.4rem;
+    margin-top: 40px;
+    width: 90%;
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 0 auto;
   }
 
   .apresentacao h2 {
-    font-size: 2.4rem;
+    display: none;
+  }
+
+  #nameTitulo span {
+    font-size: 3.7rem;
   }
 
   .apresentacao p {
+    margin-top: 2%;
     max-width: 80vw;
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   .linkLP {
-    width: 200px;
+    width: 300px;
     height: 35px;
   }
 
   .btnSocial {
-    width: 20px;
+    width: 25px;
+  }
+
+  #titleProjetos {
+    margin-top: -50%;
   }
 
   .corpo {
     height: 1500px;
+  }
+
+  .btnProjects {
+    margin-top: 220%;
   }
 
   .conteudos h2 {
@@ -499,7 +527,15 @@ const showSpanDefaultOnMouseLeave = () => {
     line-height: 1.8rem;
   }
 
-  .btnAbout, .btnExp {
+  .conteudoAbout p,
+  .experiencia p {
+    width: 85%;
+    font-size: 1rem;
+    max-width: 200%;
+  }
+
+  .btnAbout,
+  .btnExp {
     font-size: 0.9rem;
   }
 
@@ -514,31 +550,76 @@ const showSpanDefaultOnMouseLeave = () => {
     max-height: 60px;
   }
 
-  .btnVue { top: 12%; left: 60%; }
-  .btnHtml { top: 20%; left: 70%; }
-  .btnCss { top: 32%; left: 62%; }
-  .btnTs { top: 40%; left: 75%; }
-  .btnJs { top: 50%; left: 58%; }
-  .btnSass { top: 58%; left: 69%; }
-  .btnPython { top: 67%; left: 79%; }
-  .btnMysql { top: 70%; left: 60%; }
-  .btnFigma { top: 83%; left: 70%; }
+  .btnVue {
+    top: 12%;
+    left: 60%;
+  }
+
+  .btnHtml {
+    top: 20%;
+    left: 70%;
+  }
+
+  .btnCss {
+    top: 32%;
+    left: 62%;
+  }
+
+  .btnTs {
+    top: 40%;
+    left: 75%;
+  }
+
+  .btnJs {
+    top: 50%;
+    left: 58%;
+  }
+
+  .btnSass {
+    top: 58%;
+    left: 69%;
+  }
+
+  .btnPython {
+    top: 67%;
+    left: 79%;
+  }
+
+  .btnMysql {
+    top: 70%;
+    left: 60%;
+  }
+
+  .btnFigma {
+    top: 83%;
+    left: 70%;
+  }
 
   .btnMysql img {
     max-width: 50px;
   }
 
-  .btnJs img, .btnTs img {
+  .btnJs img,
+  .btnTs img {
     max-width: 28px;
     margin-top: 50%;
     margin-left: 30%;
   }
 
-  .btnVue svg, .btnSass svg {
+  .btnVue svg,
+  .btnSass svg {
     max-width: 45px;
   }
 
-  .divVue p, .divTs  p, .divJs p, .divFigma p, .divHtml p, .divmySql p, .divPython p, .divSass p, .divCss p {
+  .divVue p,
+  .divTs p,
+  .divJs p,
+  .divFigma p,
+  .divHtml p,
+  .divmySql p,
+  .divPython p,
+  .divSass p,
+  .divCss p {
     font-size: 0.9rem;
     margin-left: 10%;
     max-width: 50%;
@@ -550,6 +631,52 @@ const showSpanDefaultOnMouseLeave = () => {
     top: 60%;
     left: 10%;
     filter: blur(40px);
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .home-container {
+    overflow: hidden;
+    height: 70vh;
+  }
+
+  .apresentacao {
+    margin-top: 18%;
+  }
+
+  .apresentacao h1 {
+    margin-top: 40px;
+    width: 90%;
+    text-align: center;
+    font-size: 2rem;
+    margin: 0 auto;
+  }
+
+  .apresentacao h2 {
+    display: none;
+  }
+
+  #nameTitulo span {
+    font-size: 2.7rem;
+  }
+
+  .apresentacao p {
+    margin-top: 2%;
+    max-width: 80vw;
+    font-size: 1.2rem;
+  }
+
+  .linkLP {
+    width: 300px;
+    height: 35px;
+  }
+
+  .btnSocial {
+    width: 25px;
+  }
+
+  #titleProjetos {
+    margin-top: -40%;
   }
 }
 

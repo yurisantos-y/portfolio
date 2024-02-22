@@ -215,11 +215,20 @@
   }
 
   @media screen and (max-width: 536px) {
+
     .card-container{
+      margin-top: -60%;
       max-width: 90vw;
     }
 
+  }
 
+  @media screen and (max-width: 360px) {
+
+    .card-container{
+      margin-top: -50%;
+      max-width: 90vw;
+    }
   }
 }  
   </style>
