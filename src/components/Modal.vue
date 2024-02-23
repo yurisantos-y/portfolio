@@ -1,12 +1,13 @@
 <template>
   <div>
-    <!-- Botão para abrir o modal -->
-    <button @click="showModal = true">Abrir Modal</button>
-
     <div v-if="showModal" class="modal">
       <div class="modal-content">
         <span @click="showModal = false" class="close">&times;</span>
-        <p>Conteúdo do Modal aqui...</p>
+        <!-- Conteúdo do Modal -->
+        <h2>Informações de Contato</h2>
+        <p>Email: exemplo@email.com</p>
+        <p>Telefone: (XX) XXXX-XXXX</p>
+        <!-- Outras informações de contato -->
       </div>
     </div>
   </div>
@@ -16,7 +17,7 @@
 export default {
   data() {
     return {
-      showModal: false
+      showModal: true // Defina como true para que o modal seja exibido inicialmente
     };
   }
 };

@@ -53,8 +53,8 @@
   </div>
 </template>
 
-  <style lang="scss">
-  @import '../scss/style.scss';
+<style lang="scss">
+@import '../scss/style.scss';
 
 .card-container {
   display: flex;
@@ -196,6 +196,20 @@
   justify-content: center;
 }
 
+.description-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+  list-style: none;
+}
+
+.description-list li {
+  background-color: $cor-textDark;
+  width: 95px;
+  border-radius: 5px;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -214,10 +228,17 @@
     justify-content: center;
   }
 
+  @media screen and (max-width: 760px) {
+    .card-container{
+      margin-top: -15%;
+      max-width: 90vw;
+    }
+  }
+
   @media screen and (max-width: 536px) {
 
     .card-container{
-      margin-top: -60%;
+      margin-top: -35%;
       max-width: 90vw;
     }
 
