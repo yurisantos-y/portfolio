@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/ThankView.vue')
     },
 
     {
@@ -29,10 +29,12 @@ const router = createRouter({
     },
 
     {
-      path: '/contact',
-      name: 'Contact',
-      component: Modal
-    }
+      path: '/thank',
+      name: 'thank',
+      component: () => import('../views/ThankView.vue')
+    },
+
+    
   ]
 })
 

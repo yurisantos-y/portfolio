@@ -10,7 +10,10 @@
           <div class="center-links">
             <RouterLink class="linknb" to="/" exact >{{ $t("navbar.home") }}</RouterLink>
             <RouterLink class="linknb" to="/about" exact >{{ $t("navbar.about") }}</RouterLink>
-            <RouterLink class="linknb" to="/contact" exact >{{ $t("navbar.contact") }}</RouterLink>
+            
+          
+            <button id="btnChamadaModal" @click="showModal = true" class="linknb">Contato</button>
+
             <RouterLink class="linknb" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
             <a class="linknb" href="../assets/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
             <RouterLink class="linknb" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
@@ -33,7 +36,7 @@
         <div class="mobile-links">
           <RouterLink class="linknb-mobile" to="/" exact >{{ $t("navbar.home") }}</RouterLink>
           <RouterLink class="linknb-mobile" to="/about" exact >{{ $t("navbar.about") }}</RouterLink>
-          <RouterLink class="linknb-mobile" to="/contact" exact >{{ $t("navbar.contact") }}</RouterLink>
+          <RouterLink class="linknb-mobile" to="/contact" exact @click="openModal">{{ $t("navbar.contact") }}</RouterLink>
           <RouterLink class="linknb-mobile" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
           <a class="linknb-mobile" href="../assets/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
           <RouterLink class="linknb-mobile" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
@@ -55,10 +58,33 @@
     </div>
     
   </div>
+  <!-- Modal -->
+  <div v-if="showModal" class="modal">
+    <div class="modal-content">
+      <span @click="showModal = false" class="close">&times;</span>
+      <div class="interface">
+        <h3>Contatos</h3>
+        <form action="https://formsubmit.co/5186def9e62998af58e1d57e3a5b8cab" method="POST">
+          <input type="text" name="name" id="name" placeholder="Seu nome completo:" required>
+
+          <input type="email" name="email" id="email" placeholder="Seu e-mail:" required>
+          <input type="tel" name="phone" id="phone" placeholder="Seu celular:">
+          <textarea name="message" id="message" placeholder="Sua mensagem" required></textarea>
+          <button type="submit" class="btn-enviar">Send</button>
+
+          <input type="hidden" name="_next" value="http://localhost:5173/thank">
+
+     </form>
+      </div>
+      
+
+    </div>
+  </div>
 </template>
 
 <script>
 import { RouterLink } from 'vue-router';
+
 
 export default {
   components: {
@@ -68,6 +94,7 @@ export default {
     return {
       englishChecked: false,
       showMobileMenu: false,
+      showModal: false,
     };
   },
   methods: {
@@ -85,20 +112,22 @@ export default {
       menuIcon.classList.toggle('open');
     },
     closeMobileMenuOnRouteChange() {
-      // Fecha o menu móvel quando uma página é selecionada
       this.showMobileMenu = false;
       const menuIcon = document.querySelector('.menu-icon');
       menuIcon.classList.remove('open');
-    }
+    },
+    openModal() {
+      this.showModal = true;
+    },
   },
   mounted() {
-    // Adiciona um observador de rota para fechar o menu móvel quando uma página é selecionada
     this.$router.afterEach(() => {
       this.closeMobileMenuOnRouteChange();
     });
   }
 };
 </script>
+
 
 <style lang="scss">
 @import "../scss/style.scss";
@@ -147,7 +176,7 @@ export default {
   transition: 0.3s ease;
 }
 
-.linknb:hover {
+.linknb:hover, #btnChamadaModal:hover {
   color: $cor-primaria;
 }
 
@@ -193,6 +222,8 @@ export default {
   filter: grayscale(0);
   transform: scale(1.2);
 }
+
+//Menu Mobile
 
 .mobile-menu-toggle {
   display: none;
@@ -286,6 +317,129 @@ export default {
   background-color: $cor-light;
   transform: rotate(90deg);
   top: 0;
+}
+
+//Modal
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: $bgmodal;
+}
+
+#btnChamadaModal {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: $cor-light;
+  font-weight: 200;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+
+.modal-content {
+  background-color: $cor-light;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 16px;
+  width: 60%;
+  overflow: hidden;
+}
+
+.interface h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+input, 
+textarea {
+  width: 80%;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  color: $cor-textDark;
+  border: .7px solid $icon-off;
+  border-radius: 6px;
+  transition: border-color .3s, box-shadow .3s;
+}
+
+input:hover, input:focus,
+textarea:hover, textarea:focus {
+  outline: none;
+  border-color: $cor-primaria;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.201);
+}
+
+textarea {
+  min-height: 12.5rem;
+  resize: vertical;
+}
+
+.btn-enviar {
+  border: none;
+  width: 80%;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: $cor-primaria;
+  color: $cor-light;
+  transition: .3s ease-in-out;
+}
+
+.btn-enviar:hover,
+.btn-enviar:focus {
+  outline: none;
+  transform: scale(1.1);
+  box-shadow: 0px 0px 8px $shadow;
+}
+
+.btn-enviar:disabled {
+  cursor: not-allowed;
+  background-color: $icon-off;
+}
+
+.close {
+  color: #aaaaaa;
+  margin-top: -20px;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.success, 
+.erroe {
+  text-align: center;
+}
+
+.success {
+  color: greenyellow;
+}
+
+.error {
+  color: tomato;
 }
 
 @media screen and (max-width: 1050px){
