@@ -36,8 +36,7 @@
         <div class="mobile-links">
           <RouterLink class="linknb-mobile" to="/" exact >{{ $t("navbar.home") }}</RouterLink>
           <RouterLink class="linknb-mobile" to="/about" exact >{{ $t("navbar.about") }}</RouterLink>
-          <button id="btnChamadaModal" @click="showModal = true" class="linknb">{{ $t('navbar.contact') }}</button>
-
+          <button id="btnChamadaModalMB" class="linknb-mobile" @click="closeMobileMenuAndOpenModal">{{ $t('navbar.contact') }}</button>
           <RouterLink class="linknb-mobile" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
           <a class="linknb-mobile" href="../assets/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
           <RouterLink class="linknb-mobile" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
@@ -46,7 +45,6 @@
             <label for="btnLanguage" :class="{ 'active-flag': englishChecked }">
               <input type="checkbox" id="btnLanguage" v-model="englishChecked" @change="toggleLanguage" class="hidden-checkbox" />
               <input type="checkbox" id="btnLanguage" v-model="portugueseChecked" @change="toggleLanguage" class="hidden-checkbox" />
-      
               <img v-if="englishChecked" id="btnlanguage" @click="toggleLanguage('en')" src="../assets/flag-brazil.svg" alt="" />
               <img v-else id="btnlanguage" @click="toggleLanguage('pt_BR')" src="../assets/flag-usa.svg" alt="" />
             </label>
@@ -86,7 +84,6 @@
 <script>
 import { RouterLink } from 'vue-router';
 
-
 export default {
   components: {
     RouterLink,
@@ -120,6 +117,10 @@ export default {
     openModal() {
       this.showModal = true;
     },
+    closeMobileMenuAndOpenModal() {
+      this.showMobileMenu = false; // fechar o menu móvel
+      this.showModal = true; // abrir o modal
+    },
   },
   mounted() {
     this.$router.afterEach(() => {
@@ -128,6 +129,7 @@ export default {
   }
 };
 </script>
+
 
 
 <style lang="scss">
@@ -177,7 +179,7 @@ export default {
   transition: 0.3s ease;
 }
 
-.linknb:hover, #btnChamadaModal:hover {
+.linknb:hover, #btnChamadaModal:hover, #btnChamadaModalMB:hover {
   color: $cor-primaria;
 }
 
@@ -246,7 +248,7 @@ export default {
   transition: opacity 0.3s ease;
 }
 
-.mobile-links {
+.mobile-links{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -281,6 +283,16 @@ export default {
   margin: 0 1rem;
   text-decoration: none;
   margin-bottom: 25px;
+}
+
+#btnChamadaModalMB {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: $cor-light;
+  font-weight: 400;
+  font-size: 1rem;
+  transition: 0.3s ease;
 }
 
 .menu-icon,
