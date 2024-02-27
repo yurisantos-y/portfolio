@@ -12,7 +12,7 @@
             <RouterLink class="linknb" to="/about" exact >{{ $t("navbar.about") }}</RouterLink>
             
           
-            <button id="btnChamadaModal" @click="showModal = true" class="linknb">Contato</button>
+            <button id="btnChamadaModal" @click="showModal = true" class="linknb">{{ $t('navbar.contact') }}</button>
 
             <RouterLink class="linknb" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
             <a class="linknb" href="../assets/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
@@ -36,7 +36,8 @@
         <div class="mobile-links">
           <RouterLink class="linknb-mobile" to="/" exact >{{ $t("navbar.home") }}</RouterLink>
           <RouterLink class="linknb-mobile" to="/about" exact >{{ $t("navbar.about") }}</RouterLink>
-          <RouterLink class="linknb-mobile" to="/contact" exact @click="openModal">{{ $t("navbar.contact") }}</RouterLink>
+          <button id="btnChamadaModal" @click="showModal = true" class="linknb">{{ $t('navbar.contact') }}</button>
+
           <RouterLink class="linknb-mobile" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
           <a class="linknb-mobile" href="../assets/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
           <RouterLink class="linknb-mobile" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
@@ -63,14 +64,14 @@
     <div class="modal-content">
       <span @click="showModal = false" class="close">&times;</span>
       <div class="interface">
-        <h3>Contatos</h3>
+        <h3>{{ $t('modal.contact') }}</h3>
         <form action="https://formsubmit.co/5186def9e62998af58e1d57e3a5b8cab" method="POST">
-          <input type="text" name="name" id="name" placeholder="Seu nome completo:" required>
+          <input type="text" name="name" id="name" :placeholder="$t('modal.nameFull')" required>
 
-          <input type="email" name="email" id="email" placeholder="Seu e-mail:" required>
-          <input type="tel" name="phone" id="phone" placeholder="Seu celular:">
-          <textarea name="message" id="message" placeholder="Sua mensagem" required></textarea>
-          <button type="submit" class="btn-enviar">Send</button>
+          <input type="email" name="email" id="email" :placeholder="$t('modal.email')" required>
+          <input type="tel" name="phone" id="phone" :placeholder="$t('modal.phone')">
+          <textarea name="message" id="message" :placeholder="$t('modal.msg')" required></textarea>
+          <button type="submit" class="btn-enviar">{{ $t('modal.btn') }}</button>
 
           <input type="hidden" name="_next" value="http://localhost:5173/thank">
 

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="loading">
-      <h1>Página em construção</h1>
+      <h1>{{ $t('construction.text') }}</h1>
       <span></span>
       <span></span>
       <span></span>
@@ -25,7 +25,6 @@
   overflow: hidden;
   background-color: $cor-light;
 }
-
 
 .loading {
   width: 70%;
@@ -53,7 +52,6 @@
   margin-left: 2%;
 }
 
-
 .loading span:nth-child(1) {
   animation-delay: .1s;
 }
@@ -70,9 +68,21 @@
   to{
     transform: translateY(50px);
   }
-
 }
 
-
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .loading {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .loading h1 {
+    font-size: 3rem;
+  }
+}
 
 </style>

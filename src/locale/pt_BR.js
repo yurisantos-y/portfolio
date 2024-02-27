@@ -52,4 +52,21 @@ export const pt_BR = {
     desc: 'Me chamo Yuri dos Santos e entrei no mundo da programação em 2018, através de um curso de Visual Basic na instituição Dom Bosco. Desde então, tenho me dedicado intensamente, especialmente no front-end desde 2020. Estou confiante em integrar qualquer equipe, trazendo minha bagagem de conhecimento e experiência para contribuir significativamente. Estou pronto para novos desafios e para continuar crescendo nesse universoda programação.',
     btn: 'Agende uma reunião'
   },
+
+  modal: {
+    contact: 'Contato',
+    nameFull: 'Seu nome completo:',
+    email: 'Seu e-mail:',
+    phone: 'Seu celular:',
+    msg: 'Sua mensagem',
+    btn: 'Enviar'
+  },
+
+  thank: {
+    text: 'Obrigado por entrar em contato, assim que possível vou retornar :)'
+  },
+
+  construction: {
+    text: 'Página em construção',
+  }
 }
