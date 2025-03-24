@@ -10,7 +10,7 @@ export const en = {
 
   salutation: {
     hello: 'Hello, my name is ',
-    myname: 'I architect, write, and develop web solutions',
+    myname: 'I design, write, and develop web and mobile solutions',
     legend: 'I am a Computer Science student at UTFPR (Federal University of Technology - Paraná), with a learning focus on front-end and mobile development.',
     projects: 'Main Projects',
   },

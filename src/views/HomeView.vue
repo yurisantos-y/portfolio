@@ -179,8 +179,9 @@ const showSpanDefaultOnMouseLeave = () => {
   background-color: $cor-light;
   background-position: center;
   background-size: cover;
-  border-radius: 0 0 60px 60px;
+  border-radius: 60px 60px 60px 60px; /* Alterado para ter bordas arredondadas em todos os cantos */
   overflow-x: hidden;
+  border: 20px solid $cor-dark;
 }
 
 .apresentacao{
