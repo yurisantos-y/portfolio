@@ -68,5 +68,34 @@ export const pt_BR = {
 
   construction: {
     text: 'Página em construção',
+  },
+
+  login: {
+    title: 'Acesso ao Painel',
+    email: 'E-mail',
+    emailPlaceholder: 'Digite seu e-mail',
+    password: 'Senha',
+    passwordPlaceholder: 'Digite sua senha',
+    loginButton: 'Entrar',
+    loggingIn: 'Entrando...',
+    forgotPassword: 'Esqueceu a senha?'
+  },
+  
+  dashboard: {
+    title: 'Painel',
+    welcome: 'Bem-vindo',
+    welcomeText: 'Este é seu painel pessoal onde você pode gerenciar as configurações do seu portfólio.',
+    logout: 'Sair',
+    projects: 'Projetos',
+    totalProjects: 'Total',
+    activeProjects: 'Ativos',
+    pendingProjects: 'Pendentes',
+    messages: 'Mensagens',
+    totalMessages: 'Total',
+    unread: 'Não lidas',
+    recentActivity: 'Atividade Recente',
+    loginActivity: 'Conectado',
+    projectUpdated: 'Projeto atualizado',
+    messageReceived: 'Nova mensagem recebida'
   }
 }

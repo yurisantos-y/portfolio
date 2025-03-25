@@ -68,6 +68,34 @@ export const en = {
   
   construction: {
     text: 'Page under construction',
-  }
+  },
   
+  login: {
+    title: 'Login to Dashboard',
+    email: 'Email',
+    emailPlaceholder: 'Enter your email',
+    password: 'Password',
+    passwordPlaceholder: 'Enter your password',
+    loginButton: 'Login',
+    loggingIn: 'Logging in...',
+    forgotPassword: 'Forgot password?'
+  },
+  
+  dashboard: {
+    title: 'Dashboard',
+    welcome: 'Welcome',
+    welcomeText: 'This is your personal dashboard area where you can manage your portfolio settings.',
+    logout: 'Logout',
+    projects: 'Projects',
+    totalProjects: 'Total',
+    activeProjects: 'Active',
+    pendingProjects: 'Pending',
+    messages: 'Messages',
+    totalMessages: 'Total',
+    unread: 'Unread',
+    recentActivity: 'Recent Activity',
+    loginActivity: 'Logged in',
+    projectUpdated: 'Project updated',
+    messageReceived: 'New message received'
+  }
 }
