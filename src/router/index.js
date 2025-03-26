@@ -5,6 +5,8 @@ import { useSupabaseAuth } from '../composables/useSupabaseAuth'
 import publicRoutes from './routes/public'
 import authRoutes from './routes/auth'
 import protectedRoutes from './routes/protected'
+import PostsView from '../views/admin/PostsView.vue'
+import CreatePostView from '../views/admin/CreatePostView.vue'
 
 const routes = [
   {
@@ -17,6 +19,24 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../views/admin/DashboardView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/dashboard/posts',
+    name: 'posts',
+    component: PostsView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/dashboard/posts/new',
+    name: 'create-post',
+    component: CreatePostView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/dashboard/posts/edit/:id',
+    name: 'edit-post',
+    component: CreatePostView,
     meta: { requiresAuth: true }
   },
   {
