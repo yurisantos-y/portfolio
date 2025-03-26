@@ -10,13 +10,13 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/LoginView.vue'),
+    component: () => import('../views/login/LoginView.vue'),
     meta: { requiresAuth: false }
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import('../views/DashboardView.vue'),
+    component: () => import('../views/admin/DashboardView.vue'),
     meta: { requiresAuth: true }
   },
   {

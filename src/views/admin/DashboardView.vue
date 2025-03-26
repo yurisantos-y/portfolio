@@ -107,7 +107,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useSupabaseAuth } from '../composables/useSupabaseAuth'
+import { useSupabaseAuth } from '../../composables/useSupabaseAuth'
 
 const router = useRouter()
 const { user, logout } = useSupabaseAuth()
@@ -149,7 +149,7 @@ function getPreviousDate(daysAgo) {
 </script>
 
 <style lang="scss">
-@import '../scss/style.scss';
+@import '@/scss/style.scss';
 
 .dashboard {
   min-height: 100vh;
