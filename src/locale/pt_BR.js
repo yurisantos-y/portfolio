@@ -78,7 +78,8 @@ export const pt_BR = {
     passwordPlaceholder: 'Digite sua senha',
     loginButton: 'Entrar',
     loggingIn: 'Entrando...',
-    forgotPassword: 'Esqueceu a senha?'
+    forgotPassword: 'Esqueceu a senha?',
+    googleButton: 'Entrar com Google'
   },
   
   dashboard: {

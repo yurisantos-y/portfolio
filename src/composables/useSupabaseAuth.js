@@ -1,41 +1,33 @@
 import { ref, onMounted } from 'vue'
-// We don't need Supabase anymore for static authentication
+import { createClient } from '@supabase/supabase-js'
+
+// Inicialize o cliente Supabase com suas credenciais
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export function useSupabaseAuth() {
   const user = ref(null)
   const loading = ref(true)
   
-  // Static credentials
-  const STATIC_EMAIL = 'yuri01.sp@gmail.com'
-  const STATIC_PASSWORD = '950552953@Yuri'
-  
-  // Login with static credentials
-  async function login(email, password) {
+  // Login com Google
+  async function loginWithGoogle() {
     try {
       loading.value = true
       
-      // Check if provided credentials match our static credentials
-      if (email === STATIC_EMAIL && password === STATIC_PASSWORD) {
-        // Create a user object similar to what Supabase would return
-        const userData = {
-          id: '1',
-          email: STATIC_EMAIL,
-          user_metadata: {
-            name: 'Yuri Santos'
-          }
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`,
         }
-        
-        user.value = userData
-        
-        // Store authentication state in localStorage to persist across page reloads
-        localStorage.setItem('authUser', JSON.stringify(userData))
-        
-        return { user: userData, error: null }
-      } else {
-        throw new Error('Credenciais inválidas')
-      }
+      })
+      
+      if (error) throw error
+      
+      return { data, error: null }
     } catch (error) {
-      return { user: null, error: error.message }
+      return { data: null, error: error.message }
     } finally {
       loading.value = false
     }
@@ -44,25 +36,27 @@ export function useSupabaseAuth() {
   // Logout function
   async function logout() {
     try {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+      
       user.value = null
-      // Clear stored authentication
-      localStorage.removeItem('authUser')
       return { error: null }
     } catch (error) {
       return { error: error.message }
     }
   }
   
-  // Get current user from localStorage
+  // Get current user from Supabase session
   async function getCurrentUser() {
     try {
       loading.value = true
       
-      // Check if we have a stored user
-      const storedUser = localStorage.getItem('authUser')
+      const { data: { session }, error } = await supabase.auth.getSession()
       
-      if (storedUser) {
-        user.value = JSON.parse(storedUser)
+      if (error) throw error
+      
+      if (session?.user) {
+        user.value = session.user
         return { user: user.value, error: null }
       } else {
         return { user: null, error: null }
@@ -79,12 +73,17 @@ export function useSupabaseAuth() {
   onMounted(() => {
     // Get initial user state
     getCurrentUser()
+    
+    // Set up auth state change listener
+    supabase.auth.onAuthStateChange((event, session) => {
+      user.value = session?.user || null
+    })
   })
   
   return {
     user,
     loading,
-    login,
+    loginWithGoogle,
     logout,
     getCurrentUser
   }

@@ -78,7 +78,8 @@ export const en = {
     passwordPlaceholder: 'Enter your password',
     loginButton: 'Login',
     loggingIn: 'Logging in...',
-    forgotPassword: 'Forgot password?'
+    forgotPassword: 'Forgot password?',
+    googleButton: 'Login with Google'
   },
   
   dashboard: {
