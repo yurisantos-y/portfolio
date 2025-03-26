@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar-wrapper">
+  <div :class="['navbar-wrapper', { 'dashboard-hide': isDashboardRoute }]">
     <div class="navbar">
       <div class="global">
         <div class="left-logo">
@@ -126,6 +126,12 @@ export default {
     this.$router.afterEach(() => {
       this.closeMobileMenuOnRouteChange();
     });
+  },
+  computed: {
+    // Add a computed property to check if we're on the dashboard route
+    isDashboardRoute() {
+      return this.$route.path.includes('/dashboard');
+    }
   }
 };
 </script>
@@ -138,6 +144,10 @@ export default {
 .navbar-wrapper {
   display: flex;
   justify-content: center;
+  
+  &.dashboard-hide {
+    display: none;
+  }
 }
 
 .esconde {

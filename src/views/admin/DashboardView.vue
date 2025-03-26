@@ -1,375 +1,417 @@
 <template>
-  <div class="dashboard">
-    <div class="dashboard-header">
-      <div class="dashboard-title">
-        <img src="../assets/logo.png" alt="Logo" class="dashboard-logo">
-        <h1>{{ $t('dashboard.title') || 'Dashboard' }}</h1>
+  <div class="dashboard-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
+      <div class="sidebar-header">
+        <img src="../../assets/logo.png" alt="Logo" class="sidebar-logo" />
+        <button @click="toggleSidebar" class="toggle-btn">
+          <span class="toggle-icon"></span>
+        </button>
       </div>
       
-      <button @click="handleLogout" class="logout-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-          <polyline points="16 17 21 12 16 7"></polyline>
-          <line x1="21" y1="12" x2="9" y2="12"></line>
-        </svg>
-        <span>{{ $t('dashboard.logout') || 'Logout' }}</span>
-      </button>
-    </div>
-    
-    <div class="dashboard-content">
-      <div class="welcome-card">
-        <h2>{{ $t('dashboard.welcome') || 'Welcome' }}, {{ userDisplayName }}!</h2>
-        <p>{{ $t('dashboard.welcomeText') || 'This is your personal dashboard area where you can manage your portfolio settings.' }}</p>
-      </div>
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <router-link to="/dashboard" class="nav-link" active-class="active">
+              <i class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="currentColor" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                </svg>
+              </i>
+              <span class="nav-text" v-show="!isSidebarCollapsed">Dashboard</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/dashboard/posts" class="nav-link" active-class="active">
+              <i class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="currentColor" d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+              </i>
+              <span class="nav-text" v-show="!isSidebarCollapsed">Posts</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/dashboard/projects" class="nav-link" active-class="active">
+              <i class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="currentColor" d="M22 11v6c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h10v2H4v11h16v-6h2zm-2-9v5h-5V2h5z"/>
+                </svg>
+              </i>
+              <span class="nav-text" v-show="!isSidebarCollapsed">Projects</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/dashboard/analytics" class="nav-link" active-class="active">
+              <i class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+              </i>
+              <span class="nav-text" v-show="!isSidebarCollapsed">Analytics</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/dashboard/settings" class="nav-link" active-class="active">
+              <i class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+              </i>
+              <span class="nav-text" v-show="!isSidebarCollapsed">Settings</span>
+            </router-link>
+          </li>
+        </ul>
+      </nav>
       
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h3>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-              <line x1="12" y1="22.08" x2="12" y2="12"></line>
-            </svg>
-            {{ $t('dashboard.projects') || 'Projects' }}
-          </h3>
-          <div class="stats-row">
-            <div class="stat-item">
-              <span class="stat-value">8</span>
-              <span class="stat-label">{{ $t('dashboard.totalProjects') || 'Total' }}</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value">3</span>
-              <span class="stat-label">{{ $t('dashboard.activeProjects') || 'Active' }}</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value">2</span>
-              <span class="stat-label">{{ $t('dashboard.pendingProjects') || 'Pending' }}</span>
-            </div>
+      <div class="sidebar-footer">
+        <div class="user-profile" v-show="!isSidebarCollapsed">
+          <img src="https://ui-avatars.com/api/?name=Admin+User" alt="User Avatar" class="user-avatar" />
+          <div class="user-info">
+            <span class="user-name">Admin User</span>
+            <span class="user-role">Administrator</span>
           </div>
         </div>
-        
-        <div class="dashboard-card">
-          <h3>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        <button class="logout-btn" @click="logout">
+          <i class="logout-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
             </svg>
-            {{ $t('dashboard.messages') || 'Messages' }}
-          </h3>
-          <div class="stats-row">
-            <div class="stat-item">
-              <span class="stat-value">12</span>
-              <span class="stat-label">{{ $t('dashboard.totalMessages') || 'Total' }}</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value">5</span>
-              <span class="stat-label">{{ $t('dashboard.unread') || 'Unread' }}</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="dashboard-card activity-card">
-          <h3>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-            </svg>
-            {{ $t('dashboard.recentActivity') || 'Recent Activity' }}
-          </h3>
-          <ul class="activity-list">
-            <li class="activity-item">
-              <div class="activity-dot"></div>
-              <div class="activity-content">
-                <span class="activity-title">{{ $t('dashboard.loginActivity') || 'Logged in' }}</span>
-                <span class="activity-time">{{ getCurrentDate() }}</span>
-              </div>
-            </li>
-            <li class="activity-item">
-              <div class="activity-dot"></div>
-              <div class="activity-content">
-                <span class="activity-title">{{ $t('dashboard.projectUpdated') || 'Project updated' }}</span>
-                <span class="activity-time">{{ getPreviousDate(1) }}</span>
-              </div>
-            </li>
-            <li class="activity-item">
-              <div class="activity-dot"></div>
-              <div class="activity-content">
-                <span class="activity-title">{{ $t('dashboard.messageReceived') || 'New message received' }}</span>
-                <span class="activity-time">{{ getPreviousDate(2) }}</span>
-              </div>
-            </li>
-          </ul>
-        </div>
+          </i>
+          <span class="logout-text" v-show="!isSidebarCollapsed">Logout</span>
+        </button>
       </div>
-    </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="content-header">
+        <h1 class="page-title">Dashboard</h1>
+        <div class="header-actions">
+          <button class="notification-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path fill="currentColor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+      
+      <div class="content-body">
+        <div class="welcome-card">
+          <h2>Welcome to your dashboard</h2>
+          <p>This is a modern, minimalist dashboard with a left navigation menu.</p>
+        </div>
+        
+        <!-- Dashboard content would go here -->
+      </div>
+    </main>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { useSupabaseAuth } from '../../composables/useSupabaseAuth'
+import { ref } from 'vue';
 
-const router = useRouter()
-const { user, logout } = useSupabaseAuth()
+const isSidebarCollapsed = ref(false);
 
-// Format user display name from email
-const userDisplayName = computed(() => {
-  if (!user.value) return 'User'
-  return user.value.email?.split('@')[0] || 'User'
-})
+const toggleSidebar = () => {
+  isSidebarCollapsed.value = !isSidebarCollapsed.value;
+};
 
-// Handle logout
-async function handleLogout() {
-  const { error } = await logout()
-  if (!error) {
-    router.push('/')
-  }
-}
-
-// Helper functions for dates
-function getCurrentDate() {
-  return new Date().toLocaleDateString('en-US', { 
-    day: 'numeric', 
-    month: 'short',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
-}
-
-function getPreviousDate(daysAgo) {
-  const date = new Date()
-  date.setDate(date.getDate() - daysAgo)
-  return date.toLocaleDateString('en-US', { 
-    day: 'numeric', 
-    month: 'short',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
-}
+const logout = () => {
+  // Implement logout functionality here
+  console.log('Logout clicked');
+};
 </script>
 
 <style lang="scss">
-@import '@/scss/style.scss';
+@import '../../scss/style.scss';
 
-.dashboard {
-  min-height: 100vh;
+.dashboard-container {
+  display: flex;
+  height: 100vh;
   background-color: #f8f9fa;
 }
 
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 2rem;
-  background-color: $cor-dark;
-  color: $cor-light;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  
-  .dashboard-title {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    
-    .dashboard-logo {
-      width: 40px;
-      height: auto;
-    }
-    
-    h1 {
-      margin: 0;
-      font-size: 1.5rem;
-      font-weight: 500;
-    }
-  }
-  
-  .logout-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: transparent;
-    color: $cor-light;
-    border: 1px solid $cor-light;
-    border-radius: 6px;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    
-    &:hover {
-      background-color: $cor-light;
-      color: $cor-dark;
-    }
-    
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-  }
-}
-
-.dashboard-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.welcome-card {
-  background-color: white;
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  
-  h2 {
-    margin: 0 0 1rem;
-    font-size: 1.8rem;
-    color: $cor-textDark;
-  }
-  
-  p {
-    margin: 0;
-    color: $text-gray;
-    font-size: 1.1rem;
-    line-height: 1.6;
-  }
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
-}
-
-.dashboard-card {
-  background-color: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  
-  h3 {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0 0 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: $cor-textDark;
-    
-    svg {
-      color: $cor-primaria;
-    }
-  }
-}
-
-.stats-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.stat-item {
+/* Sidebar Styles */
+.sidebar {
+  width: 240px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
+  transition: all 0.3s ease;
+  overflow-x: hidden;
+  
+  &.collapsed {
+    width: 70px;
+  }
+}
+
+.sidebar-header {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.sidebar-logo {
+  height: 36px;
+  width: auto;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
-  .stat-value {
-    font-size: 2rem;
-    font-weight: 700;
-    color: $cor-primaria;
-  }
-  
-  .stat-label {
-    font-size: 0.8rem;
-    color: $text-gray;
-    margin-top: 0.3rem;
+  &:focus {
+    outline: none;
   }
 }
 
-.activity-card {
-  grid-column: span 2;
+.toggle-icon {
+  position: relative;
+  width: 18px;
+  height: 2px;
+  background-color: #555;
   
-  @media (max-width: 768px) {
-    grid-column: span 1;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    background-color: #555;
+    transition: transform 0.3s ease;
+  }
+  
+  &::before {
+    transform: translateY(-6px);
+  }
+  
+  &::after {
+    transform: translateY(6px);
   }
 }
 
-.activity-list {
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0;
+  overflow-y: auto;
+}
+
+.nav-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.activity-item {
+.nav-item {
+  margin: 0.25rem 0;
+}
+
+.nav-link {
   display: flex;
-  align-items: flex-start;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: #666;
+  text-decoration: none;
+  border-radius: 4px;
+  margin: 0 0.5rem;
+  transition: all 0.2s ease;
   
-  &:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+  &:hover {
+    background-color: #f5f5f5;
+    color: $cor-primaria;
   }
   
-  .activity-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: $cor-primaria;
-    margin-right: 1rem;
-    margin-top: 0.4rem;
-  }
-  
-  .activity-content {
-    display: flex;
-    flex-direction: column;
-    
-    .activity-title {
-      font-size: 0.95rem;
-      color: $cor-textDark;
-    }
-    
-    .activity-time {
-      font-size: 0.8rem;
-      color: $text-gray;
-      margin-top: 0.2rem;
-    }
+  &.active {
+    background-color: rgba(237, 76, 92, 0.1);
+    color: $cor-primaria;
   }
 }
 
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 0.75rem;
+}
+
+.nav-text {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 0.75rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  
+  &:hover {
+    background-color: #eee;
+  }
+}
+
+.logout-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+  color: #666;
+}
+
+.logout-text {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #666;
+  transition: background 0.2s ease;
+  
+  &:hover {
+    background-color: #f5f5f5;
+  }
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+.welcome-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  h2 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    color: #333;
+  }
+  
+  p {
+    color: #666;
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .dashboard-header {
-    padding: 1rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+  .sidebar {
+    position: fixed;
+    z-index: 100;
+    height: 100vh;
+    transform: translateX(0);
     
-    .dashboard-title {
-      width: 100%;
-      justify-content: space-between;
-    }
-    
-    .logout-btn {
-      align-self: flex-end;
+    &.collapsed {
+      transform: translateX(-100%);
+      width: 240px;
     }
   }
   
-  .dashboard-content {
-    padding: 1rem;
+  .main-content {
+    margin-left: 0;
   }
   
-  .welcome-card {
-    padding: 1.5rem;
-    
-    h2 {
-      font-size: 1.5rem;
-    }
-    
-    p {
-      font-size: 1rem;
-    }
+  .nav-text {
+    display: block !important;
   }
   
-  .dashboard-grid {
-    grid-template-columns: 1fr;
+  .toggle-btn {
+    position: absolute;
+    right: -40px;
+    top: 10px;
+    background-color: #fff;
+    border-radius: 0 4px 4px 0;
+    padding: 0.5rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   }
 }
 </style>
