@@ -1,10 +1,5 @@
 <template>
   <div class="blog-container">
-    <header class="blog-header">
-      <h1>{{ $t('blog.title') || 'Blog' }}</h1>
-      <p class="subtitle">{{ $t('blog.subtitle') || 'Pensamentos, ideias e insights' }}</p>
-    </header>
-
     <div v-if="loading" class="loading-state">
       <div class="loading">
         <span></span><span></span><span></span>
@@ -35,7 +30,7 @@
             </div>
           </div>
           <router-link :to="`/blog/${post.slug || post.id}`" class="read-more" @click.stop>
-            {{ $t('blog.readMore') || 'Ler mais' }}
+            {{ $t('Ler mais') || 'Ler mais' }}
           </router-link>
         </div>
       </article>

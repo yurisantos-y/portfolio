@@ -7,25 +7,7 @@
       <p>{{ $t('blog.loading') || 'Carregando post...' }}</p>
     </div>
 
-    <div v-else-if="error" class="error-message">
-      <p>{{ error }}</p>
-      <router-link to="/blog" class="back-btn">
-        {{ $t('blog.backToBlog') || 'Voltar para o blog' }}
-      </router-link>
-    </div>
-
     <template v-else-if="post">
-      <div class="article-header">
-        <div class="container">
-          <router-link to="/blog" class="back-link">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            {{ $t('blog.backToBlog') || 'Voltar para o blog' }}
-          </router-link>
-        </div>
-      </div>
-
       <article class="article">
         <div class="article-container">
           <header class="article-title">
@@ -48,22 +30,9 @@
           </div>
           
           <div class="article-content" v-html="post.content"></div>
-          
-          <div class="article-footer">
-            <router-link to="/blog" class="back-btn">
-              {{ $t('blog.backToBlog') || 'Voltar para o blog' }}
-            </router-link>
-          </div>
         </div>
       </article>
     </template>
-
-    <div v-else class="not-found">
-      <h2>{{ $t('blog.postNotFound') || 'Post não encontrado' }}</h2>
-      <router-link to="/blog" class="back-btn">
-        {{ $t('blog.backToBlog') || 'Voltar para o blog' }}
-      </router-link>
-    </div>
   </div>
 </template>
 

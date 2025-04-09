@@ -81,12 +81,11 @@
           </div>
 
           <div class="content-editor">
-            <textarea 
+            <ckeditor 
+              :editor="editor" 
               v-model="postData.content" 
-              placeholder="Tell your story..."
-              class="content-textarea"
-              rows="20"
-            ></textarea>
+              :config="editorConfig"
+            ></ckeditor>
           </div>
         </div>
         
@@ -160,12 +159,17 @@ import { useRouter, useRoute } from 'vue-router';
 import { supabase } from '../../lib/supabaseClient';
 import ModalDialog from '../../components/ModalDialog.vue';
 import UnsplashImagePicker from '../../components/UnsplashImagePicker.vue';
+// Importando CKEditor corretamente
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 export default {
   name: 'CreatePostView',
   components: {
     ModalDialog,
     UnsplashImagePicker,
+    // Registro correto do componente CKEditor
+    ckeditor: CKEditor.component
   },
   setup() {
     const router = useRouter();
@@ -179,6 +183,25 @@ export default {
     const showCoverInput = ref(false);
     const showUnsplashPicker = ref(false);
     const imageAttribution = ref(null);
+    
+    const editor = ClassicEditor;
+    const editorConfig = {
+      toolbar: [
+        'heading', '|',
+        'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
+        'fontColor', 'fontBackgroundColor', '|',
+        'blockQuote', 'insertTable', '|', 
+        'undo', 'redo'
+      ],
+      heading: {
+        options: [
+          { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+          { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+          { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+          { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+        ]
+      }
+    };
 
     const postData = reactive({
       title: '',
@@ -187,7 +210,7 @@ export default {
       content: '',
       cover_image: '',
       status: 'draft',
-      author_id: null // Will be set with the current user's ID
+      author_id: null
     });
 
     const autoGenerateSlug = () => {
@@ -278,13 +301,11 @@ export default {
         .replace(/-+/g, '-')
         .trim();
       
-      // Check if tag already exists in selectedTags
       if (selectedTags.value.some(tag => tag.name.toLowerCase() === tagName.toLowerCase())) {
         tagInput.value = '';
         return;
       }
       
-      // Check if tag exists in available tags
       let existingTag = availableTags.value.find(
         tag => tag.name.toLowerCase() === tagName.toLowerCase()
       );
@@ -292,7 +313,6 @@ export default {
       if (existingTag) {
         selectedTags.value.push(existingTag);
       } else {
-        // Create a temporary tag object
         const newTag = {
           name: tagName,
           slug: tagSlug,
@@ -322,7 +342,6 @@ export default {
         isSaving.value = true;
         error.value = '';
         
-        // Get current user
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) throw new Error('User not authenticated');
         
@@ -330,7 +349,6 @@ export default {
         const now = new Date().toISOString();
         
         if (isEditing.value) {
-          // Update existing post
           postData.updated_at = now;
           if (postData.status === 'published' && !postData.published_at) {
             postData.published_at = now;
@@ -343,10 +361,8 @@ export default {
           
           if (updateError) throw updateError;
           
-          // Handle tags for existing post
           await updatePostTags(route.params.id);
         } else {
-          // Create new post
           postData.created_at = now;
           postData.updated_at = now;
           if (postData.status === 'published') {
@@ -361,7 +377,6 @@ export default {
           
           if (createError) throw createError;
           
-          // Handle tags for new post
           if (newPost) {
             await updatePostTags(newPost.id);
           }
@@ -378,13 +393,11 @@ export default {
 
     const updatePostTags = async (postId) => {
       try {
-        // First, remove existing tags
         await supabase
           .from('blog_post_tags')
           .delete()
           .eq('post_id', postId);
         
-        // Add new tags that don't exist yet
         const newTags = selectedTags.value.filter(tag => tag.isNew);
         for (const tag of newTags) {
           const { data: createdTag, error: createTagError } = await supabase
@@ -398,14 +411,12 @@ export default {
           
           if (createTagError) throw createTagError;
           
-          // Update the tag in our array with the real ID
           if (createdTag) {
             tag.id = createdTag.id;
             delete tag.isNew;
           }
         }
         
-        // Create relationships for all tags
         const postTags = selectedTags.value.map(tag => ({
           post_id: postId,
           tag_id: tag.id
@@ -452,7 +463,9 @@ export default {
       generateSlug,
       addTag,
       removeTag,
-      savePost
+      savePost,
+      editor,
+      editorConfig
     };
   }
 };
@@ -472,7 +485,6 @@ export default {
   padding: 0 1.5rem;
 }
 
-/* Header Styles */
 .editor-header {
   position: sticky;
   top: 0;
@@ -564,7 +576,6 @@ export default {
   cursor: not-allowed;
 }
 
-/* Error Notification */
 .error-notification {
   background-color: #fce8e6;
   padding: 12px 0;
@@ -577,7 +588,6 @@ export default {
   font-size: 14px;
 }
 
-/* Main Editor Area */
 .editor-main .container {
   display: grid;
   grid-template-columns: 3fr 1fr;
@@ -590,7 +600,6 @@ export default {
   min-height: 70vh;
 }
 
-/* Title Input */
 .title-input {
   width: 100%;
   font-family: Georgia, serif;
@@ -611,7 +620,6 @@ export default {
   outline: none;
 }
 
-/* Subtitle Input */
 .subtitle-input {
   width: 100%;
   font-family: Georgia, serif;
@@ -630,7 +638,6 @@ export default {
   outline: none;
 }
 
-/* Cover Image Styles */
 .cover-preview {
   position: relative;
   margin: 1.5rem 0 2.5rem;
@@ -706,7 +713,6 @@ export default {
   display: block;
 }
 
-/* Cover Options */
 .cover-options {
   display: flex;
   gap: 10px;
@@ -737,32 +743,31 @@ export default {
   height: 18px;
 }
 
-/* Content Editor */
 .content-editor {
   margin-bottom: 2rem;
 }
 
-.content-textarea {
-  width: 100%;
-  min-height: 400px;
+:deep(.ck-editor__editable) {
+  min-height: 400px !important;
   font-family: Georgia, serif;
   font-size: 18px;
   line-height: 1.8;
   color: rgba(0, 0, 0, 0.84);
-  border: none;
-  padding: 0;
-  resize: vertical;
+  background-color: #fff;
 }
 
-.content-textarea::placeholder {
-  color: rgba(0, 0, 0, 0.3);
+:deep(.ck.ck-editor__main) {
+  margin-bottom: 20px;
 }
 
-.content-textarea:focus {
-  outline: none;
+:deep(.ck-toolbar) {
+  border-radius: 4px 4px 0 0 !important;
 }
 
-/* Sidebar Styles */
+:deep(.ck-editor__editable) {
+  border-radius: 0 0 4px 4px !important;
+}
+
 .editor-sidebar {
   align-self: start;
   position: sticky;
@@ -842,7 +847,6 @@ export default {
   color: rgba(0, 0, 0, 0.8);
 }
 
-/* Tags Styles */
 .tags-input-wrapper input {
   margin-bottom: 12px;
 }
@@ -890,7 +894,6 @@ export default {
   margin-top: 10px;
 }
 
-/* Responsive */
 @media (max-width: 960px) {
   .editor-main .container {
     grid-template-columns: 1fr;
