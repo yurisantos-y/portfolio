@@ -112,6 +112,10 @@ onMounted(() => {
 <style lang="scss">
 @import '../scss/style.scss';
 
+body {
+  background-color: $cor-dark;
+}
+
 .blog-container {
   max-width: 1200px;
   margin: 0 auto;
