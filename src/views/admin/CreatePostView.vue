@@ -59,20 +59,24 @@
           </div>
           
           <div v-else class="cover-placeholder">
-            <label for="cover-image-url" class="add-cover-button">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 16l4-4 4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="6" cy="10" r="2" stroke="currentColor" stroke-width="2"/>
-                <rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
-              </svg>
-              Add a cover image
-            </label>
+            <div class="cover-options">
+              <button type="button" @click="showUnsplashPicker = true" class="cover-option">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M16 2v5h-4.5L11 2h5zM8 2v10h3V7h5v5h3V2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Unsplash
+              </button>
+            </div>
+
             <input 
+              v-show="showCoverInput"
               type="text" 
               id="cover-image-url"
               v-model="postData.cover_image" 
               placeholder="Paste an image URL..."
               class="cover-input"
+              style="display: block;"
             >
           </div>
 
@@ -136,6 +140,17 @@
         </div>
       </div>
     </div>
+
+    <modal-dialog 
+      v-if="showUnsplashPicker" 
+      @close="showUnsplashPicker = false"
+      title="Select a cover image from Unsplash"
+    >
+      <unsplash-image-picker 
+        @close="showUnsplashPicker = false"
+        :onSelect="selectUnsplashImage"
+      />
+    </modal-dialog>
   </div>
 </template>
 
@@ -143,16 +158,15 @@
 import { ref, reactive, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { supabase } from '../../lib/supabaseClient';
-// Import CKEditor when ready to implement
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import { CKEditor } from '@ckeditor/ckeditor5-vue';
+import ModalDialog from '../../components/ModalDialog.vue';
+import UnsplashImagePicker from '../../components/UnsplashImagePicker.vue';
 
 export default {
   name: 'CreatePostView',
-  // components: {
-  //   // Uncomment when CKEditor is installed
-  //   ckeditor: CKEditor.component
-  // },
+  components: {
+    ModalDialog,
+    UnsplashImagePicker,
+  },
   setup() {
     const router = useRouter();
     const route = useRoute();
@@ -162,8 +176,9 @@ export default {
     const tagInput = ref('');
     const selectedTags = ref([]);
     const availableTags = ref([]);
-    // Uncomment when CKEditor is installed
-    // const editor = ClassicEditor;
+    const showCoverInput = ref(false);
+    const showUnsplashPicker = ref(false);
+    const imageAttribution = ref(null);
 
     const postData = reactive({
       title: '',
@@ -409,6 +424,11 @@ export default {
       }
     };
 
+    const selectUnsplashImage = (imageData) => {
+      postData.cover_image = imageData.url;
+      imageAttribution.value = imageData.attribution;
+    };
+
     onMounted(async () => {
       await fetchTags();
       
@@ -425,9 +445,11 @@ export default {
       error,
       tagInput,
       selectedTags,
-      // editor, // Uncomment when CKEditor is installed
-      generateSlug,
+      showCoverInput,
+      showUnsplashPicker,
+      selectUnsplashImage,
       autoGenerateSlug,
+      generateSlug,
       addTag,
       removeTag,
       savePost
@@ -682,6 +704,37 @@ export default {
 .add-cover-button:focus + .cover-input,
 .cover-input:focus {
   display: block;
+}
+
+/* Cover Options */
+.cover-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cover-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cover-option:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+.cover-option svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* Content Editor */
