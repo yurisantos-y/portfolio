@@ -15,32 +15,47 @@
     </div>
 
     <template v-else-if="post">
-      <div class="post-header" :style="post.cover_image ? {backgroundImage: `url(${post.cover_image})`} : {}">
-        <div class="overlay"></div>
-        <div class="content">
+      <div class="article-header">
+        <div class="container">
           <router-link to="/blog" class="back-link">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 12H5M12 19l-7-7 7-7"></path>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             {{ $t('blog.backToBlog') || 'Voltar para o blog' }}
           </router-link>
-          <h1>{{ post.title }}</h1>
-          <div class="post-meta">
-            <span class="post-date">{{ formatDate(post.published_at) }}</span>
-            <div class="post-tags" v-if="post.tags && post.tags.length">
-              <span v-for="tag in post.tags" :key="tag.id" class="tag">{{ tag.name }}</span>
-            </div>
-          </div>
         </div>
       </div>
 
-      <div class="post-body">
-        <div class="post-summary" v-if="post.summary">
-          <p>{{ post.summary }}</p>
+      <article class="article">
+        <div class="article-container">
+          <header class="article-title">
+            <h1>{{ post.title }}</h1>
+            
+            <div class="article-meta">
+              <span class="post-date">{{ formatDate(post.published_at) }}</span>
+              <div class="post-tags" v-if="post.tags && post.tags.length">
+                <span v-for="tag in post.tags" :key="tag.id" class="tag">{{ tag.name }}</span>
+              </div>
+            </div>
+          </header>
+          
+          <div class="article-summary" v-if="post.summary">
+            <p>{{ post.summary }}</p>
+          </div>
+          
+          <div v-if="post.cover_image" class="article-cover">
+            <img :src="post.cover_image" :alt="post.title">
+          </div>
+          
+          <div class="article-content" v-html="post.content"></div>
+          
+          <div class="article-footer">
+            <router-link to="/blog" class="back-btn">
+              {{ $t('blog.backToBlog') || 'Voltar para o blog' }}
+            </router-link>
+          </div>
         </div>
-        
-        <div class="post-content" v-html="post.content"></div>
-      </div>
+      </article>
     </template>
 
     <div v-else class="not-found">
@@ -71,7 +86,6 @@ const fetchPost = async () => {
     
     const slugOrId = route.params.id;
     
-    // Tenta buscar pela slug primeiro
     let query = supabase
       .from('blog_posts')
       .select(`
@@ -123,7 +137,7 @@ const fetchPost = async () => {
 const formatDate = (dateString) => {
   if (!dateString) return '';
   try {
-    return format(new Date(dateString), 'dd/MM/yyyy');
+    return format(new Date(dateString), 'dd MMM, yyyy');
   } catch (e) {
     return dateString;
   }
@@ -138,172 +152,77 @@ onMounted(() => {
 @import '../scss/style.scss';
 
 body {
-  background-color: $cor-light;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.84);
+  font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.6;
 }
 
 .blog-post-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding-bottom: 5rem;
+  min-height: 100vh;
 }
 
-.post-header {
-  position: relative;
-  height: 400px;
-  background-size: cover;
-  background-position: center;
-  background-color: #f5f5f5;
-  display: flex;
-  align-items: flex-end;
-  color: white;
-  margin-bottom: 2rem;
-  border-radius: 0 0 12px 12px;
-  overflow: hidden;
+.article-header {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
-    z-index: 1;
-  }
-  
-  .content {
-    position: relative;
-    z-index: 2;
-    padding: 2rem;
-    width: 100%;
-  }
-  
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin: 1rem 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
   }
   
   .back-link {
-    color: white;
+    color: rgba(0, 0, 0, 0.54);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 0;
-    font-weight: 500;
-    opacity: 0.8;
-    transition: opacity 0.2s ease;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
     
     &:hover {
-      opacity: 1;
-    }
-    
-    svg {
-      width: 18px;
-      height: 18px;
+      color: rgba(0, 0, 0, 0.84);
     }
   }
 }
 
-.post-body {
-  padding: 0 1.5rem;
+.article {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.article-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+
+.article-title {
+  margin-bottom: 2rem;
   
-  .post-summary {
-    font-size: 1.2rem;
-    color: #555;
-    line-height: 1.6;
-    padding-bottom: 1.5rem;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid #eee;
-    font-weight: 500;
-  }
-  
-  .post-content {
-    line-height: 1.8;
-    color: #333;
-    font-size: 1.1rem;
-    
-    h2 {
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-      font-size: 1.8rem;
-    }
-    
-    h3 {
-      margin-top: 1.8rem;
-      margin-bottom: 0.8rem;
-      font-size: 1.5rem;
-    }
-    
-    p {
-      margin-bottom: 1.5rem;
-    }
-    
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 1.5rem 0;
-    }
-    
-    a {
-      color: $cor-primaria;
-      text-decoration: none;
-      border-bottom: 1px solid rgba($cor-primaria, 0.3);
-      transition: border-color 0.2s ease;
-      
-      &:hover {
-        border-color: $cor-primaria;
-      }
-    }
-    
-    ul, ol {
-      margin: 1rem 0 1.5rem 1.5rem;
-      
-      li {
-        margin-bottom: 0.5rem;
-      }
-    }
-    
-    blockquote {
-      border-left: 4px solid $cor-primaria;
-      padding-left: 1rem;
-      margin: 1.5rem 0;
-      font-style: italic;
-      color: #555;
-    }
-    
-    pre {
-      background-color: #f5f5f5;
-      padding: 1rem;
-      border-radius: 8px;
-      overflow-x: auto;
-      margin: 1.5rem 0;
-    }
-    
-    code {
-      background-color: #f5f5f5;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 0.9rem;
-    }
+  h1 {
+    font-family: Georgia, serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: rgba(0, 0, 0, 0.84);
+    line-height: 1.2;
+    letter-spacing: -0.011em;
   }
 }
 
-.post-meta {
+.article-meta {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  gap: 1rem;
   flex-wrap: wrap;
-  margin-top: 0.5rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .post-date {
-  font-size: 0.9rem;
-  opacity: 0.8;
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .post-tags {
@@ -313,21 +232,152 @@ body {
   
   .tag {
     padding: 0.25rem 0.75rem;
-    background-color: rgba(255,255,255,0.2);
-    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 0.6);
+    border-radius: 100px;
     font-size: 0.8rem;
-    font-weight: 500;
   }
 }
 
+.article-summary {
+  font-family: Georgia, serif;
+  font-size: 1.3rem;
+  color: rgba(0, 0, 0, 0.68);
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  line-height: 1.7;
+  font-style: italic;
+  
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.article-cover {
+  margin: 2rem -6rem;
+  overflow: hidden;
+  max-height: 500px;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.article-content {
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.84);
+  
+  h2 {
+    font-family: Georgia, serif;
+    font-size: 1.8rem;
+    margin-top: 3rem;
+    margin-bottom: 1.2rem;
+    color: rgba(0, 0, 0, 0.84);
+  }
+  
+  h3 {
+    font-family: Georgia, serif;
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: rgba(0, 0, 0, 0.84);
+  }
+  
+  p {
+    margin-bottom: 2rem;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+  }
+  
+  a {
+    color: #1a8917;
+    text-decoration: none;
+    background-image: linear-gradient(to right, rgba(26, 137, 23, 0.2) 0%, rgba(26, 137, 23, 0.2) 100%);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% 1px;
+    transition: background-size 0.2s ease;
+    
+    &:hover {
+      background-size: 100% 35%;
+      color: #155e13;
+    }
+  }
+  
+  ul, ol {
+    margin: 2rem 0;
+    padding-left: 2rem;
+    
+    li {
+      margin-bottom: 0.8rem;
+    }
+  }
+  
+  blockquote {
+    border-left: 3px solid rgba(0, 0, 0, 0.84);
+    margin: 2rem 0;
+    padding: 0.5rem 0 0.5rem 2rem;
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.68);
+    font-size: 1.3rem;
+    
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  pre {
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    padding: 1.5rem;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 1.5rem 0;
+  }
+  
+  code {
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+  }
+  
+  hr {
+    border: none;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin: 3rem 0;
+  }
+}
+
+.article-footer {
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+}
+
 .loading-state, .error-message, .not-found {
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  min-height: 60vh;
+  justify-content: center;
   text-align: center;
-  padding: 2rem;
+  padding: 3rem 2rem;
 }
 
 .loading {
@@ -338,11 +388,11 @@ body {
   
   span {
     display: inline-block;
-    width: 18px;
-    height: 18px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: $cor-primaria;
-    margin: 0 0.5rem;
+    background: rgba(0, 0, 0, 0.54);
+    margin: 0 0.25rem;
     animation: bounce .6s cubic-bezier(0.6, 0.1, 1, 0.4) infinite alternate;
   }
   
@@ -361,80 +411,97 @@ body {
 
 .back-btn {
   display: inline-block;
-  margin-top: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: $cor-primaria;
-  color: white;
+  color: #1a8917;
   text-decoration: none;
-  border-radius: 8px;
+  font-size: 1rem;
   font-weight: 500;
-  transition: background-color 0.2s ease;
+  padding: 0.8rem 1.5rem;
+  border: 1px solid #1a8917;
+  border-radius: 100px;
+  transition: all 0.2s ease;
   
   &:hover {
-    background-color: darken($cor-primaria, 10%);
+    background-color: rgba(26, 137, 23, 0.05);
   }
 }
 
 .error-message {
   color: #e74c3c;
-}
-
-.not-found {
-  h2 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 1rem;
+  
+  p {
+    margin-bottom: 2rem;
   }
 }
 
 @keyframes bounce {
   to {
-    transform: translateY(16px);
+    transform: translateY(8px);
     opacity: 0.3;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .post-header {
-    height: 300px;
+  .article-container {
+    padding: 2rem 1.5rem 4rem;
+  }
+  
+  .article-title h1 {
+    font-size: 2.2rem;
+  }
+  
+  .article-cover {
+    margin: 1.5rem -1.5rem;
+    max-height: 400px;
+  }
+  
+  .article-content {
+    font-size: 1.1rem;
     
-    h1 {
-      font-size: 2rem;
+    h2 {
+      font-size: 1.6rem;
+    }
+    
+    h3 {
+      font-size: 1.3rem;
+    }
+    
+    blockquote {
+      font-size: 1.1rem;
     }
   }
   
-  .post-body {
-    padding: 0 1rem;
-    
-    .post-summary {
-      font-size: 1.1rem;
-    }
-    
-    .post-content {
-      font-size: 1rem;
-      
-      h2 {
-        font-size: 1.6rem;
-      }
-      
-      h3 {
-        font-size: 1.3rem;
-      }
-    }
+  .article-summary {
+    font-size: 1.15rem;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .post-header {
-    height: 250px;
-    
-    h1 {
-      font-size: 1.8rem;
-    }
-    
-    .content {
-      padding: 1.5rem;
-    }
+  .article-header .container {
+    padding: 0 1.25rem;
+  }
+  
+  .article-container {
+    padding: 1.5rem 1.25rem 3rem;
+  }
+  
+  .article-title h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .article-content {
+    font-size: 1rem;
+  }
+  
+  .article-cover {
+    margin: 1rem -1.25rem;
+    max-height: 300px;
+  }
+  
+  .article-summary {
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 }
 </style>

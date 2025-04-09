@@ -1,133 +1,138 @@
 <template>
-  <div class="create-post-view">
-    <div class="post-header">
-      <h1>{{ isEditing ? 'Edit Post' : 'Create New Post' }}</h1>
-      <div class="header-actions">
-        <button 
-          @click="router.push('/dashboard/posts')" 
-          class="btn-cancel"
-        >
-          Cancel
-        </button>
-        <button 
-          @click="savePost" 
-          class="btn-save" 
-          :disabled="isSaving"
-        >
-          {{ isSaving ? 'Saving...' : 'Save Post' }}
-        </button>
-      </div>
-    </div>
-
-    <div class="error-message" v-if="error">{{ error }}</div>
-
-    <div class="post-form">
-      <div class="form-main">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input 
-            type="text" 
-            id="title" 
-            v-model="postData.title" 
-            placeholder="Enter post title"
-            @input="autoGenerateSlug"
-          >
+  <div class="editor-page">
+    <div class="editor-header" :class="{ 'saving': isSaving }">
+      <div class="container">
+        <div class="header-left">
+          <router-link to="/dashboard/posts" class="back-button">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </router-link>
+          <span class="editor-status">{{ isSaving ? 'Saving...' : (isEditing ? 'Editing' : 'New Story') }}</span>
         </div>
-
-        <div class="form-group">
-          <label for="content">Content</label>
-          <div class="editor-container">
-            <!-- 
-              Rich Text Editor Integration (CKEditor example)
-              Install with: npm install @ckeditor/ckeditor5-vue @ckeditor/ckeditor5-build-classic
-            -->
-            <!--
-            <ckeditor :editor="editor" v-model="postData.content"></ckeditor>
-            -->
-            
-            <!-- Fallback basic textarea until CKEditor is installed -->
-            <textarea 
-              id="content" 
-              v-model="postData.content" 
-              placeholder="Write your post content here..." 
-              rows="15"
-            ></textarea>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-sidebar">
-        <div class="sidebar-section">
-          <h3>Post Settings</h3>
-          
-          <div class="form-group">
-            <label for="status">Status</label>
-            <select id="status" v-model="postData.status">
+        <div class="header-right">
+          <div class="publish-options">
+            <select v-model="postData.status" class="status-select">
               <option value="draft">Draft</option>
               <option value="published">Published</option>
               <option value="archived">Archived</option>
             </select>
-          </div>
-
-          <div class="form-group">
-            <label for="slug">URL Slug</label>
-            <div class="slug-input">
-              <input 
-                type="text" 
-                id="slug" 
-                v-model="postData.slug" 
-                placeholder="post-url-slug"
-              >
-              <button @click="generateSlug" class="btn-generate">Generate</button>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="summary">Summary</label>
-            <textarea 
-              id="summary" 
-              v-model="postData.summary" 
-              placeholder="Brief summary of your post" 
-              rows="4"
-            ></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="cover">Cover Image URL</label>
-            <input 
-              type="text" 
-              id="cover" 
-              v-model="postData.cover_image" 
-              placeholder="https://example.com/image.jpg"
-            >
-            <div class="image-preview" v-if="postData.cover_image">
-              <img :src="postData.cover_image" alt="Cover preview">
-            </div>
+            <button @click="savePost" class="publish-button" :disabled="isSaving">
+              {{ postData.status === 'published' ? 'Publish' : 'Save' }}
+            </button>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="sidebar-section">
-          <h3>Tags</h3>
-          <div class="form-group">
-            <input 
-              type="text" 
-              v-model="tagInput" 
-              placeholder="Add tag and press Enter" 
-              @keydown.enter.prevent="addTag"
-            >
+    <div class="error-notification" v-if="error">
+      <div class="container">
+        <p>{{ error }}</p>
+      </div>
+    </div>
+
+    <div class="editor-main">
+      <div class="container">
+        <div class="editor-content">
+          <input 
+            type="text" 
+            v-model="postData.title" 
+            placeholder="Title"
+            class="title-input"
+            @input="autoGenerateSlug"
+          >
+
+          <input 
+            type="text" 
+            v-model="postData.summary" 
+            placeholder="Add a subtitle or summary..." 
+            class="subtitle-input"
+          >
+          
+          <div v-if="postData.cover_image" class="cover-preview">
+            <img :src="postData.cover_image" alt="Cover image">
+            <button @click="postData.cover_image = ''" class="remove-cover">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
           </div>
           
-          <div class="tags-list" v-if="selectedTags.length > 0">
-            <span 
-              v-for="(tag, index) in selectedTags" 
-              :key="index" 
-              class="tag"
+          <div v-else class="cover-placeholder">
+            <label for="cover-image-url" class="add-cover-button">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 16l4-4 4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="6" cy="10" r="2" stroke="currentColor" stroke-width="2"/>
+                <rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Add a cover image
+            </label>
+            <input 
+              type="text" 
+              id="cover-image-url"
+              v-model="postData.cover_image" 
+              placeholder="Paste an image URL..."
+              class="cover-input"
             >
-              {{ tag.name }}
-              <button @click="removeTag(index)" class="remove-tag">&times;</button>
-            </span>
           </div>
-          <p v-else class="no-tags">No tags added yet</p>
+
+          <div class="content-editor">
+            <textarea 
+              v-model="postData.content" 
+              placeholder="Tell your story..."
+              class="content-textarea"
+              rows="20"
+            ></textarea>
+          </div>
+        </div>
+        
+        <div class="editor-sidebar">
+          <div class="sidebar-section">
+            <h3>Story Settings</h3>
+            
+            <div class="form-group">
+              <label for="slug">URL Slug</label>
+              <div class="slug-input-wrapper">
+                <input 
+                  type="text" 
+                  id="slug" 
+                  v-model="postData.slug" 
+                  placeholder="url-friendly-title"
+                >
+                <button @click="generateSlug" class="generate-button">
+                  Generate
+                </button>
+              </div>
+            </div>
+            
+            <div class="form-group tags-section">
+              <label>Tags</label>
+              <div class="tags-input-wrapper">
+                <input 
+                  type="text" 
+                  v-model="tagInput" 
+                  placeholder="Add a tag and press Enter" 
+                  @keydown.enter.prevent="addTag"
+                >
+              </div>
+              
+              <div class="tags-list" v-if="selectedTags.length > 0">
+                <span 
+                  v-for="(tag, index) in selectedTags" 
+                  :key="index" 
+                  class="tag"
+                >
+                  {{ tag.name }}
+                  <button @click="removeTag(index)" class="remove-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </span>
+              </div>
+              <p v-else class="no-tags">No tags added yet</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -432,95 +437,304 @@ export default {
 </script>
 
 <style scoped>
-.create-post-view {
-  padding: 24px;
+.editor-page {
+  background-color: #fff;
+  min-height: 100vh;
+  color: rgba(0, 0, 0, 0.84);
+  font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.container {
   max-width: 1200px;
   margin: 0 auto;
-  color: #334155;
+  padding: 0 1.5rem;
 }
 
-.post-header {
+/* Header Styles */
+.editor-header {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  z-index: 10;
+  transition: background-color 0.2s ease;
+}
+
+.editor-header.saving {
+  background-color: #fafafa;
+}
+
+.editor-header .container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 28px;
+  justify-content: space-between;
+  height: 65px;
 }
 
-.post-header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
-}
-
-.header-actions {
+.header-left {
   display: flex;
+  align-items: center;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.54);
+  margin-right: 16px;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  color: rgba(0, 0, 0, 0.84);
+}
+
+.editor-status {
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.publish-options {
+  display: flex;
+  align-items: center;
   gap: 12px;
 }
 
-.btn-save, .btn-cancel {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
+.status-select {
+  padding: 8px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: #fff;
   cursor: pointer;
-  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
 }
 
-.btn-save {
-  background-color: #3b82f6;
-  color: white;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+.publish-button {
+  background-color: #1a8917;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.btn-save:hover:not(:disabled) {
-  background-color: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
+.publish-button:hover:not(:disabled) {
+  background-color: #0f6d14;
 }
 
-.btn-save:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.btn-save:disabled {
-  opacity: 0.6;
+.publish-button:disabled {
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
-.btn-cancel {
-  background-color: #f1f5f9;
-  color: #475569;
+/* Error Notification */
+.error-notification {
+  background-color: #fce8e6;
+  padding: 12px 0;
+  margin-bottom: 2rem;
 }
 
-.btn-cancel:hover {
-  background-color: #e2e8f0;
+.error-notification p {
+  color: #c62828;
+  margin: 0;
+  font-size: 14px;
 }
 
-.error-message {
-  background-color: #fee2e2;
-  color: #b91c1c;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 24px;
-  font-weight: 500;
-  box-shadow: 0 1px 3px rgba(185, 28, 28, 0.1);
-}
-
-.post-form {
+/* Main Editor Area */
+.editor-main .container {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 28px;
+  grid-template-columns: 3fr 1fr;
+  gap: 40px;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
 }
 
-.form-main {
+.editor-content {
+  min-height: 70vh;
+}
+
+/* Title Input */
+.title-input {
+  width: 100%;
+  font-family: Georgia, serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.84);
+  border: none;
+  padding: 0;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.title-input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.title-input:focus {
+  outline: none;
+}
+
+/* Subtitle Input */
+.subtitle-input {
+  width: 100%;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.54);
+  border: none;
+  padding: 0;
+  margin-bottom: 32px;
+}
+
+.subtitle-input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.subtitle-input:focus {
+  outline: none;
+}
+
+/* Cover Image Styles */
+.cover-preview {
+  position: relative;
+  margin: 1.5rem 0 2.5rem;
+  border-radius: 4px;
+  overflow: hidden;
+  max-height: 400px;
+}
+
+.cover-preview img {
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-cover {
+  position: absolute;
+  top: 12px;
+  right: 12px;
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.remove-cover:hover {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.cover-placeholder {
+  margin: 1.5rem 0 2.5rem;
+}
+
+.add-cover-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.54);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background-color: transparent;
+}
+
+.add-cover-button:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+  color: rgba(0, 0, 0, 0.68);
+}
+
+.cover-input {
+  margin-top: 10px;
+  display: none;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.add-cover-button:focus + .cover-input,
+.cover-input:focus {
+  display: block;
+}
+
+/* Content Editor */
+.content-editor {
+  margin-bottom: 2rem;
+}
+
+.content-textarea {
+  width: 100%;
+  min-height: 400px;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.84);
+  border: none;
+  padding: 0;
+  resize: vertical;
+}
+
+.content-textarea::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.content-textarea:focus {
+  outline: none;
+}
+
+/* Sidebar Styles */
+.editor-sidebar {
+  align-self: start;
+  position: sticky;
+  top: 85px;
+}
+
+.sidebar-section {
+  background-color: #fafafa;
+  border-radius: 6px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.sidebar-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.84);
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .form-group {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .form-group:last-child {
@@ -529,230 +743,137 @@ export default {
 
 .form-group label {
   display: block;
-  margin-bottom: 10px;
-  font-weight: 600;
-  color: #334155;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: rgba(0, 0, 0, 0.68);
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.form-group input {
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 15px;
-  transition: all 0.2s ease;
-  background-color: #f8fafc;
-  color: #334155;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.8);
 }
 
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
+.form-group input:focus {
   outline: none;
-  border-color: #93c5fd;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-  background-color: white;
+  border-color: rgba(0, 0, 0, 0.3);
 }
 
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: #94a3b8;
-}
-
-.form-group textarea {
-  resize: vertical;
-  min-height: 120px;
-  line-height: 1.5;
-}
-
-.editor-container {
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  overflow: hidden;
-  background-color: #f8fafc;
-  transition: all 0.2s ease;
-}
-
-.editor-container:focus-within {
-  border-color: #93c5fd;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-  background-color: white;
-}
-
-.editor-container textarea {
-  border: none;
-  padding: 14px;
-  min-height: 400px;
-  background-color: transparent;
-}
-
-.editor-container textarea:focus {
-  box-shadow: none;
-}
-
-.slug-input {
+.slug-input-wrapper {
   display: flex;
   gap: 8px;
 }
 
-.slug-input input {
+.slug-input-wrapper input {
   flex-grow: 1;
 }
 
-.btn-generate {
-  padding: 12px 16px;
-  background-color: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  color: #475569;
-  font-weight: 500;
+.generate-button {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
 }
 
-.btn-generate:hover {
-  background-color: #e2e8f0;
+.generate-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.8);
 }
 
-.image-preview {
-  margin-top: 12px;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.image-preview img {
-  max-width: 100%;
-  max-height: 200px;
-  object-fit: cover;
-  display: block;
-}
-
-.form-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.sidebar-section {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  padding: 24px;
-}
-
-.sidebar-section h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #0f172a;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 12px;
+/* Tags Styles */
+.tags-input-wrapper input {
+  margin-bottom: 12px;
 }
 
 .tags-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: 10px;
 }
 
 .tag {
   display: flex;
   align-items: center;
-  padding: 6px 12px;
-  background-color: #f1f5f9;
-  border-radius: 9999px;
-  font-size: 14px;
-  color: #475569;
-  transition: all 0.2s ease;
-}
-
-.tag:hover {
-  background-color: #e2e8f0;
+  gap: 6px;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 6px 10px;
+  border-radius: 100px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .remove-tag {
-  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 16px;
+  height: 16px;
   background: none;
-  margin-left: 6px;
+  border: none;
+  color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  font-size: 16px;
-  color: #64748b;
-  line-height: 1;
-  padding: 2px;
-  border-radius: 50%;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .remove-tag:hover {
-  color: #ef4444;
-  background-color: rgba(239, 68, 68, 0.1);
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .no-tags {
-  color: #94a3b8;
+  color: rgba(0, 0, 0, 0.4);
   font-style: italic;
-  margin-top: 14px;
-  font-size: 14px;
+  font-size: 13px;
+  margin-top: 10px;
 }
 
-@media (max-width: 768px) {
-  .create-post-view {
-    padding: 16px;
+/* Responsive */
+@media (max-width: 960px) {
+  .editor-main .container {
+    grid-template-columns: 1fr;
   }
   
-  .post-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+  .editor-sidebar {
+    position: static;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .editor-header .container {
+    padding: 0 1rem;
+    height: 55px;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+
+  .status-select {
+    display: none;
+  }
+  
+  .title-input {
+    font-size: 28px;
+  }
+  
+  .subtitle-input {
+    font-size: 18px;
     margin-bottom: 24px;
   }
   
-  .post-header h1 {
-    font-size: 24px;
-  }
-  
-  .header-actions {
-    width: 100%;
-    gap: 10px;
-  }
-  
-  .btn-save, .btn-cancel {
-    flex-grow: 1;
-    text-align: center;
-  }
-  
-  .post-form {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  
-  .form-main {
-    order: 2;
-  }
-  
-  .form-sidebar {
-    order: 1;
-  }
-  
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    padding: 10px 12px;
-  }
-  
-  .btn-generate {
-    padding: 10px 12px;
-  }
-  
-  .sidebar-section {
-    padding: 20px;
+  .content-textarea {
+    font-size: 16px;
   }
 }
 </style>

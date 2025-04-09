@@ -26,14 +26,14 @@
           <img :src="post.cover_image" :alt="post.title">
         </div>
         <div class="post-content">
+          <h2 class="post-title">{{ post.title }}</h2>
+          <p class="post-summary">{{ post.summary }}</p>
           <div class="post-meta">
             <span class="post-date">{{ formatDate(post.published_at) }}</span>
             <div class="post-tags" v-if="post.tags && post.tags.length">
               <span v-for="tag in post.tags" :key="tag.id" class="tag">{{ tag.name }}</span>
             </div>
           </div>
-          <h2 class="post-title">{{ post.title }}</h2>
-          <p class="post-summary">{{ post.summary }}</p>
           <router-link :to="`/blog/${post.slug || post.id}`" class="read-more" @click.stop>
             {{ $t('blog.readMore') || 'Ler mais' }}
           </router-link>
@@ -94,7 +94,7 @@ const fetchPosts = async () => {
 const formatDate = (dateString) => {
   if (!dateString) return '';
   try {
-    return format(new Date(dateString), 'dd/MM/yyyy');
+    return format(new Date(dateString), 'dd MMM, yyyy');
   } catch (e) {
     return dateString;
   }
@@ -113,11 +113,11 @@ onMounted(() => {
 @import '../scss/style.scss';
 
 body {
-  background-color: $cor-dark;
+  background-color: #fff;
 }
 
 .blog-container {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 5rem 2rem;
   min-height: 80vh;
@@ -128,78 +128,87 @@ body {
   margin-bottom: 4rem;
   
   h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    color: $cor-textDark;
+    font-family: Georgia, serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.84);
     margin-bottom: 1rem;
+    letter-spacing: -0.011em;
+    line-height: 1.2;
   }
   
   .subtitle {
-    font-size: 1.2rem;
-    color: $text-gray;
+    font-size: 1.3rem;
+    color: rgba(0, 0, 0, 0.54);
     max-width: 600px;
     margin: 0 auto;
+    font-weight: 400;
+    line-height: 1.4;
   }
 }
 
 .posts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
 }
 
 .post-card {
   background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 3rem;
+  transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
   cursor: pointer;
   
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    .post-title {
+      color: rgba(0, 0, 0, 0.68);
+    }
+    
+    .post-image img {
+      transform: scale(1.02);
+    }
+  }
+  
+  &:last-child {
+    border-bottom: none;
   }
 }
 
 .post-image {
-  height: 200px;
+  height: 300px;
   overflow: hidden;
+  margin-bottom: 2rem;
+  border-radius: 4px;
   
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
-    
-    &:hover {
-      transform: scale(1.05);
-    }
+    transition: transform 0.8s ease;
   }
 }
 
 .post-content {
-  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
 }
 
 .post-meta {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+  align-items: center;
+  margin-top: 1rem;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
+  order: 3;
 }
 
 .post-date {
   font-size: 0.9rem;
-  color: $text-gray;
+  color: rgba(0, 0, 0, 0.54);
+  font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .post-tags {
@@ -209,55 +218,49 @@ body {
   
   .tag {
     padding: 0.25rem 0.75rem;
-    background-color: rgba($cor-primaria, 0.1);
-    color: $cor-primaria;
-    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 0.6);
+    border-radius: 100px;
     font-size: 0.8rem;
-    font-weight: 500;
+    font-weight: 400;
+    letter-spacing: 0;
+    font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 }
 
 .post-title {
-  font-size: 1.6rem;
+  font-family: Georgia, serif;
+  font-size: 2rem;
   font-weight: 700;
-  color: $cor-textDark;
+  color: rgba(0, 0, 0, 0.84);
   margin-bottom: 0.75rem;
   line-height: 1.3;
+  letter-spacing: -0.011em;
+  order: 1;
 }
 
 .post-summary {
-  color: $text-gray;
-  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.1rem;
   line-height: 1.6;
-  margin-bottom: 1.5rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex-grow: 1;
+  margin-bottom: 0.5rem;
+  font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  order: 2;
 }
 
 .read-more {
   display: inline-block;
-  color: $cor-primaria;
-  font-weight: 600;
+  color: #1a8917;
+  font-weight: 500;
   text-decoration: none;
-  position: relative;
   align-self: flex-start;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  order: 4;
   
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: $cor-primaria;
-    transition: width 0.3s ease;
-  }
-  
-  &:hover:after {
-    width: 100%;
+  &:hover {
+    text-decoration: underline;
   }
 }
 
@@ -278,11 +281,11 @@ body {
   
   span {
     display: inline-block;
-    width: 18px;
-    height: 18px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: $cor-primaria;
-    margin: 0 0.5rem;
+    background: rgba(0, 0, 0, 0.54);
+    margin: 0 0.25rem;
     animation: bounce .6s cubic-bezier(0.6, 0.1, 1, 0.4) infinite alternate;
   }
   
@@ -302,68 +305,73 @@ body {
 .error-message, .no-posts {
   text-align: center;
   padding: 4rem 2rem;
-  color: $cor-textDark;
+  color: rgba(0, 0, 0, 0.54);
   font-size: 1.2rem;
-  background-color: rgba(#f5f5f5, 0.8);
-  border-radius: 12px;
+  font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .error-message {
-  background-color: rgba(#ff5757, 0.08);
-  border: 1px solid rgba(#ff5757, 0.2);
+  background-color: rgba(255, 87, 87, 0.05);
+  border: 1px solid rgba(255, 87, 87, 0.1);
   color: #ff5757;
 }
 
 @keyframes bounce {
   to {
-    transform: translateY(16px);
+    transform: translateY(8px);
     opacity: 0.3;
   }
 }
 
 @media screen and (max-width: 768px) {
   .blog-header h1 {
-    font-size: 2.4rem;
-  }
-  
-  .posts-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .post-image {
-    height: 180px;
+    font-size: 2.8rem;
   }
   
   .post-title {
-    font-size: 1.4rem;
+    font-size: 1.7rem;
+  }
+  
+  .post-image {
+    height: 220px;
   }
 }
 
 @media screen and (max-width: 480px) {
   .blog-container {
-    padding: 3rem 1.25rem;
+    padding: 4rem 1.25rem;
   }
   
   .blog-header {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     
     h1 {
-      font-size: 2rem;
+      font-size: 2.3rem;
     }
     
     .subtitle {
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
   }
   
-  .post-content {
-    padding: 1rem;
+  .post-image {
+    height: 200px;
   }
   
-  .post-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+  .post-title {
+    font-size: 1.5rem;
+  }
+  
+  .post-summary {
+    font-size: 1rem;
+  }
+  
+  .posts-grid {
+    gap: 2.5rem;
+  }
+  
+  .post-card {
+    padding-bottom: 2.5rem;
   }
 }
 </style>

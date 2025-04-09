@@ -1,96 +1,158 @@
 <template>
-  <div class="posts-view">
+  <div class="posts-manager">
     <div class="posts-header">
-      <h1>Blog Posts</h1>
-      <router-link to="/dashboard/posts/new" class="btn-create">
-        <i class="icon-plus">+</i> New Post
-      </router-link>
-    </div>
-
-    <div class="filters-bar">
-      <div class="search-box">
-        <input 
-          type="text" 
-          v-model="searchQuery" 
-          placeholder="Search posts..." 
-          @input="handleSearch"
-        >
-      </div>
-      <div class="status-filter">
-        <select v-model="statusFilter" @change="applyFilters">
-          <option value="all">All Posts</option>
-          <option value="published">Published</option>
-          <option value="draft">Drafts</option>
-          <option value="archived">Archived</option>
-        </select>
-      </div>
-    </div>
-
-    <div v-if="loading" class="loading-state">
-      <div class="loading">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-
-    <div v-else-if="error" class="error-message">
-      {{ error }}
-    </div>
-
-    <div v-else class="posts-table-container">
-      <table class="posts-table" v-if="filteredPosts.length > 0">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Created</th>
-            <th>Published</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="post in filteredPosts" :key="post.id">
-            <td class="post-title">
-              <div class="title-cell">
-                <img 
-                  v-if="post.cover_image" 
-                  :src="post.cover_image" 
-                  alt="Cover" 
-                  class="thumbnail"
-                >
-                <div v-else class="no-image">No Image</div>
-                <span>{{ post.title }}</span>
-              </div>
-            </td>
-            <td>
-              <span class="status-badge" :class="post.status">
-                {{ post.status }}
-              </span>
-            </td>
-            <td>{{ formatDate(post.created_at) }}</td>
-            <td>{{ post.published_at ? formatDate(post.published_at) : '-' }}</td>
-            <td class="actions">
-              <button @click="editPost(post)" class="btn-edit">Edit</button>
-              <button @click="confirmDelete(post)" class="btn-delete">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-else class="no-posts">
-        <p>No posts found. Create your first post!</p>
-        <router-link to="/dashboard/posts/new" class="btn-create">
-          Create Post
+      <div class="container">
+        <h1>Your Stories</h1>
+        <router-link to="/dashboard/posts/new" class="new-story-button">
+          Write a story
         </router-link>
       </div>
     </div>
 
-    <div v-if="showDeleteConfirm" class="delete-modal">
+    <div class="content-container">
+      <div class="container">
+        <div class="filters-bar">
+          <div class="search-box">
+            <input 
+              type="text" 
+              v-model="searchQuery" 
+              placeholder="Search your stories..." 
+              @input="handleSearch"
+            >
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          
+          <div class="status-filter">
+            <select v-model="statusFilter" @change="applyFilters">
+              <option value="all">All Stories</option>
+              <option value="published">Published</option>
+              <option value="draft">Drafts</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+        </div>
+        
+        <div v-if="loading" class="loading-state">
+          <div class="loading-spinner">
+            <span></span><span></span><span></span>
+          </div>
+          <p>Loading your stories...</p>
+        </div>
+        
+        <div v-else-if="error" class="error-message">
+          {{ error }}
+        </div>
+        
+        <div v-else>
+          <div v-if="filteredPosts.length > 0" class="posts-list">
+            <article 
+              v-for="post in filteredPosts" 
+              :key="post.id" 
+              class="post-item"
+            >
+              <div class="post-content">
+                <div class="post-info">
+                  <router-link 
+                    :to="`/dashboard/posts/edit/${post.id}`" 
+                    class="post-title"
+                  >
+                    {{ post.title || 'Untitled Story' }}
+                  </router-link>
+                  
+                  <p v-if="post.summary" class="post-summary">{{ post.summary }}</p>
+                  
+                  <div class="post-meta">
+                    <span 
+                      class="post-status" 
+                      :class="post.status"
+                    >
+                      {{ post.status }}
+                    </span>
+                    
+                    <time 
+                      class="post-date"
+                      :title="formatFullDate(post.created_at)"
+                    >
+                      {{ formatDate(post.created_at) }}
+                    </time>
+                    
+                    <time 
+                      v-if="post.published_at" 
+                      class="post-date"
+                      :title="formatFullDate(post.published_at)"
+                    >
+                      Published {{ formatDate(post.published_at) }}
+                    </time>
+                  </div>
+                </div>
+                
+                <div v-if="post.cover_image" class="post-thumbnail">
+                  <img :src="post.cover_image" alt="Cover image">
+                </div>
+              </div>
+              
+              <div class="post-actions">
+                <router-link 
+                  :to="`/dashboard/posts/edit/${post.id}`" 
+                  class="action-button edit-button"
+                >
+                  Edit
+                </router-link>
+                <button 
+                  @click="confirmDelete(post)" 
+                  class="action-button delete-button"
+                >
+                  Delete
+                </button>
+                
+                <a 
+                  v-if="post.status === 'published'" 
+                  :href="`/blog/${post.slug || post.id}`" 
+                  target="_blank" 
+                  class="action-button view-button"
+                >
+                  View
+                </a>
+              </div>
+            </article>
+          </div>
+          
+          <div v-else class="empty-state">
+            <div class="empty-state-content">
+              <svg class="empty-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 14H12M9 17H15M3 10V18C3 19.1046 3.89543 20 5 20H19C20.1046 20 21 19.1046 21 18V10M3 10V6C3 4.89543 3.89543 4 5 4H19C20.1046 4 21 4.89543 21 6V10M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <h2>No stories found</h2>
+              <p>
+                {{ statusFilter !== 'all' ? 
+                  `You don't have any ${statusFilter} stories yet.` : 
+                  'Start writing your first story!' }}
+              </p>
+              <router-link to="/dashboard/posts/new" class="new-story-button">
+                Write a story
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div v-if="showDeleteConfirm" class="modal-overlay" @click.self="cancelDelete">
       <div class="modal-content">
-        <h3>Confirm Delete</h3>
-        <p>Are you sure you want to delete "{{ postToDelete?.title }}"?</p>
-        <p class="warning">This action cannot be undone.</p>
+        <h3>Delete Story</h3>
+        <p>Are you sure you want to delete "<strong>{{ postToDelete?.title }}</strong>"?</p>
+        <p class="warning-text">This action cannot be undone.</p>
+        
         <div class="modal-actions">
-          <button @click="cancelDelete" class="btn-cancel">Cancel</button>
-          <button @click="deletePost" class="btn-confirm-delete">Delete</button>
+          <button @click="cancelDelete" class="modal-button cancel-button">
+            Cancel
+          </button>
+          <button @click="deletePost" class="modal-button delete-button">
+            Delete
+          </button>
         </div>
       </div>
     </div>
@@ -100,7 +162,7 @@
 <script>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { formatDistance } from 'date-fns';
+import { format, formatDistance } from 'date-fns';
 import { supabase } from '../../lib/supabaseClient';
 
 export default {
@@ -173,6 +235,15 @@ export default {
       }
     };
 
+    const formatFullDate = (dateString) => {
+      if (!dateString) return '';
+      try {
+        return format(new Date(dateString), 'MMMM d, yyyy h:mm a');
+      } catch (e) {
+        return dateString;
+      }
+    };
+
     const editPost = (post) => {
       router.push(`/dashboard/posts/edit/${post.id}`);
     };
@@ -228,6 +299,7 @@ export default {
       handleSearch,
       applyFilters,
       formatDate,
+      formatFullDate,
       editPost,
       confirmDelete,
       cancelDelete,
@@ -238,452 +310,491 @@ export default {
 </script>
 
 <style scoped>
-.posts-view {
-  padding: 24px;
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  color: #334155;
+.posts-manager {
+  background-color: #fff;
+  min-height: 100vh;
+  color: rgba(0, 0, 0, 0.84);
+  font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
 .posts-header {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.posts-header .container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 28px;
+  justify-content: space-between;
 }
 
 .posts-header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #0f172a;
+  font-size: 24px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.84);
   margin: 0;
 }
 
-.btn-create {
-  background-color: #3b82f6;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
-}
-
-.btn-create:hover {
-  background-color: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
-}
-
-.btn-create:active {
-  transform: translateY(0);
-}
-
-.icon-plus {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.filters-bar {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.search-box, .status-filter {
-  flex: 1;
-  min-width: 200px;
-}
-
-.search-box input,
-.status-filter select {
-  padding: 10px 14px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
+.new-story-button {
+  display: inline-block;
+  background-color: #1a8917;
+  color: #fff;
   font-size: 14px;
-  width: 100%;
-  transition: all 0.2s ease;
-  background-color: #f8fafc;
-  color: #334155;
-}
-
-.search-box input:focus,
-.status-filter select:focus {
-  outline: none;
-  border-color: #93c5fd;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-  background-color: white;
-}
-
-.search-box input::placeholder {
-  color: #94a3b8;
-}
-
-.posts-table-container {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  overflow: hidden;
-}
-
-.posts-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.posts-table th,
-.posts-table td {
-  padding: 16px;
-  text-align: left;
-}
-
-.posts-table th {
-  background-color: #f8fafc;
-  font-weight: 600;
-  color: #64748b;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.posts-table tr {
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
   transition: background-color 0.2s ease;
 }
 
-.posts-table tr:hover {
-  background-color: #f8fafc;
+.new-story-button:hover {
+  background-color: #0f6d14;
 }
 
-.posts-table td {
-  border-bottom: 1px solid #e2e8f0;
-  color: #475569;
+/* Content Container */
+.content-container {
+  padding: 2rem 0 4rem;
 }
 
-.posts-table tr:last-child td {
+/* Filter Bar */
+.filters-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  flex: 2;
+  min-width: 240px;
+}
+
+.status-filter {
+  flex: 1;
+  min-width: 160px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: #fff;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.status-filter select {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: #fff;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.status-filter select:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Posts List */
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.post-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 1.5rem;
+}
+
+.post-item:last-child {
   border-bottom: none;
 }
 
-.title-cell {
+.post-content {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-.thumbnail {
-  width: 48px;
-  height: 48px;
-  object-fit: cover;
-  border-radius: 6px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+.post-info {
+  flex: 1;
+  min-width: 0;
 }
 
-.no-image {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f1f5f9;
-  border-radius: 6px;
-  font-size: 10px;
-  color: #94a3b8;
+.post-title {
+  display: block;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.84);
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
 }
 
-.post-title span {
-  font-weight: 500;
-  color: #334155;
+.post-title:hover {
+  color: rgba(0, 0, 0, 0.68);
+}
+
+.post-summary {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+  margin: 0.5rem 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.status-badge {
-  display: inline-flex;
+.post-meta {
+  display: flex;
   align-items: center;
-  padding: 6px 10px;
-  border-radius: 9999px;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 13px;
+}
+
+.post-status {
+  padding: 2px 8px;
+  border-radius: 100px;
   font-size: 12px;
   font-weight: 500;
-  text-transform: capitalize;
-  letter-spacing: 0.02em;
 }
 
-.status-badge.published {
-  background-color: rgba(16, 185, 129, 0.1);
-  color: #059669;
+.post-status.published {
+  background-color: rgba(26, 137, 23, 0.1);
+  color: #1a8917;
 }
 
-.status-badge.draft {
-  background-color: rgba(245, 158, 11, 0.1);
-  color: #d97706;
+.post-status.draft {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.6);
 }
 
-.status-badge.archived {
-  background-color: rgba(107, 114, 128, 0.1);
-  color: #4b5563;
+.post-status.archived {
+  background-color: rgba(117, 117, 117, 0.1);
+  color: #757575;
 }
 
-.actions {
+.post-date {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.post-thumbnail {
+  width: 120px;
+  height: 90px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.post-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-actions {
   display: flex;
-  gap: 8px;
-  justify-content: flex-end;
+  gap: 0.75rem;
 }
 
-.btn-edit,
-.btn-delete {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
+.action-button {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 100px;
   font-size: 13px;
   font-weight: 500;
+  text-align: center;
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
   transition: all 0.2s ease;
 }
 
-.btn-edit {
-  background-color: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+.action-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.8);
 }
 
-.btn-edit:hover {
-  background-color: rgba(59, 130, 246, 0.2);
+.action-button.edit-button {
+  color: #1a8917;
+  border-color: rgba(26, 137, 23, 0.4);
 }
 
-.btn-delete {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
+.action-button.edit-button:hover {
+  background-color: rgba(26, 137, 23, 0.05);
+  border-color: #1a8917;
 }
 
-.btn-delete:hover {
-  background-color: rgba(239, 68, 68, 0.2);
+.action-button.delete-button {
+  color: #c62828;
+  border-color: rgba(198, 40, 40, 0.4);
 }
 
-.no-posts {
-  padding: 60px 20px;
-  text-align: center;
-  color: #64748b;
+.action-button.delete-button:hover {
+  background-color: rgba(198, 40, 40, 0.05);
+  border-color: #c62828;
+}
+
+.action-button.view-button {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Loading State */
+.loading-state {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
+  padding: 4rem 0;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.54);
 }
 
-.no-posts p {
-  font-size: 16px;
-  margin-bottom: 8px;
-}
-
-.no-posts .btn-create {
-  margin-top: 8px;
-}
-
-.loading-state {
+.loading-spinner {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 240px;
+  margin-bottom: 1rem;
 }
 
-.loading span {
+.loading-spinner span {
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: #3b82f6;
-  margin: 0 6px;
-  animation: bounce 0.6s cubic-bezier(0.6, 0.1, 1, 0.4) infinite alternate;
-  opacity: 0.7;
+  background: rgba(0, 0, 0, 0.3);
+  margin: 0 4px;
+  animation: bounce .6s cubic-bezier(0.6, 0.1, 1, 0.4) infinite alternate;
 }
 
-.loading span:nth-child(1) {
-  animation-delay: 0.1s;
+.loading-spinner span:nth-child(1) {
+  animation-delay: .1s;
 }
 
-.loading span:nth-child(2) {
-  animation-delay: 0.2s;
+.loading-spinner span:nth-child(2) {
+  animation-delay: .2s;
 }
 
-.loading span:nth-child(3) {
-  animation-delay: 0.3s;
+.loading-spinner span:nth-child(3) {
+  animation-delay: .3s;
 }
 
 @keyframes bounce {
   to {
-    transform: translateY(12px);
+    transform: translateY(8px);
     opacity: 0.3;
   }
 }
 
+/* Error Message */
 .error-message {
-  background-color: #fee2e2;
-  color: #b91c1c;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 24px;
+  padding: 2rem;
+  background-color: rgba(198, 40, 40, 0.05);
+  color: #c62828;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(185, 28, 28, 0.1);
+  border-radius: 4px;
+  margin-bottom: 2rem;
 }
 
-.delete-modal {
+/* Empty State */
+.empty-state {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.empty-state-content {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.empty-icon {
+  color: rgba(0, 0, 0, 0.2);
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1.5rem;
+}
+
+.empty-state h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.84);
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  color: rgba(0, 0, 0, 0.54);
+  margin-bottom: 2rem;
+}
+
+/* Delete Modal */
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(15, 23, 42, 0.7);
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  z-index: 10;
+  padding: 1rem;
 }
 
 .modal-content {
-  background-color: white;
-  border-radius: 12px;
-  padding: 28px;
-  width: 90%;
-  max-width: 420px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  background-color: #fff;
+  border-radius: 4px;
+  max-width: 400px;
+  width: 100%;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .modal-content h3 {
-  margin-top: 0;
-  color: #0f172a;
   font-size: 20px;
   font-weight: 600;
+  color: rgba(0, 0, 0, 0.84);
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 .modal-content p {
-  margin: 16px 0;
-  color: #475569;
+  color: rgba(0, 0, 0, 0.68);
+  margin-bottom: 0.5rem;
 }
 
-.modal-content .warning {
-  color: #ef4444;
-  font-size: 14px;
+.warning-text {
+  color: #c62828;
   font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 1.5rem;
 }
 
 .modal-actions {
   display: flex;
+  gap: 1rem;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 28px;
 }
 
-.btn-cancel,
-.btn-confirm-delete {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 6px;
+.modal-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.btn-cancel {
-  background-color: #f1f5f9;
-  color: #475569;
+.modal-button.cancel-button {
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 0.6);
 }
 
-.btn-cancel:hover {
-  background-color: #e2e8f0;
+.modal-button.cancel-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.8);
 }
 
-.btn-confirm-delete {
-  background-color: #ef4444;
-  color: white;
-  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+.modal-button.delete-button {
+  background-color: #c62828;
+  color: #fff;
+  border: none;
 }
 
-.btn-confirm-delete:hover {
-  background-color: #dc2626;
-  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.25);
+.modal-button.delete-button:hover {
+  background-color: #b71c1c;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
-  .posts-view {
-    padding: 16px;
-  }
-
-  .posts-header {
+  .post-content {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 20px;
   }
   
-  .posts-header h1 {
-    font-size: 24px;
-  }
-  
-  .btn-create {
+  .post-thumbnail {
     width: 100%;
-    justify-content: center;
+    height: 180px;
+    order: -1;
+    margin-bottom: 1rem;
   }
   
   .filters-bar {
     flex-direction: column;
-    width: 100%;
-    gap: 12px;
+    gap: 1rem;
   }
   
   .search-box, .status-filter {
     width: 100%;
   }
   
-  .posts-table th:nth-child(3),
-  .posts-table td:nth-child(3),
-  .posts-table th:nth-child(4),
-  .posts-table td:nth-child(4) {
-    display: none;
+  .post-actions {
+    flex-wrap: wrap;
   }
   
-  .title-cell {
-    flex-direction: row;
-    align-items: center;
+  .action-button {
+    flex: 1;
   }
+}
 
-  .thumbnail, .no-image {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .actions {
+@media (max-width: 480px) {
+  .posts-header .container {
     flex-direction: column;
-    gap: 6px;
+    align-items: flex-start;
+    gap: 1rem;
   }
   
-  .btn-edit, .btn-delete {
+  .post-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+  
+  .modal-button {
     width: 100%;
     text-align: center;
-  }
-  
-  .modal-content {
-    padding: 20px;
-    width: 95%;
   }
 }
 </style>
