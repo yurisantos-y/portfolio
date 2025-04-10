@@ -53,31 +53,44 @@
   </div>
 </template>
 
+<script>
+// Using regular script tag instead of script setup to avoid TypeScript errors
+// with the global $t function
+export default {
+  name: 'CardHome'
+}
+</script>
+
 <style lang="scss">
 @import '../scss/style.scss';
 
 .card-container {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 92%;
-  overflow: hidden;
-  border-radius: 16px;
+  top: 90%;
+  overflow: visible;
 }
 
 .cardProjeto {
   position: relative;
   width: 450px;
-  height: 450px;
+  height: 400px;
   max-width: 85vw;
   border-radius: 16px;
   margin: 0 10px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease-in-out;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.cardProjeto:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
 }
 
 .card-image {
@@ -86,128 +99,147 @@
   object-fit: cover;
   border-radius: 16px;
   position: absolute;
-  transition: transform 0.3s ease-in;
+  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), filter 0.5s ease;
 }
 
 .cardProjeto:hover .card-image {
-  transform: scale(1.2);
-  filter: blur(10px) brightness(0.5);
+  transform: scale(1.05);
+  filter: brightness(0.3);
 }
 
 .cardProjeto .tela {
-  width: 95%;
-  height: 170px;
-  backdrop-filter: blur(10px);
-  margin: auto;
-  margin-top: 10px;
-  border-radius: 10px;
-  border: 0.5px solid $cor-light;
-  z-index: 2;
-  animation: fadeInUp .3s ease-in;
-}
-
-.cardProjeto .description {
   width: 100%;
-  height: 260px;
-  backdrop-filter: blur(90px);
-  margin: auto;
-  margin-top: 10px;
-  border-radius: 16px;
-  color: $cor-light;
-  z-index: 3;
-  animation: fadeInUp .3s ease-in;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 2;
 }
 
-.cardProjeto .description,
-.cardProjeto .tela {
-  display: none;
-}
-
-.cardProjeto:hover .tela,
-.cardProjeto:hover .description {
-  display: block;
+.cardProjeto:hover .tela {
+  opacity: 1;
 }
 
 .cardProjeto .conteudoTela {
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
+  align-items: flex-start; /* Mantém o alinhamento no topo */
+  justify-content: center; /* Centraliza horizontalmente */
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 6rem; /* Alterado para 1rem conforme solicitado */
 }
 
 .cardProjeto .btnTela {
-  border: 0.5px solid $cor-light;
-  padding: 10px;
+  border: 1px solid $cor-light;
+  padding: 12px 24px;
   background-color: transparent;
   color: $cor-light;
   border-radius: 6px;
-  transition: .3s;
-  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.cardProjeto:hover .btnTela {
+  transform: translateY(0);
+  opacity: 1;
+  transition-delay: 0.1s;
 }
 
 .cardProjeto .btnTela:hover {
-  backdrop-filter: blur(2px);
-  scale: 1.1;
+  background-color: $cor-light;
+  color: $cor-primaria;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
 }
 
 .cardProjeto .description {
-  text-align: center;
+  position: absolute;
+  width: 100%;
+  padding: 2rem;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+  color: $cor-light;
+  z-index: 3;
+  transform: translateY(70px);
+  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  text-align: left;
 }
 
-.cardProjeto .description h1 {
-  font-size: 2rem;
-  font-weight: 500;
+.cardProjeto:hover .description {
+  transform: translateY(0);
+}
+
+.cardProjeto .description h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: $cor-light;
+  letter-spacing: -0.3px;
 }
 
 .cardProjeto .description p {
-  margin-bottom: 2%;
-  font-size: 0.9em;
-  font-weight: 300;
-  text-align: left;
-  padding: 12px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.5;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease, opacity 0.6s ease, margin 0.6s ease;
 }
 
-.cardProjeto #listaDescription {
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  margin: auto;
-}
-
-.cardProjeto #listaDescription ul {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.cardProjeto #listaDescription li {
-  display: inline-block;
-  background-color: $bgcard;
-  width: 170px;
-  height: 32px;
-  border-radius: 6px;
-  margin: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.cardProjeto:hover .description p {
+  max-height: 100px;
+  opacity: 1;
+  margin-bottom: 1rem;
 }
 
 .description-list {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 0 auto;
-  list-style: none;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1rem;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  transition-delay: 0s;
+}
+
+.cardProjeto:hover .description-list {
+  transform: translateY(0);
+  opacity: 1;
+  transition-delay: 0.2s;
 }
 
 .description-list li {
-  background-color: $cor-textDark;
-  width: 95px;
-  border-radius: 5px;
+  padding: 4px 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  color: $cor-light;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  list-style: none;
+}
+
+.description-list li:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-3px);
 }
 
 @keyframes fadeInUp {

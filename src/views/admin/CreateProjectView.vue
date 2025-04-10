@@ -656,10 +656,16 @@ export default {
 
 .project-card-preview {
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.project-card-preview:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .preview-card {
@@ -668,15 +674,37 @@ export default {
 
 .preview-image {
   width: 100%;
-  height: 160px;
+  height: 180px;
   background-color: #f5f5f5;
   overflow: hidden;
+  position: relative;
+}
+
+.preview-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%);
+  opacity: 0.2;
+  transition: opacity 0.4s ease;
 }
 
 .preview-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.project-card-preview:hover .preview-image img {
+  transform: scale(1.05);
+}
+
+.project-card-preview:hover .preview-image::after {
+  opacity: 0.4;
 }
 
 .preview-placeholder {
@@ -686,16 +714,37 @@ export default {
   justify-content: center;
   color: rgba(0, 0, 0, 0.3);
   font-style: italic;
+  background: linear-gradient(120deg, #f0f0f0 30%, #fafafa 38%, #fafafa 40%, #f0f0f0 48%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .preview-details {
-  padding: 16px;
+  padding: 1.5rem;
+  background-color: #fff;
 }
 
 .preview-details h2 {
-  margin: 0 0 8px 0;
-  font-size: 18px;
+  margin: 0 0 12px 0;
+  font-size: 16px;
   font-weight: 600;
+  color: rgba(0, 0, 0, 0.84);
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1; /* Added standard property for compatibility */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .preview-details p {
@@ -705,6 +754,11 @@ export default {
   max-height: 80px;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3; /* Added standard property for compatibility */
+  -webkit-box-orient: vertical;
 }
 
 .preview-techs {
@@ -714,12 +768,21 @@ export default {
 }
 
 .preview-tech {
-  display: inline-block;
-  padding: 4px 8px;
-  background-color: rgba(0, 0, 0, 0.04);
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: rgba(237, 76, 92, 0.08);
+  color: #ed4c5c;
   border-radius: 100px;
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+.project-card-preview:hover .preview-tech {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
 .preview-tech-placeholder {

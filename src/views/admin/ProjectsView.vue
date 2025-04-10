@@ -408,21 +408,25 @@ export default {
 
 /* Projects List */
 .projects-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.5rem;
 }
 
 .project-item {
-  padding: 1.5rem;
+  padding: 0;
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  transition: box-shadow 0.2s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .project-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.1);
 }
 
 .project-content {
@@ -432,30 +436,70 @@ export default {
 
 .project-info {
   flex: 1;
+  padding: 1.5rem;
+}
+
+.project-thumbnail {
+  width: 140px;
+  height: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.project-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.project-item:hover .project-thumbnail img {
+  transform: scale(1.05);
 }
 
 .project-title {
   display: block;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.84);
   text-decoration: none;
   margin-bottom: 0.5rem;
   line-height: 1.3;
+  transition: color 0.2s ease;
+  position: relative;
+  padding-bottom: 0.25rem;
 }
 
 .project-title:hover {
-  color: rgba(0, 0, 0, 0.68);
+  color: #1a8917;
+}
+
+.project-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #1a8917;
+  transition: width 0.3s ease;
+}
+
+.project-title:hover::after {
+  width: 30px;
 }
 
 .project-summary {
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.54);
-  margin: 0.5rem 0;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0.75rem 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2; /* Added standard property for compatibility */
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-height: 1.5;
 }
 
 .project-meta {
@@ -463,27 +507,47 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   font-size: 13px;
 }
 
 .project-date {
   color: rgba(0, 0, 0, 0.54);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.project-date::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  margin-right: 8px;
 }
 
 .project-techs {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
 .tech-tag {
   display: inline-block;
   padding: 2px 8px;
-  background-color: rgba(26, 137, 23, 0.1);
+  background-color: rgba(26, 137, 23, 0.08);
   color: #1a8917;
   border-radius: 100px;
   font-size: 12px;
   font-weight: 500;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.tech-tag:hover {
+  transform: translateY(-2px);
+  background-color: rgba(26, 137, 23, 0.12);
 }
 
 .more-techs {
@@ -491,66 +555,59 @@ export default {
   font-size: 12px;
 }
 
-.project-thumbnail {
-  width: 120px;
-  height: 90px;
-  flex-shrink: 0;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.project-thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .project-actions {
   display: flex;
   gap: 0.75rem;
-  margin-top: 1.25rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.01);
 }
 
 .action-button {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 16px;
+  border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
   text-align: center;
   cursor: pointer;
   text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.edit-button {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.6);
+.action-button.edit-button {
+  background-color: rgba(26, 137, 23, 0.08);
+  color: #1a8917;
   border: none;
 }
 
-.edit-button:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.8);
+.action-button.edit-button:hover {
+  background-color: rgba(26, 137, 23, 0.15);
+  transform: translateY(-2px);
 }
 
-.delete-button {
-  background-color: rgba(198, 40, 40, 0.1);
+.action-button.delete-button {
+  background-color: rgba(198, 40, 40, 0.08);
   color: #c62828;
   border: none;
 }
 
-.delete-button:hover {
+.action-button.delete-button:hover {
   background-color: rgba(198, 40, 40, 0.15);
+  transform: translateY(-2px);
 }
 
-.view-button {
-  background-color: transparent;
-  color: #1a8917;
-  border: 1px solid rgba(26, 137, 23, 0.3);
+.action-button.view-button {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.6);
+  border: none;
 }
 
-.view-button:hover {
-  background-color: rgba(26, 137, 23, 0.05);
+.action-button.view-button:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
 /* Empty State */
