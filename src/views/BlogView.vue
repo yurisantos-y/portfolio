@@ -113,8 +113,8 @@ body {
 
 .blog-container {
   max-width: 1000px;
-  margin: 0 auto;
-  padding: 5rem 2rem;
+  margin: auto;
+  padding: 10rem 2rem;
   min-height: 80vh;
 }
 
