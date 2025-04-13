@@ -1,15 +1,11 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
+import supabase from '../utils/supabaseClient'
 
 export const authService = {
-  async loginWithGoogle() {
+  async loginWithGoogle(redirectPath = '/dashboard') {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/dashboard`
+        redirectTo: `${window.location.origin}${redirectPath}`
       }
     })
     

@@ -35,7 +35,15 @@ if (!supabaseUrl || !supabaseAnonKey) {
   };
 } else {
   // Create the real Supabase client if credentials are available
-  supabase = createClient(supabaseUrl, supabaseAnonKey);
+  supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      // Use current origin to ensure redirect works in all environments
+      redirectTo: `${window.location.origin}`
+    }
+  });
 }
 
 export { supabase };
