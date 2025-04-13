@@ -2,10 +2,16 @@ import supabase from '../utils/supabaseClient'
 
 export const authService = {
   async loginWithGoogle(redirectPath = '/dashboard') {
+    // Define the correct redirect URL based on the environment
+    const isProduction = window.location.hostname !== 'localhost';
+    const redirectUrl = isProduction 
+      ? `https://yurisantos-y.netlify.app${redirectPath}` 
+      : `${window.location.origin}${redirectPath}`;
+    
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}${redirectPath}`
+        redirectTo: redirectUrl
       }
     })
     
