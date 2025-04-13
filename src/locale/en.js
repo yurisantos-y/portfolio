@@ -106,5 +106,18 @@ export const en = {
     loginActivity: 'Logged in',
     projectUpdated: 'Project updated',
     messageReceived: 'New message received'
+  },
+
+  blog: {
+    title: 'Blog',
+    loading: 'Loading posts...',
+    noPosts: 'No posts found',
+  },
+
+  projects: {
+    title: 'Projects',
+    loading: 'Loading projects...',
+    noProjects: 'No projects found',
+    checkBack: 'Check back later',
   }
 }

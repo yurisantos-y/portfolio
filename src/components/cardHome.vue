@@ -23,8 +23,7 @@
         </div>
       </div>
     </div>
-    
-    <!-- Repeat the card structure for other projects -->
+
     <div class="cardProjeto">
       <div class="card-content">
         <img src="../assets/projeto2.jpeg" alt="Projeto 2" class="card-image" id="secondProject">

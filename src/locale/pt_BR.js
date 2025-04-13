@@ -105,6 +105,20 @@ export const pt_BR = {
     recentActivity: 'Atividade Recente',
     loginActivity: 'Conectado',
     projectUpdated: 'Projeto atualizado',
-    messageReceived: 'Nova mensagem recebida'
+    messageReceived: 'Nova mensagem recebida',
+  },
+
+  blog: {
+    title: 'Blog',
+    loading: 'Carregando posts...',
+    noPosts: 'Nenhum post encontrado',
+  },
+
+  projects: {
+    title: 'Projetos',
+    loading: 'Carregando projetos...',
+    noProjects: 'Nenhum projeto encontrado',
+    checkBack: 'Verifique novamente mais tarde',
   }
+
 }

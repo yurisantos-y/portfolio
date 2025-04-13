@@ -391,7 +391,6 @@ onMounted(() => {
 }
 
 .corpo {
-  margin-top: 400px;
   background-color: $cor-dark;
   color: $cor-light;
 }
@@ -400,7 +399,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: 20% 0 auto;
 }
 
 .btnProjects a {
