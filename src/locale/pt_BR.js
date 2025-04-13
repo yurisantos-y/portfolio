@@ -30,7 +30,7 @@ export const pt_BR = {
     ts: 'TypeScript, um superset do JavaScript, introduz tipagem estática, proporcionando maior robustez ao desenvolvimento e detecção de erros mais eficiente.',
     js: 'JavaScript, linguagem de programação, adiciona dinamismo às páginas web, permitindo a implementação de elementos interativos.',
     sass: 'Sass, um pré-processador CSS, acrescenta recursos como variáveis e mixins para facilitar a manutenção e organização do código estilizado.',
-    mysql: 'MySQL, sistema de gerenciamento de banco de dados relacional, destaca-se pela eficiência na armazenagem e recuperação de dados.',
+    postgresql: 'PostgreSQL, sistema de gerenciamento de banco de dados relacional de código aberto, destaca-se pela confiabilidade, robustez de recursos e eficiência na armazenagem e recuperação de dados.',
     python: 'Python, linguagem de programação versátil e legível, é amplamente utilizada em scripts do lado do servidor, automação de tarefas e desenvolvimento de APIs.',
     figma: 'Figma, ferramenta de design baseada na web, é essencial na prototipagem e design de interfaces, oferecendo colaboração em tempo real.',
     flutter: 'Flutter, framework do Google, permite a criação de aplicativos multiplataforma com uma única base de código, oferecendo alta performance e design personalizado.',

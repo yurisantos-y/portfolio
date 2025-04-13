@@ -219,8 +219,8 @@ onMounted(() => {
         <div class="tech-item" style="top: 25%; left: 75%; --order: 7;" @mouseover="hideSpanDefault($t('know.python'))" @mouseleave="showSpanDefaultOnMouseLeave">
           <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" />
         </div>
-        <div class="tech-item" style="top: 55%; left: 70%; --order: 8;" @mouseover="hideSpanDefault($t('know.mysql'))" @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" />
+        <div class="tech-item" style="top: 55%; left: 70%; --order: 8;" @mouseover="hideSpanDefault($t('know.postgresql'))" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" />
         </div>
         <div class="tech-item" style="top: 70%; left: 60%; --order: 9;" @mouseover="hideSpanDefault($t('know.figma'))" @mouseleave="showSpanDefaultOnMouseLeave">
           <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" />

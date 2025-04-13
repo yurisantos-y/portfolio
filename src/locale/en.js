@@ -30,7 +30,7 @@ export const en = {
     ts: 'TypeScript, a superset of JavaScript, introduces static typing, providing greater robustness to development and more efficient error detection.',
     js: 'JavaScript, a programming language, adds dynamism to web pages, allowing the implementation of interactive elements.',
     sass: 'Sass, a CSS preprocessor, adds features such as variables and mixins to facilitate code maintenance and organization.',
-    mysql: 'MySQL, a relational database management system, stands out for its efficiency in storing and retrieving data.',
+    postgresql: 'PostgreSQL, a powerful open-source object-relational database system, is known for its reliability, feature robustness, and performance in storing and retrieving data.',
     python: 'Python, a versatile and readable programming language, is widely used in server-side scripts, task automation, and API development.',
     figma: 'Figma, a web-based design tool, is essential in prototyping and interface design, offering real-time collaboration.',
     flutter: 'Flutter, a Google framework, allows the creation of cross-platform applications with a single codebase, offering high performance and customized design.',
