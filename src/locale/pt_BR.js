@@ -32,7 +32,14 @@ export const pt_BR = {
     sass: 'Sass, um pré-processador CSS, acrescenta recursos como variáveis e mixins para facilitar a manutenção e organização do código estilizado.',
     mysql: 'MySQL, sistema de gerenciamento de banco de dados relacional, destaca-se pela eficiência na armazenagem e recuperação de dados.',
     python: 'Python, linguagem de programação versátil e legível, é amplamente utilizada em scripts do lado do servidor, automação de tarefas e desenvolvimento de APIs.',
-    figma: 'Figma, ferramenta de design baseada na web, é essencial na prototipagem e design de interfaces, oferecendo colaboração em tempo real.'
+    figma: 'Figma, ferramenta de design baseada na web, é essencial na prototipagem e design de interfaces, oferecendo colaboração em tempo real.',
+    flutter: 'Flutter, framework do Google, permite a criação de aplicativos multiplataforma com uma única base de código, oferecendo alta performance e design personalizado.',
+    tailwind: 'Tailwind CSS, framework utilitário, facilita a criação de designs personalizados através de classes pré-definidas, acelerando o processo de desenvolvimento.',
+    nextjs: 'Next.js, framework React, otimiza a criação de aplicações web com renderização do lado do servidor, gerenciamento de rotas e muitos outros recursos avançados.',
+    dart: 'Dart, linguagem de programação otimizada para criação de interfaces de usuário, é usada principalmente com Flutter para desenvolvimento multiplataforma.',
+    firebase: 'Firebase, plataforma do Google, oferece diversas ferramentas para desenvolvimento como banco de dados em tempo real, autenticação e hospedagem.',
+    supabase: 'Supabase, alternativa open source ao Firebase, fornece backend instantâneo com banco de dados PostgreSQL, autenticação, armazenamento e funções em tempo real.',
+    prisma: 'Prisma, ORM de próxima geração, facilita o acesso e a manipulação de bancos de dados com uma sintaxe simples e tipagem forte para JavaScript e TypeScript.'
   },
 
   experience: {
@@ -45,6 +52,7 @@ export const pt_BR = {
     titlebtn: 'Visitar Website',
     linkbioDesc: 'Este projeto foi criado com o objetivo de centralizar de maneira fácil e acessível os links para os meus contatos e redes sociais.',
     prosperecfDesc: 'Este projeto foi desenvolvido durante o meu estágio e refere-se a uma página de consultoria criada para atender às necessidades específicas do proprietário da empresa.',
+    seeMore: 'Veja mais',
   },
 
   textAbout: {

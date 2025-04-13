@@ -32,7 +32,14 @@ export const en = {
     sass: 'Sass, a CSS preprocessor, adds features such as variables and mixins to facilitate code maintenance and organization.',
     mysql: 'MySQL, a relational database management system, stands out for its efficiency in storing and retrieving data.',
     python: 'Python, a versatile and readable programming language, is widely used in server-side scripts, task automation, and API development.',
-    figma: 'Figma, a web-based design tool, is essential in prototyping and interface design, offering real-time collaboration.'
+    figma: 'Figma, a web-based design tool, is essential in prototyping and interface design, offering real-time collaboration.',
+    flutter: 'Flutter, a Google framework, allows the creation of cross-platform applications with a single codebase, offering high performance and customized design.',
+    tailwind: 'Tailwind CSS, a utility framework, facilitates the creation of custom designs through pre-defined classes, accelerating the development process.',
+    nextjs: 'Next.js, a React framework, optimizes the creation of web applications with server-side rendering, route management, and many other advanced features.',
+    dart: 'Dart, a programming language optimized for creating user interfaces, is primarily used with Flutter for cross-platform development.',
+    firebase: 'Firebase, a Google platform, offers various development tools such as real-time database, authentication, and hosting.',
+    supabase: 'Supabase, an open-source alternative to Firebase, provides instant backend with PostgreSQL database, authentication, storage, and real-time functions.',
+    prisma: 'Prisma, a next-generation ORM, facilitates database access and manipulation with a simple syntax and strong typing for JavaScript and TypeScript.'
   },
 
   experience: {
@@ -45,6 +52,7 @@ export const en = {
     titlebtn: 'Visit Website',
     linkbioDesc: 'This project was created with the aim of centralizing my contacts and social media links in an easy and accessible way.',
     prosperecfDesc: 'This project was developed during my internship and refers to a consulting page created to meet the specific needs of the company owner.',
+    seeMore: 'See More',
   },
 
   textAbout: {

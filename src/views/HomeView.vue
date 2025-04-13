@@ -5,13 +5,16 @@ import { ref, onMounted } from 'vue'
 const showSpanDefault = ref(true);
 const aboutVisible = ref(false);
 const experienceVisible = ref(false);
+const currentTechDescription = ref('');
 
-const hideSpanDefault = () => {
+const hideSpanDefault = (description) => {
   showSpanDefault.value = false;
+  currentTechDescription.value = description;
 }
 
 const showSpanDefaultOnMouseLeave = () => {
   showSpanDefault.value = true;
+  currentTechDescription.value = '';
 }
 
 onMounted(() => {
@@ -150,12 +153,7 @@ onMounted(() => {
   <div class="corpo">
 
     <div class="btnProjects">
-      <button><a href="/projects">Veja mais</a></button>
-
-      <img height="20px" width="20px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg" />
-          
-      <i class="devicon-vuejs-plain"></i>
-          
+      <button><a href="/projects">{{ $t('card.seeMore') }}</a></button>          
     </div>
 
     <div class="conteudoAbout" :class="{ 'animate__animated animate__fadeIn': aboutVisible }">
@@ -198,48 +196,55 @@ onMounted(() => {
     <div class="conhecimento">
       <h2>{{ $t('know.titleKnow') }}</h2>
       <span v-if="showSpanDefault" id="spanDefault">{{ $t('know.textDefault') }}</span>
-      <div class="tech-grid">
-        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-          
-          
+      <span v-else id="spanDefault">{{ currentTechDescription }}</span>
+      <div class="tech-container">
+        <div class="tech-item" style="top: 20%; left: 15%; --order: 1;" @mouseover="hideSpanDefault($t('know.vue'))" @mouseleave="showSpanDefaultOnMouseLeave">
           <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg" />
-          
-          
-          <span class="tooltip">{{ $t('know.vue') }}</span>
         </div>
-        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-          <i class="devicon-html5-plain"></i>
-          <span class="tooltip">{{ $t('know.html') }}</span>
+        <div class="tech-item" style="top: 28%; left: 35%; --order: 2;" @mouseover="hideSpanDefault($t('know.html'))" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" />
         </div>
-        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-          <i class="devicon-css3-plain"></i>
-          <span class="tooltip">{{ $t('know.css') }}</span>
+        <div class="tech-item" style="top: 45%; left: 22%;" @mouseover="hideSpanDefault($t('know.css'))" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" />
         </div>
-        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-          <i class="devicon-typescript-plain"></i>
-          <span class="tooltip">{{ $t('know.ts') }}</span>
+        <div class="tech-item" style="top: 18%; left: 60%; --order: 4;" @mouseover="hideSpanDefault($t('know.ts'))" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" />
         </div>
-        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-          <i class="devicon-javascript-plain"></i>
-          <span class="tooltip">{{ $t('know.js') }}</span>
+        <div class="tech-item" style="top: 38%; left: 52%; --order: 5;" @mouseover="hideSpanDefault($t('know.js'))" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" />
         </div>
-        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-          <i class="devicon-sass-original"></i>
-          <span class="tooltip">{{ $t('know.sass') }}</span>
+        <div class="tech-item" style="top: 60%; left: 40%; --order: 6;" @mouseover="hideSpanDefault($t('know.sass'))" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.svg" />
         </div>
-        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-          <i class="devicon-python-plain"></i>
-          <span class="tooltip">{{ $t('know.python') }}</span>
+        <div class="tech-item" style="top: 25%; left: 75%; --order: 7;" @mouseover="hideSpanDefault($t('know.python'))" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" />
         </div>
-        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-          <i class="devicon-mysql-plain"></i>
-          <span class="tooltip">{{ $t('know.mysql') }}</span>
+        <div class="tech-item" style="top: 55%; left: 70%; --order: 8;" @mouseover="hideSpanDefault($t('know.mysql'))" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" />
         </div>
-        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-          
-          <i class="devicon-figma-plain"></i>
-          
-          <span class="tooltip">{{ $t('know.figma') }}</span>
+        <div class="tech-item" style="top: 70%; left: 60%; --order: 9;" @mouseover="hideSpanDefault($t('know.figma'))" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" />
+        </div>
+        <div class="tech-item" style="top: 72%; left: 22%; --order: 10;" @mouseover="hideSpanDefault($t('know.flutter') || 'Flutter')" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg" />
+        </div>
+        <div class="tech-item" style="top: 85%; left: 40%; --order: 11;" @mouseover="hideSpanDefault($t('know.tailwind') || 'Tailwind CSS')" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" />
+        </div>
+        <div class="tech-item" style="top: 50%; left: 85%; --order: 12;" @mouseover="hideSpanDefault($t('know.nextjs') || 'Next.js')" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" />
+        </div>
+        <div class="tech-item" style="top: 80%; left: 75%; --order: 13;" @mouseover="hideSpanDefault($t('know.dart') || 'Dart')" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg" />
+        </div>
+        <div class="tech-item" style="top: 15%; left: 88%; --order: 14;" @mouseover="hideSpanDefault($t('know.firebase') || 'Firebase')" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-plain.svg" />
+        </div>
+        <div class="tech-item" style="top: 90%; left: 55%; --order: 15;" @mouseover="hideSpanDefault($t('know.supabase') || 'Supabase')" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg" />
+        </div>
+        <div class="tech-item" style="top: 75%; left: 88%; --order: 16;" @mouseover="hideSpanDefault($t('know.prisma') || 'Prisma')" @mouseleave="showSpanDefaultOnMouseLeave">
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg" />
         </div>
       </div>
       <div class="bolaConhecimento"></div>
@@ -545,100 +550,9 @@ onMounted(() => {
   border: 0.5px solid $cor-light;
   color: $cor-light;
   cursor: pointer;
-  animation: appear linear both;
-  animation-timeline: view(block);
-  animation-range: cover 0% cover 15%;
-}
-
-.btnVue {
-  top: 12%;
-  left: 67%;
-}
-
-.btnHtml {
-  top: 20%;
-  left: 79%;
-}
-
-.btnCss {
-  top: 32%;
-  left: 69%;
-}
-
-.btnTs {
-  top: 40%;
-  left: 82%;
-}
-
-.btnJs {
-  top: 50%;
-  left: 63%;
-}
-
-.btnSass {
-  top: 58%;
-  left: 74%;
-}
-
-.btnPython {
-  top: 67%;
-  left: 84%;
-}
-
-.btnMysql {
-  top: 70%;
-  left: 65%;
-}
-
-.btnFigma {
-  top: 83%;
-  left: 75%;
-}
-
-.btnMysql img {
-  max-width: 70px;
-}
-
-.btnJs img,
-.btnTs img {
-  max-width: 38px;
-  margin-top: 50%;
-  margin-left: 32%;
-}
-
-.btnVue svg,
-.btnSass svg {
-  max-width: 55px;
-}
-
-.divVue p,
-.divTs p,
-.divJs p,
-.divFigma p,
-.divHtml p,
-.divmySql p,
-.divPython p,
-.divSass p,
-.divCss p {
-  display: none;
-  position: absolute;
-}
-
-.divVue:hover p,
-.divTs:hover p,
-.divJs:hover p,
-.divFigma:hover p,
-.divHtml:hover p,
-.divmySql:hover p,
-.divPython:hover p,
-.divSass:hover p,
-.divCss:hover p {
-  display: block;
-  position: absolute;
-  font-size: 1rem;
-  text-align: left;
-  margin-left: 12%;
-  max-width: 40%;
+  animation: appear 0.6s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
 }
 
 
@@ -1001,10 +915,6 @@ onMounted(() => {
     margin: 30px auto;
   }
 
-  .card img{
-    
-  }
-
   .conteudoAbout .text-container,
   .experiencia .text-container,
   .conteudoAbout .card,
@@ -1231,7 +1141,6 @@ onMounted(() => {
 .conteudoAbout .card:hover,
 .experiencia .card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
 }
 
 .tech-grid {
@@ -1331,6 +1240,52 @@ onMounted(() => {
   
   .tech-item i {
     font-size: 30px;
+  }
+}
+
+.tech-container {
+  position: relative;
+  width: 90%;
+  height: 70vh;
+  margin: 0 auto;
+}
+
+.tech-container .tech-item {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background-color: $transparente;
+  border-radius: 10px;
+  border: 0.5px solid $cor-light;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  animation: appear 0.8s ease-out forwards;
+  animation-delay: calc(var(--order) * 0.2s);
+  opacity: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .tech-container .tech-item {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .tech-container {
+    height: 60vh;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .tech-container .tech-item {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .tech-container {
+    height: 50vh;
   }
 }
 </style>
