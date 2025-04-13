@@ -263,6 +263,7 @@ onMounted(() => {
 
 
 .main, body {
+  overflow-x: hidden;
   background-color: $cor-dark;
 }
 

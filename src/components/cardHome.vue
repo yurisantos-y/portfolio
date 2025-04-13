@@ -72,6 +72,7 @@ export default {
   transform: translateX(-50%);
   top: 90%;
   overflow: visible;
+  //overflow-x: hidden;
 }
 
 .cardProjeto {
