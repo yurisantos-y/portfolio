@@ -1,8 +1,10 @@
 <script setup>
 import cardHome from '../components/cardHome.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const showSpanDefault = ref(true);
+const aboutVisible = ref(false);
+const experienceVisible = ref(false);
 
 const hideSpanDefault = () => {
   showSpanDefault.value = false;
@@ -11,6 +13,67 @@ const hideSpanDefault = () => {
 const showSpanDefaultOnMouseLeave = () => {
   showSpanDefault.value = true;
 }
+
+onMounted(() => {
+  // Removida a adição dinâmica do Devicon stylesheet (agora está no index.html)
+  
+  // Verificar se o IntersectionObserver é suportado
+  if ('IntersectionObserver' in window) {
+    // Opções para o observador
+    const options = {
+      root: null, // viewport
+      rootMargin: '0px',
+      threshold: 0.2 // 20% visível para ativar
+    };
+
+    // Função de callback para as seções
+    const handleIntersect = (entries, observer) => {
+      entries.forEach(entry => {
+        // Obter o ID da seção sendo observada
+        const id = entry.target.dataset.section;
+        
+        if (entry.isIntersecting) {
+          // Atualizar estado baseado no ID da seção
+          if (id === 'about') {
+            aboutVisible.value = true;
+          } else if (id === 'experience') {
+            experienceVisible.value = true;
+          }
+          
+          // Para melhor performance, parar de observar após ativar
+          observer.unobserve(entry.target);
+          
+          console.log(`Seção ${id} agora é visível.`);
+        }
+      });
+    };
+
+    // Criar o observador
+    const observer = new IntersectionObserver(handleIntersect, options);
+    
+    // Observar elementos com delay para garantir que o DOM está pronto
+    setTimeout(() => {
+      // Adicionar atributos data-section aos elementos para identificação
+      const aboutSection = document.querySelector('.conteudoAbout');
+      const experienceSection = document.querySelector('.experiencia');
+      
+      if (aboutSection) {
+        aboutSection.dataset.section = 'about';
+        observer.observe(aboutSection);
+      }
+      
+      if (experienceSection) {
+        experienceSection.dataset.section = 'experience';
+        observer.observe(experienceSection);
+      }
+    }, 300);
+  } else {
+    // Fallback para navegadores que não suportam IntersectionObserver
+    // Simplesmente mostrar as animações
+    aboutVisible.value = true;
+    experienceVisible.value = true;
+  }
+})
 </script>
 
 <template>
@@ -58,7 +121,7 @@ const showSpanDefaultOnMouseLeave = () => {
             <svg xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
               <path
-                d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+                d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4 .1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8 .1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3 .1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z" />
             </svg>
           </button>
         </a>
@@ -88,123 +151,96 @@ const showSpanDefaultOnMouseLeave = () => {
 
     <div class="btnProjects">
       <button><a href="/projects">Veja mais</a></button>
+
+      <img height="20px" width="20px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg" />
+          
+      <i class="devicon-vuejs-plain"></i>
+          
     </div>
 
-    <div class="conteudoAbout">
-      <h2>{{ $t('about.titleAbout') }}</h2>
-      <div class="lineAbout">
-        <p>{{ $t('about.text') }}</p>
+    <div class="conteudoAbout" :class="{ 'animate__animated animate__fadeIn': aboutVisible }">
+      <div class="text-container">
+        <h2 class="animate__animated" :class="{ 'animate__fadeInDown': aboutVisible }">{{ $t('about.titleAbout') }}</h2>
+        <div class="lineAbout">
+          <p class="animate__animated" :class="{ 'animate__fadeIn': aboutVisible }">{{ $t('about.text') }}</p>
+        </div>
+        <a href="/about">
+          <button class="btnAbout animate__animated" id="btnNewButton" :class="{ 'animate__fadeInUp': aboutVisible }">
+            {{ $t('about.btnAbout') }}
+          </button>
+        </a>
       </div>
-      <a href="/about">
-        <button class="btnAbout" id="btnNewButton">{{ $t('about.btnAbout') }}</button>
-      </a>
+      <div class="card">
+        <img src="../assets/aboutMe.png" alt="Projeto 2">
+      </div>
     </div>
 
-    <hr id="hr">
+    <hr id="hr" class="animate__animated" :class="{ 'animate__fadeIn': aboutVisible }">
 
-    <div class="experiencia">
-      <h2>{{ $t('experience.titleExperience') }}</h2>
-      <div class="flexExperience">
-        <p>{{ $t('experience.textExperience') }}</p>
+    <div class="experiencia" :class="{ 'animate__animated animate__fadeIn': experienceVisible }">
+      <div class="card">
+        <img src="../assets/experience.png" alt="Projeto 2">
       </div>
-      <a href="/about">
-        <button class="btnExp" id="btnNewButton">{{ $t('experience.titleExperience') }}</button>
-      </a>
+      <div class="text-container">
+        <h2 class="animate__animated" :class="{ 'animate__fadeInDown': experienceVisible }">{{ $t('experience.titleExperience') }}</h2>
+        <div class="flexExperience">
+          <p class="animate__animated" :class="{ 'animate__fadeIn': experienceVisible }">{{ $t('experience.textExperience') }}</p>
+        </div>
+        <a href="/about">
+          <button class="btnExp animate__animated" id="btnNewButton" :class="{ 'animate__fadeInUp': experienceVisible }">
+            {{ $t('experience.titleExperience') }}
+          </button>
+        </a>
+      </div>
     </div>
 
 
     <div class="conhecimento">
       <h2>{{ $t('know.titleKnow') }}</h2>
       <span v-if="showSpanDefault" id="spanDefault">{{ $t('know.textDefault') }}</span>
-      <div class="tecnologias">
-        <div class="divVue">
-          <p id="paragrafoVue">{{ $t('know.vue') }}</p>
-          <button class="btnVue" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-              <path fill="#ffffff"
-                d="M356.9 64.3H280l-56 88.6-48-88.6H0L224 448 448 64.3h-91.1zm-301.2 32h53.8L224 294.5 338.4 96.3h53.8L224 384.5 55.7 96.3z" />
-            </svg>
-          </button>
+      <div class="tech-grid">
+        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+          
+          
+          <img height="50px" width="50px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg" />
+          
+          
+          <span class="tooltip">{{ $t('know.vue') }}</span>
         </div>
-
-        <div class="divHtml">
-          <p id="paragrafoHtml">{{ $t('know.html') }}</p>
-          <button class="btnHtml" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-              <path fill="#ffffff"
-                d="M0 32l34.9 395.8L191.5 480l157.6-52.2L384 32H0zm308.2 127.9H124.4l4.1 49.4h175.6l-13.6 148.4-97.9 27v.3h-1.1l-98.7-27.3-6-75.8h47.7L138 320l53.5 14.5 53.7-14.5 6-62.2H84.3L71.5 112.2h241.1l-4.4 47.7z" />
-            </svg>
-          </button>
+        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+          <i class="devicon-html5-plain"></i>
+          <span class="tooltip">{{ $t('know.html') }}</span>
         </div>
-
-        <div class="divCss">
-          <p id="paragrafoCss">{{ $t('know.css') }}</p>
-          <button class="btnCss" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-              <path fill="#ffffff"
-                d="M0 32l34.9 395.8L192 480l157.1-52.2L384 32H0zm313.1 80l-4.8 47.3L193 208.6l-.3 .1h111.5l-12.8 146.6-98.2 28.7-98.8-29.2-6.4-73.9h48.9l3.2 38.3 52.6 13.3 54.7-15.4 3.7-61.6-166.3-.5v-.1l-.2 .1-3.6-46.3L193.1 162l6.5-2.7H76.7L70.9 112h242.2z" />
-            </svg>
-          </button>
+        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+          <i class="devicon-css3-plain"></i>
+          <span class="tooltip">{{ $t('know.css') }}</span>
         </div>
-
-        <div class="divTs">
-          <p id="paragrafoTs">{{ $t('know.ts') }}</p>
-          <button class="btnTs" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-            <img src="../assets/TS.svg" alt="">
-          </button>
+        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+          <i class="devicon-typescript-plain"></i>
+          <span class="tooltip">{{ $t('know.ts') }}</span>
         </div>
-
-        <div class="divJs">
-          <p id="paragrafoJs">{{ $t('know.js') }}</p>
-          <button class="btnJs" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-            <img src="../assets/JS.svg" alt="">
-          </button>
+        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+          <i class="devicon-javascript-plain"></i>
+          <span class="tooltip">{{ $t('know.js') }}</span>
         </div>
-
-        <div class="divSass">
-          <p id="paragrafoSass">{{ $t('know.sass') }}</p>
-          <button class="btnSass" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-              <path fill="#ffffff"
-                d="M301.8 378.9c-.3 .6-.6 1.1 0 0zm249.1-87a131.2 131.2 0 0 0 -58 13.5c-5.9-11.9-12-22.3-13-30.1-1.2-9.1-2.5-14.5-1.1-25.3s7.7-26.1 7.6-27.2-1.4-6.6-14.3-6.7-24 2.5-25.3 5.9a122.8 122.8 0 0 0 -5.3 19.1c-2.3 11.7-25.8 53.5-39.1 75.3-4.4-8.5-8.1-16-8.9-22-1.2-9.1-2.5-14.5-1.1-25.3s7.7-26.1 7.6-27.2-1.4-6.6-14.3-6.7-24 2.5-25.3 5.9-2.7 11.4-5.3 19.1-33.9 77.3-42.1 95.4c-4.2 9.2-7.8 16.6-10.4 21.6-.4 .8-.7 1.3-.9 1.7 .3-.5 .5-1 .5-.8-2.2 4.3-3.5 6.7-3.5 6.7v.1c-1.7 3.2-3.6 6.1-4.5 6.1-.6 0-1.9-8.4 .3-19.9 4.7-24.2 15.8-61.8 15.7-63.1-.1-.7 2.1-7.2-7.3-10.7-9.1-3.3-12.4 2.2-13.2 2.2s-1.4 2-1.4 2 10.1-42.4-19.4-42.4c-18.4 0-44 20.2-56.6 38.5-7.9 4.3-25 13.6-43 23.5-6.9 3.8-14 7.7-20.7 11.4-.5-.5-.9-1-1.4-1.5-35.8-38.2-101.9-65.2-99.1-116.5 1-18.7 7.5-67.8 127.1-127.4 98-48.8 176.4-35.4 189.8-5.6 19.4 42.5-41.9 121.6-143.7 133-38.8 4.3-59.2-10.7-64.3-16.3-5.3-5.9-6.1-6.2-8.1-5.1-3.3 1.8-1.2 7 0 10.1 3 7.9 15.5 21.9 36.8 28.9 18.7 6.1 64.2 9.5 119.2-11.8 61.8-23.8 109.9-90.1 95.8-145.6C386.5 18.3 293-.2 204.6 31.2c-52.7 18.7-109.7 48.1-150.7 86.4-48.7 45.6-56.5 85.3-53.3 101.9 11.4 58.9 92.6 97.3 125.1 125.7-1.6 .9-3.1 1.7-4.5 2.5-16.3 8.1-78.2 40.5-93.7 74.7-17.5 38.8 2.9 66.6 16.3 70.4 41.8 11.6 84.6-9.3 107.6-43.6s20.2-79.1 9.6-99.5c-.1-.3-.3-.5-.4-.8 4.2-2.5 8.5-5 12.8-7.5 8.3-4.9 16.4-9.4 23.5-13.3-4 10.8-6.9 23.8-8.4 42.6-1.8 22 7.3 50.5 19.1 61.7 5.2 4.9 11.5 5 15.4 5 13.8 0 20-11.4 26.9-25 8.5-16.6 16-35.9 16-35.9s-9.4 52.2 16.3 52.2c9.4 0 18.8-12.1 23-18.3v.1s.2-.4 .7-1.2c1-1.5 1.5-2.4 1.5-2.4v-.3c3.8-6.5 12.1-21.4 24.6-46 16.2-31.8 31.7-71.5 31.7-71.5a201.2 201.2 0 0 0 6.2 25.8c2.8 9.5 8.7 19.9 13.4 30-3.8 5.2-6.1 8.2-6.1 8.2a.3 .3 0 0 0 .1 .2c-3 4-6.4 8.3-9.9 12.5-12.8 15.2-28 32.6-30 37.6-2.4 5.9-1.8 10.3 2.8 13.7 3.4 2.6 9.4 3 15.7 2.5 11.5-.8 19.6-3.6 23.5-5.4a82.2 82.2 0 0 0 20.2-10.6c12.5-9.2 20.1-22.4 19.4-39.8-.4-9.6-3.5-19.2-7.3-28.2 1.1-1.6 2.3-3.3 3.4-5C434.8 301.7 450.1 270 450.1 270a201.2 201.2 0 0 0 6.2 25.8c2.4 8.1 7.1 17 11.4 25.7-18.6 15.1-30.1 32.6-34.1 44.1-7.4 21.3-1.6 30.9 9.3 33.1 4.9 1 11.9-1.3 17.1-3.5a79.5 79.5 0 0 0 21.6-11.1c12.5-9.2 24.6-22.1 23.8-39.6-.3-7.9-2.5-15.8-5.4-23.4 15.7-6.6 36.1-10.2 62.1-7.2 55.7 6.5 66.6 41.3 64.5 55.8s-13.8 22.6-17.7 25-5.1 3.3-4.8 5.1c.5 2.6 2.3 2.5 5.6 1.9 4.6-.8 29.2-11.8 30.3-38.7 1.6-34-31.1-71.4-89-71.1zm-429.2 144.7c-18.4 20.1-44.2 27.7-55.3 21.3C54.6 451 59.3 421.4 82 400c13.8-13 31.6-25 43.4-32.4 2.7-1.6 6.6-4 11.4-6.9 .8-.5 1.2-.7 1.2-.7 .9-.6 1.9-1.1 2.9-1.7 8.3 30.4 .3 57.2-19.1 78.3zm134.4-91.4c-6.4 15.7-19.9 55.7-28.1 53.6-7-1.8-11.3-32.3-1.4-62.3 5-15.1 15.6-33.1 21.9-40.1 10.1-11.3 21.2-14.9 23.8-10.4 3.5 5.9-12.2 49.4-16.2 59.2zm111 53c-2.7 1.4-5.2 2.3-6.4 1.6-.9-.5 1.1-2.4 1.1-2.4s13.9-14.9 19.4-21.7c3.2-4 6.9-8.7 10.9-13.9 0 .5 .1 1 .1 1.6-.1 17.9-17.3 30-25.1 34.8zm85.6-19.5c-2-1.4-1.7-6.1 5-20.7 2.6-5.7 8.6-15.3 19-24.5a36.2 36.2 0 0 1 1.9 10.8c-.1 22.5-16.2 30.9-25.9 34.4z" />
-            </svg>
-          </button>
+        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+          <i class="devicon-sass-original"></i>
+          <span class="tooltip">{{ $t('know.sass') }}</span>
         </div>
-
-        <div class="divPython">
-          <p id="paragrafoPython">{{ $t('know.python') }}</p>
-          <button class="btnPython" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-              <path fill="#ffffff"
-                d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4 .1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8 .1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3 .1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z" />
-            </svg>
-          </button>
+        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+          <i class="devicon-python-plain"></i>
+          <span class="tooltip">{{ $t('know.python') }}</span>
         </div>
-
-        <div class="divmySql">
-          <p id="paragrafoMysql">{{ $t('know.mysql') }}</p>
-          <button class="btnMysql" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-            <img src="../assets/mySQL.svg" alt="">
-          </button>
+        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+          <i class="devicon-mysql-plain"></i>
+          <span class="tooltip">{{ $t('know.mysql') }}</span>
         </div>
-
-        <div class="divFigma">
-          <p id="paragrafoFigma">{{ $t('know.figma') }}</p>
-          <button class="btnFigma" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-              <path fill="#ffffff"
-                d="M14 95.8C14 42.9 56.9 0 109.8 0H274.2C327.1 0 370 42.9 370 95.8C370 129.3 352.8 158.8 326.7 175.9C352.8 193 370 222.5 370 256C370 308.9 327.1 351.8 274.2 351.8H272.1C247.3 351.8 224.7 342.4 207.7 326.9V415.2C207.7 468.8 163.7 512 110.3 512C57.5 512 14 469.2 14 416.2C14 382.7 31.2 353.2 57.2 336.1C31.2 319 14 289.5 14 256C14 222.5 31.2 193 57.2 175.9C31.2 158.8 14 129.3 14 95.8zM176.3 191.6H109.8C74.2 191.6 45.4 220.4 45.4 256C45.4 291.4 74 320.2 109.4 320.4C109.5 320.4 109.7 320.4 109.8 320.4H176.3V191.6zM207.7 256C207.7 291.6 236.5 320.4 272.1 320.4H274.2C309.7 320.4 338.6 291.6 338.6 256C338.6 220.4 309.7 191.6 274.2 191.6H272.1C236.5 191.6 207.7 220.4 207.7 256zM109.8 351.8C109.7 351.8 109.5 351.8 109.4 351.8C74 352 45.4 380.8 45.4 416.2C45.4 451.7 74.6 480.6 110.3 480.6C146.6 480.6 176.3 451.2 176.3 415.2V351.8H109.8zM109.8 31.4C74.2 31.4 45.4 60.2 45.4 95.8C45.4 131.4 74.2 160.2 109.8 160.2H176.3V31.4H109.8zM207.7 160.2H274.2C309.7 160.2 338.6 131.4 338.6 95.8C338.6 60.2 309.7 31.4 274.2 31.4H207.7V160.2z" />
-            </svg>
-          </button>
+        <div class="tech-item" @mouseover="hideSpanDefault" @mouseleave="showSpanDefaultOnMouseLeave">
+          
+          <i class="devicon-figma-plain"></i>
+          
+          <span class="tooltip">{{ $t('know.figma') }}</span>
         </div>
-
-
       </div>
       <div class="bolaConhecimento"></div>
     </div>
@@ -413,7 +449,7 @@ const showSpanDefaultOnMouseLeave = () => {
 
 .conteudoAbout p,
 .experiencia p {
-  width: 55%;
+  width: 85%;
   max-width: 100%;
   margin: 0 auto;
   font-size: 1.2rem;
@@ -958,6 +994,36 @@ const showSpanDefaultOnMouseLeave = () => {
     left: 10%;
     filter: blur(40px);
   }
+
+  .conteudoAbout,
+  .experiencia {
+    flex-direction: column;
+    margin: 30px auto;
+  }
+
+  .card img{
+    
+  }
+
+  .conteudoAbout .text-container,
+  .experiencia .text-container,
+  .conteudoAbout .card,
+  .experiencia .card {
+    width: 40%;
+  }
+
+  .conteudoAbout .card,
+  .experiencia .card {
+    height: 200px;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .conteudoAbout .card,
+  .experiencia .card {
+    height: 150px;
+  }
 }
 
 @media screen and (max-width: 375px) {
@@ -1030,6 +1096,241 @@ const showSpanDefaultOnMouseLeave = () => {
 
   100% {
     background-position: 0% 50%;
+  }
+}
+
+/* Estilos para as animações de scroll */
+.animate__animated {
+  --animate-duration: 0.8s;
+  opacity: 0;
+  animation-fill-mode: both;
+}
+
+.animate__fadeIn {
+  animation-name: fadeIn;
+}
+
+.animate__fadeInDown {
+  animation-name: fadeInDown;
+}
+
+.animate__fadeInUp {
+  animation-name: fadeInUp;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -40px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Ajustes de tempo para as animações */
+.animate__animated.animate__fadeIn {
+  animation-duration: 1s;
+}
+
+.animate__animated.animate__fadeInDown {
+  animation-duration: 0.8s;
+}
+
+.animate__animated.animate__fadeInUp {
+  animation-duration: 0.8s;
+}
+
+/* Efeitos hover aprimorados para botões */
+.btnAbout,
+.btnExp {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.btnAbout:before,
+.btnExp:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s;
+}
+
+.btnAbout:hover:before,
+.btnExp:hover:before {
+  left: 100%;
+}
+
+.conteudoAbout,
+.experiencia {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 60px auto;
+  flex-direction: row;
+}
+
+.conteudoAbout .text-container,
+.experiencia .text-container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.conteudoAbout .card,
+.experiencia .card {
+  width: 30%;
+  height: auto; /* Alterado de 300px para auto para se ajustar à altura da imagem */
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  overflow: hidden; /* Adicionado para conter a imagem dentro dos limites do card */
+}
+
+.conteudoAbout .card img,
+.experiencia .card img {
+  width: 100%;
+  height: auto;
+  display: block; /* Remover espaço em branco sob a imagem */
+  object-fit: contain; /* Garantir que a imagem mantenha sua proporção */
+}
+
+.conteudoAbout .card:hover,
+.experiencia .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  justify-items: center;
+  padding: 0 10%;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tech-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background-color: $transparente;
+  border-radius: 10px;
+  border: 0.5px solid $cor-light;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.tech-item:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tech-item i {
+  font-size: 40px;
+  color: $cor-light;
+  font-family: 'devicon' !important;
+  display: inline-block;
+}
+
+.tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: $cor-primaria;
+  color: $cor-light;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tech-item:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Responsive adjustments for tech grid */
+@media screen and (max-width: 768px) {
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 15px;
+    padding: 0 5%;
+  }
+  
+  .tech-item {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .tech-item i {
+    font-size: 35px;
+  }
+  
+  .tooltip {
+    width: 100px;
+    margin-left: -50px;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 10px;
+  }
+  
+  .tech-item {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .tech-item i {
+    font-size: 30px;
   }
 }
 </style>
