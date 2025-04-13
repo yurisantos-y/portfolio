@@ -59,8 +59,8 @@ export default {
     const error = ref('');
     const hasSearched = ref(false);
     
-    // Use the hardcoded value directly since env vars aren't loading properly
-    const UNSPLASH_ACCESS_KEY = 'j17MGNXU_jH0lAO7SGKL8fAJGxR9tIfEajAYEykemsg';
+    // Use environment variable instead of hardcoded value
+    const UNSPLASH_ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
     
     // Debug log to verify the API key
     console.log('Unsplash Access Key:', UNSPLASH_ACCESS_KEY);
