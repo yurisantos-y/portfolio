@@ -322,6 +322,39 @@ export default {
   
 }
 
+@media screen and (max-width: 1030px) {
+  .card-container {
+    max-width: 95%;
+    margin-top: -5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+}
+
+@media screen and (max-width: 1024px) {
+  .card-container {
+    max-width: 95%;
+    margin-top: -12rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+}
+
+@media screen and (max-width: 878px) {
+  .card-container {
+    max-width: 95%;
+    margin-top: -19rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+}
+
 @media screen and (max-width: 480px) {
   .cardProjeto {
     height: 250px;
@@ -354,12 +387,24 @@ export default {
     opacity: 1;
     transition: opacity 0.3s ease;
   }
+
+  .card-container {
+    max-width: 95%;
+    margin-top: -24rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
 }
+
 
 @media screen and (max-width: 375px) {
   .card-container {
-    margin-top: -40%;
-    gap: 50px;
+    max-width: 95%;
+    margin-top: -24rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
   }
 
   .cardProjeto {
@@ -388,8 +433,10 @@ export default {
 
 @media screen and (max-width: 360px) {
   .card-container {
-    margin-top: -50%;
-    max-width: 90vw;
+    max-width: 95%;
+    margin-top: -24rem;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 40px;
   }
   
@@ -418,8 +465,13 @@ export default {
 }
 
 @media screen and (max-width: 320px) {
+
   .card-container {
-    margin-top: -55%;
+    max-width: 95%;
+    margin-top: -12rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
   }
   
   .cardProjeto {

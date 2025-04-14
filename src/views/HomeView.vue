@@ -1751,8 +1751,8 @@ onMounted(() => {
   }
   
   .tech-item[style*="top: 75%; left: 88%"] {
-    top: 70% !important;
-    left: 85% !important;
+    top: 78% !important;
+    left: 90% !important;
   }
 
   /* Melhorias gerais de responsividade */
@@ -1843,6 +1843,13 @@ onMounted(() => {
   .conhecimento {
     height: 90vh;
   }
+}
+
+@media screen and (max-width: 810px) {
+  #titleProjetos {
+    margin-top: 2rem;
+  }
+  
 }
 
 @media screen and (max-width: 375px) {
