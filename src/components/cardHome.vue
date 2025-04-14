@@ -64,6 +64,7 @@ export default {
 @import '../scss/style.scss';
 
 // Define responsive breakpoints
+$mobile-se: 376px;
 $mobile-small: 480px;
 $mobile: 640px;
 $tablet: 768px;
@@ -93,11 +94,17 @@ $desktop: 1200px;
     position: relative;
     top: 120px;
     margin-bottom: 80px;
+    margin-top: -15rem;
   }
   
   @media (max-width: $mobile) {
     gap: 50px;
     margin-bottom: 50px;
+    margin-top: -17rem;
+  }
+
+  @media (max-width: $mobile-se) {
+    margin-top: 26rem;
   }
 }
 
@@ -457,6 +464,10 @@ $desktop: 1200px;
 
       margin-bottom: 120px;
       margin-top: -25rem;
+    }
+
+    @media (max-width: $mobile-se) {
+      margin-top: -18rem;
     }
   }
 }
