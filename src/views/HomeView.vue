@@ -363,7 +363,7 @@ body {
   }
 
   @media (max-width: $mobile) {
-    font-size: 2rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -386,7 +386,7 @@ body {
   }
 
   @media (max-width: $mobile) {
-    font-size: 2rem;
+    font-size: 1.3rem;
     letter-spacing: -0.0625rem;
     width: 95vw;
   }
