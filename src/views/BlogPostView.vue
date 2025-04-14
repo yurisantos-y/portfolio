@@ -121,7 +121,7 @@ onMounted(() => {
 @import '../scss/style.scss';
 
 body {
-  background-color: #fff;
+  background-color: $cor-dark;
   color: rgba(0, 0, 0, 0.84);
   font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.6;
@@ -406,6 +406,182 @@ body {
   to {
     transform: translateY(8px);
     opacity: 0.3;
+  }
+}
+
+/* Melhorias na responsividade para dispositivos entre 1024px e 769px */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .article-container {
+    padding: 2.5rem 2rem 4rem;
+  }
+  
+  .article-title h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .article-summary {
+    font-size: 1.15rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .article-cover {
+    margin-bottom: 2rem;
+    max-height: 450px;
+  }
+  
+  .article-content {
+    font-size: 1.1rem;
+    
+    h2 {
+      font-size: 1.7rem;
+      margin-top: 2.5rem;
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin-top: 2rem;
+    }
+    
+    blockquote {
+      padding-left: 1.5rem;
+      font-size: 1.2rem;
+    }
+    
+    pre {
+      margin: 1.2rem 0;
+    }
+  }
+}
+
+/* Melhorias para tablets na orientação retrato */
+@media screen and (max-width: 900px) and (min-width: 769px) {
+  .article-title h1 {
+    font-size: 2.3rem;
+  }
+  
+  .article-summary {
+    font-size: 1.1rem;
+  }
+  
+  .article-content {
+    font-size: 1.05rem;
+    
+    h2 {
+      font-size: 1.6rem;
+    }
+    
+    h3 {
+      font-size: 1.35rem;
+    }
+  }
+  
+  .article-cover {
+    max-height: 400px;
+  }
+}
+
+/* Ajustes para telas entre 600px e 768px */
+@media screen and (max-width: 768px) and (min-width: 600px) {
+  .article-container {
+    padding: 2rem 1.8rem 3.5rem;
+  }
+  
+  .article-header {
+    padding: 1rem 0;
+  }
+  
+  .article-title h1 {
+    font-size: 2.1rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .article-summary {
+    font-size: 1.05rem;
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.8rem;
+  }
+  
+  .article-content {
+    font-size: 1.02rem;
+    line-height: 1.7;
+    
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    h3 {
+      font-size: 1.3rem;
+      margin-top: 1.8rem;
+      margin-bottom: 0.8rem;
+    }
+    
+    ul, ol {
+      margin: 1.5rem 0;
+      padding-left: 1.5rem;
+    }
+    
+    blockquote {
+      font-size: 1.1rem;
+      margin: 1.8rem 0;
+    }
+  }
+  
+  .article-footer {
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+  }
+  
+  .back-btn {
+    padding: 0.7rem 1.3rem;
+  }
+}
+
+/* Melhorias para interações touch em dispositivos móveis */
+@media (hover: none) {
+  .back-link:active {
+    color: rgba(0, 0, 0, 0.84);
+    transition: color 0.2s ease;
+  }
+  
+  .back-btn:active {
+    background-color: rgba(26, 137, 23, 0.1);
+    transition: background-color 0.2s ease;
+  }
+  
+  .article-content {
+    a:active {
+      background-size: 100% 35%;
+      color: #155e13;
+      transition: all 0.2s ease;
+    }
+  }
+}
+
+/* Ajustes para telas entre 540px e 599px */
+@media screen and (max-width: 599px) and (min-width: 540px) {
+  .article-container {
+    padding: 2rem 1.6rem 3.5rem;
+  }
+  
+  .article-header .container {
+    padding: 0 1.6rem;
+  }
+  
+  .article-title h1 {
+    font-size: 2rem;
+  }
+  
+  .article-summary {
+    font-size: 1rem;
+  }
+  
+  .article-cover {
+    margin: 1.2rem -1.6rem;
+    max-height: 350px;
   }
 }
 

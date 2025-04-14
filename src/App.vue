@@ -18,7 +18,18 @@ html, body {
 }
 
 #app {
+  background-color: $cor-dark;
   min-height: 100vh;
   max-height: 100vh;
+}
+
+/* Remove the problematic max-height setting that causes issues on mobile */
+@media screen and (max-width: 960px) {
+  #app {
+    min-height: 30vh;
+    max-height: 30vh;
+  }
+
+
 }
 </style>

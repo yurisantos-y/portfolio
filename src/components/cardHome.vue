@@ -72,6 +72,8 @@ export default {
   transform: translateX(-50%);
   top: 90%;
   overflow: visible;
+  width: 100%;
+  max-width: 960px;
   //overflow-x: hidden;
 }
 
@@ -253,35 +255,199 @@ export default {
   }
 }
 
-@media screen and (max-width: 960px) {
   .card-container {
-    display: flex;
+    max-width: 95%;
+    margin-top: -8rem;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 40px;
+  }
+  
+  .cardProjeto .description {
+    padding: 1.5rem;
+    /* Para dispositivos touch, mostrar a descrição parcialmente visível */
+    transform: translateY(55px);
   }
 
-  @media screen and (max-width: 760px) {
-    .card-container{
-      margin-top: -15%;
-      max-width: 90vw;
+  /* Em dispositivos touch, melhorar as interações */
+  @media (hover: none) {
+    .cardProjeto .description {
+      transform: translateY(55px);
+    }
+    
+    .cardProjeto .description p {
+      max-height: 0;
+      opacity: 0;
+    }
+    
+    .cardProjeto:active .description {
+      transform: translateY(0);
+    }
+    
+    .cardProjeto:active .description p {
+      max-height: 100px;
+      opacity: 1;
+      margin-bottom: 1rem;
+    }
+    
+    .cardProjeto:active .btnTela {
+      transform: translateY(0);
+      opacity: 1;
+      transition-delay: 0.1s;
+    }
+    
+    .cardProjeto:active .description-list {
+      transform: translateY(0);
+      opacity: 1;
+      transition-delay: 0.2s;
+    }
+    
+    .cardProjeto:active .card-image {
+      filter: brightness(0.3);
+    }
+    
+    .cardProjeto:active .tela {
+      opacity: 1;
     }
   }
 
-  @media screen and (max-width: 536px) {
+@media screen and (max-width: 1600px) {
+  .card-container {
+    max-width: 95%;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+}
 
-    .card-container{
-      margin-top: -35%;
-      max-width: 90vw;
-    }
+@media screen and (max-width: 480px) {
+  .cardProjeto {
+    height: 250px;
+  }
+  
+  .cardProjeto .description h2 {
+    font-size: 1.3rem;
+  }
+  
+  .cardProjeto .description p {
+    font-size: 0.8rem;
+  }
+  
+  .description-list li {
+    padding: 3px 10px;
+    font-size: 0.7rem;
+  }
+  
+  .cardProjeto .conteudoTela {
+    padding-top: 4rem;
+  }
+  
+  .cardProjeto .btnTela {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+  
+  /* Pré-carrega parte da descrição para visibilidade imediata */
+  .cardProjeto .description h2 {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+}
 
+@media screen and (max-width: 375px) {
+  .card-container {
+    margin-top: -40%;
+    gap: 50px;
   }
 
-  @media screen and (max-width: 360px) {
-
-    .card-container{
-      margin-top: -50%;
-      max-width: 90vw;
-    }
+  .cardProjeto {
+    height: 220px;
   }
-}  
-  </style>
+  
+  .cardProjeto .description {
+    padding: 1rem;
+    transform: translateY(45px);
+  }
+  
+  .cardProjeto .description h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .description-list {
+    margin-top: 0.8rem;
+    gap: 5px;
+  }
+  
+  .cardProjeto .conteudoTela {
+    padding-top: 3rem;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .card-container {
+    margin-top: -50%;
+    max-width: 90vw;
+    gap: 40px;
+  }
+  
+  .cardProjeto {
+    height: 210px;
+    margin: 0;
+  }
+  
+  .cardProjeto .description {
+    transform: translateY(55px);
+  }
+  
+  .cardProjeto .btnTela {
+    padding: 8px 16px;
+    font-size: 0.75rem;
+  }
+  
+  .description-list {
+    gap: 4px;
+  }
+  
+  .description-list li {
+    padding: 3px 8px;
+    font-size: 0.65rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .card-container {
+    margin-top: -55%;
+  }
+  
+  .cardProjeto {
+    height: 190px;
+  }
+  
+  .cardProjeto .description h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .cardProjeto .description p {
+    font-size: 0.75rem;
+    line-height: 1.3;
+  }
+  
+  .cardProjeto .btnTela {
+    padding: 6px 14px;
+    font-size: 0.7rem;
+  }
+  
+  .description-list li {
+    padding: 2px 6px;
+    font-size: 0.6rem;
+  }
+  
+  .cardProjeto .conteudoTela {
+    padding-top: 2.5rem;
+  }
+}
+</style>

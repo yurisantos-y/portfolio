@@ -1,39 +1,41 @@
 <template>
-  <div class="blog-container">
-    <div v-if="loading" class="loading-state">
-      <div class="loading">
-        <span></span><span></span><span></span>
+  <div class="container">
+    <div class="blog-container">
+      <div v-if="loading" class="loading-state">
+        <div class="loading">
+          <span></span><span></span><span></span>
+        </div>
+        <p>{{ $t('blog.loading') || 'Carregando posts...' }}</p>
       </div>
-      <p>{{ $t('blog.loading') || 'Carregando posts...' }}</p>
-    </div>
-
-    <div v-else-if="error" class="error-message">
-      <p>{{ error }}</p>
-    </div>
-
-    <div v-else-if="posts.length === 0" class="no-posts">
-      <p>{{ $t('blog.noPosts') || 'Nenhum post encontrado' }}</p>
-    </div>
-
-    <div v-else class="posts-grid">
-      <article v-for="post in posts" :key="post.id" class="post-card" @click="navigateToPost(post.slug || post.id)">
-        <div class="post-image" v-if="post.cover_image">
-          <img :src="post.cover_image" :alt="post.title">
-        </div>
-        <div class="post-content">
-          <h2 class="post-title">{{ post.title }}</h2>
-          <p class="post-summary">{{ post.summary }}</p>
-          <div class="post-meta">
-            <span class="post-date">{{ formatDate(post.published_at) }}</span>
-            <div class="post-tags" v-if="post.tags && post.tags.length">
-              <span v-for="tag in post.tags" :key="tag.id" class="tag">{{ tag.name }}</span>
-            </div>
+  
+      <div v-else-if="error" class="error-message">
+        <p>{{ error }}</p>
+      </div>
+  
+      <div v-else-if="posts.length === 0" class="no-posts">
+        <p>{{ $t('blog.noPosts') || 'Nenhum post encontrado' }}</p>
+      </div>
+  
+      <div v-else class="posts-grid">
+        <article v-for="post in posts" :key="post.id" class="post-card" @click="navigateToPost(post.slug || post.id)">
+          <div class="post-image" v-if="post.cover_image">
+            <img :src="post.cover_image" :alt="post.title">
           </div>
-          <router-link :to="`/blog/${post.slug || post.id}`" class="read-more" @click.stop>
-            {{ $t('Ler mais') || 'Ler mais' }}
-          </router-link>
-        </div>
-      </article>
+          <div class="post-content">
+            <h2 class="post-title">{{ post.title }}</h2>
+            <p class="post-summary">{{ post.summary }}</p>
+            <div class="post-meta">
+              <span class="post-date">{{ formatDate(post.published_at) }}</span>
+              <div class="post-tags" v-if="post.tags && post.tags.length">
+                <span v-for="tag in post.tags" :key="tag.id" class="tag">{{ tag.name }}</span>
+              </div>
+            </div>
+            <router-link :to="`/blog/${post.slug || post.id}`" class="read-more" @click.stop>
+              {{ $t('Ler mais') || 'Ler mais' }}
+            </router-link>
+          </div>
+        </article>
+      </div>
     </div>
   </div>
 </template>
@@ -108,10 +110,15 @@ onMounted(() => {
 @import '../scss/style.scss';
 
 body {
-  background-color: #fff;
+  background-color: $cor-light;
+}
+
+.container {
+  background-color: $cor-light;
 }
 
 .blog-container {
+  background-color: $cor-light;
   max-width: 1000px;
   margin: auto;
   padding: 10rem 2rem;
@@ -367,6 +374,156 @@ body {
   
   .post-card {
     padding-bottom: 2.5rem;
+  }
+}
+
+/* Melhorias na responsividade para dispositivos entre 1024px e 769px */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .blog-container {
+    padding: 5rem 2rem;
+  }
+  
+  .blog-header {
+    margin-bottom: 3.5rem;
+  }
+  
+  .blog-header h1 {
+    font-size: 2.6rem;
+  }
+  
+  .blog-header .subtitle {
+    font-size: 1.1rem;
+    max-width: 80%;
+  }
+  
+  .post-card {
+    padding-bottom: 3rem;
+  }
+  
+  .post-image {
+    height: 280px;
+    margin-bottom: 1.8rem;
+  }
+  
+  .post-title {
+    font-size: 1.9rem;
+  }
+  
+  .post-summary {
+    font-size: 1.05rem;
+  }
+  
+  .read-more {
+    font-size: 0.95rem;
+    padding: 0.6rem 1.3rem;
+  }
+}
+
+/* Melhorias para dispositivos tablet em orientação retrato */
+@media screen and (max-width: 900px) and (min-width: 769px) {
+  .post-image {
+    height: 260px;
+  }
+  
+  .post-title {
+    font-size: 1.8rem;
+  }
+  
+  .post-summary {
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .posts-grid {
+    gap: 3rem;
+  }
+  
+  .post-date {
+    font-size: 0.9rem;
+  }
+}
+
+/* Ajustes para telas entre 600px e 768px */
+@media screen and (max-width: 768px) and (min-width: 600px) {
+  .blog-container {
+    padding: 4.5rem 1.8rem;
+  }
+  
+  .blog-header {
+    margin-bottom: 3rem;
+  }
+  
+  .blog-header h1 {
+    font-size: 2.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .blog-header .subtitle {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+  
+  .post-image {
+    height: 240px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .post-title {
+    font-size: 1.7rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .post-meta {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Melhorias para interações touch em dispositivos móveis */
+@media (hover: none) {
+  .post-card:active .post-image img {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+  }
+  
+  .post-card:active .post-title {
+    color: rgba(0, 0, 0, 0.68);
+    transition: color 0.3s ease;
+  }
+  
+  .read-more:active {
+    background-color: rgba(26, 137, 23, 0.05);
+    color: #0f6d14;
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+  }
+  
+  .tag:active {
+    background-color: rgba(0, 0, 0, 0.08);
+    transition: background-color 0.2s ease;
+  }
+}
+
+/* Ajustes de transição para telas entre 540px e 599px */
+@media screen and (max-width: 599px) and (min-width: 541px) {
+  .post-image {
+    height: 220px;
+  }
+  
+  .post-title {
+    font-size: 1.6rem;
+  }
+  
+  .post-summary {
+    font-size: 0.95rem;
+  }
+  
+  .post-meta {
+    gap: 0.8rem;
+  }
+  
+  .tag {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
   }
 }
 </style>

@@ -1,39 +1,41 @@
 <template>
-  <div class="projects-container">
-    <div v-if="loading" class="loading-state">
-      <div class="loading">
-        <span></span><span></span><span></span>
+  <div class="container">
+    <div class="projects-container">
+      <div v-if="loading" class="loading-state">
+        <div class="loading">
+          <span></span><span></span><span></span>
+        </div>
+        <p>{{ $t('projects.loading') || 'Loading projects...' }}</p>
       </div>
-      <p>{{ $t('projects.loading') || 'Loading projects...' }}</p>
-    </div>
-
-    <div v-else-if="error" class="error-message">
-      <p>{{ error }}</p>
-    </div>
-
-    <div v-else-if="projects.length === 0" class="no-projects">
-      <h2>{{ $t('projects.noProjects') || 'No projects found' }}</h2>
-      <p>{{ $t('projects.checkBack') || 'Please check back later for updates on our work.' }}</p>
-    </div>
-
-    <div v-else>
-      
-      <div class="projects-grid">
-        <div v-for="project in projects" :key="project.id" class="project-card">
-          <div class="project-image">
-            <img v-if="project.image_url" :src="project.image_url" :alt="project.title">
-            <div v-else class="placeholder-image"></div>
-          </div>
-          <div class="project-content">
-            <h2 class="project-title">{{ project.title }}</h2>
-            <p class="project-description">{{ project.description }}</p>
-            
-            <div class="project-techs">
-              <span v-for="(tech, index) in project.technologies" 
-                    :key="index" 
-                    class="tech-badge">
-                {{ tech }}
-              </span>
+  
+      <div v-else-if="error" class="error-message">
+        <p>{{ error }}</p>
+      </div>
+  
+      <div v-else-if="projects.length === 0" class="no-projects">
+        <h2>{{ $t('projects.noProjects') || 'No projects found' }}</h2>
+        <p>{{ $t('projects.checkBack') || 'Please check back later for updates on our work.' }}</p>
+      </div>
+  
+      <div v-else>
+        
+        <div class="projects-grid">
+          <div v-for="project in projects" :key="project.id" class="project-card">
+            <div class="project-image">
+              <img v-if="project.image_url" :src="project.image_url" :alt="project.title">
+              <div v-else class="placeholder-image"></div>
+            </div>
+            <div class="project-content">
+              <h2 class="project-title">{{ project.title }}</h2>
+              <p class="project-description">{{ project.description }}</p>
+              
+              <div class="project-techs">
+                <span v-for="(tech, index) in project.technologies" 
+                      :key="index" 
+                      class="tech-badge">
+                  {{ tech }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -90,6 +92,10 @@ export default {
 
 <style lang="scss">
 @import '../scss/style.scss';
+
+.container {
+  background-color: $cor-light;
+}
 
 .projects-container {
   max-width: 1200px;
@@ -328,6 +334,274 @@ export default {
   
   .project-title {
     font-size: 1.3rem;
+  }
+}
+
+/* Melhorias na responsividade para dispositivos entre 1024px e 768px */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .projects-container {
+    padding: 5rem 2rem;
+  }
+  
+  .projects-header h1 {
+    font-size: 2.3rem;
+  }
+  
+  .projects-subtitle {
+    font-size: 1.1rem;
+    max-width: 80%;
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .project-title {
+    font-size: 1.35rem;
+  }
+  
+  .project-description {
+    font-size: 0.9rem;
+  }
+  
+  .tech-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.7rem;
+  }
+}
+
+/* Melhorias para dispositivos tablet em orientação retrato */
+@media screen and (max-width: 850px) and (min-width: 769px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.8rem;
+  }
+  
+  .project-image {
+    height: 200px;
+  }
+}
+
+/* Ajustes para transições entre tablet e celular */
+@media screen and (max-width: 768px) and (min-width: 601px) {
+  .projects-container {
+    padding: 4.5rem 1.5rem;
+  }
+  
+  .projects-header h1 {
+    font-size: 2.1rem;
+  }
+  
+  .projects-subtitle {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+  
+  .projects-grid {
+    gap: 1.8rem;
+  }
+  
+  .project-image {
+    height: 200px;
+  }
+  
+  .project-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Melhorias para interações touch em dispositivos móveis */
+@media (hover: none) {
+  .project-card:active {
+    transform: translateY(-8px);
+    transition: all 0.3s ease;
+  }
+  
+  .project-card:active .project-image img {
+    transform: scale(1.08);
+    transition: transform 0.3s ease;
+  }
+  
+  .project-card:active .project-image::after {
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+  
+  .tech-badge:active {
+    background-color: rgba(237, 76, 92, 0.15);
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+  }
+}
+
+/* Aprimoramentos na responsividade para telas entre 1024px e 769px */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .projects-container {
+    padding: 5rem 2.5rem;
+  }
+  
+  .projects-header h1 {
+    font-size: 2.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .projects-subtitle {
+    font-size: 1.15rem;
+    max-width: 650px;
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.8rem;
+  }
+  
+  .project-image {
+    height: 200px;
+  }
+  
+  .project-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .project-description {
+    font-size: 0.9rem;
+    margin-bottom: 1.2rem;
+    line-height: 1.5;
+  }
+  
+  .tech-badge {
+    padding: 0.2rem 0.65rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* Melhor transição entre desktop e mobile */
+@media screen and (max-width: 900px) and (min-width: 769px) {
+  .projects-container {
+    padding: 4.5rem 2rem;
+  }
+  
+  .projects-grid {
+    gap: 1.5rem;
+  }
+  
+  .project-card {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04);
+  }
+  
+  .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  }
+  
+  .project-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Interações touch otimizadas para dispositivos móveis */
+@media (hover: none) {
+  .project-card:active {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+  
+  .tech-badge:active {
+    background-color: rgba(237, 76, 92, 0.15);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+  }
+  
+  .project-image img {
+    transition: transform 0.5s ease;
+  }
+  
+  .project-card:active .project-image img {
+    transform: scale(1.04);
+    transition: transform 0.3s ease;
+  }
+  
+  .project-card:active .project-image::after {
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+}
+
+/* Melhorias nas animações e interações */
+@keyframes projectCardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .project-card {
+    animation: projectCardAppear 0.5s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .project-card:nth-child(2) { animation-delay: 0.1s; }
+  .project-card:nth-child(3) { animation-delay: 0.2s; }
+  .project-card:nth-child(4) { animation-delay: 0.3s; }
+  .project-card:nth-child(5) { animation-delay: 0.4s; }
+  .project-card:nth-child(6) { animation-delay: 0.5s; }
+  
+  .loading span {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Ajustes no espaçamento para telas pequenas entre 480px e 600px */
+@media screen and (max-width: 600px) and (min-width: 481px) {
+  .projects-container {
+    padding: 3.5rem 1.5rem;
+  }
+  
+  .projects-header {
+    margin-bottom: 2.5rem;
+  }
+  
+  .projects-header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .projects-subtitle {
+    font-size: 1.05rem;
+    max-width: 90%;
+  }
+  
+  .project-title {
+    font-size: 1.4rem;
+  }
+  
+  .project-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+/* Aprimoramentos na visualização de estados vazios e de carregamento */
+@media screen and (max-width: 480px) {
+  .loading span {
+    margin: 0 4px;
+  }
+  
+  .error-message,
+  .no-projects {
+    padding: 2.5rem 1rem;
+  }
+  
+  .no-projects p {
+    margin-bottom: 1.5rem;
   }
 }
 </style>

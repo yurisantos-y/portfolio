@@ -260,12 +260,12 @@ onMounted(() => {
 <style lang="scss">
 @import '../scss/style.scss';
 
-
-
 .main, body {
   overflow-x: hidden;
   background-color: $cor-dark;
 }
+
+
 
 .home-container {
   height: 100vh;
@@ -274,14 +274,14 @@ onMounted(() => {
   background-color: $cor-light;
   background-position: center;
   background-size: cover;
-  border-radius: 60px 60px 60px 60px;
+  border-radius: 3.75rem 3.75rem 3.75rem 3.75rem;
   /* Alterado para ter bordas arredondadas em todos os cantos */
   overflow-x: hidden;
-  border: 20px solid $cor-dark;
+  border: 1.25rem solid $cor-dark;
 }
 
 .apresentacao {
-  margin-top: 13%;
+  margin-top: 13rem;
   margin-left: auto;
   margin-right: auto;
   color: $cor-textDark;
@@ -293,7 +293,7 @@ onMounted(() => {
   font-weight: 800;
   font-size: 3.6rem;
   color: $cor-textDark;
-  margin-bottom: -5px;
+  margin-bottom: -0.3125rem;
   text-align: center;
 }
 
@@ -301,7 +301,7 @@ onMounted(() => {
   width: 90vw;
   font-size: 3.6rem;
   font-weight: 800;
-  letter-spacing: -3px;
+  letter-spacing: -0.1875rem;
   color: $cor-textDark;
   text-align: center;
   margin: 0 auto;
@@ -319,8 +319,8 @@ onMounted(() => {
 }
 
 .apresentacao p {
-  max-width: 60vw;
-  margin-top: 10px;
+  max-width: 60rem;
+  margin-top: 0.625rem;
   line-height: 1.8rem;
   color: $text-gray;
   font-size: 1.2rem;
@@ -331,13 +331,13 @@ onMounted(() => {
 
 .linkLP {
   display: flex;
-  width: 250px;
-  height: 40px;
-  border-radius: 6px;
+  width: 15.625rem;
+  height: 2.5rem;
+  border-radius: 0.375rem;
   background-color: $bg-icon;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 26px;
+  margin-top: 1.625rem;
   justify-content: space-around;
   align-items: center;
 }
@@ -346,7 +346,7 @@ onMounted(() => {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 25px;
+  width: 1.5625rem;
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -387,11 +387,12 @@ onMounted(() => {
   position: absolute;
   color: $cor-textDark;
   width: 100%;
-  margin-top: 10%;
+  margin-top: 10rem;
   transform: translateY(-50%);
 }
 
 .corpo {
+  margin-top: 22rem;
   background-color: $cor-dark;
   color: $cor-light;
 }
@@ -400,7 +401,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20% 0 auto;
+  margin: 20rem 0 auto;
 }
 
 .btnProjects a {
@@ -421,7 +422,7 @@ onMounted(() => {
 .conteudos h2 {
   text-align: center;
   font-size: 2.2rem;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
 }
 
 .conteudos p {
@@ -447,7 +448,7 @@ onMounted(() => {
 
 .conteudoAbout h2,
 .experiencia h2 {
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
   font-size: 2rem;
   font-weight: 600;
 }
@@ -463,7 +464,7 @@ onMounted(() => {
 }
 
 .conteudoAbout {
-  margin-top: 60px;
+  margin-top: 3.75rem;
 }
 
 #hr {
@@ -471,13 +472,13 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  margin-top: 60px;
-  margin-bottom: 60px;
+  margin-top: 3.75rem;
+  margin-bottom: 3.75rem;
   max-width: 70%;
-  height: 0.5px;
+  height: 0.03125rem;
   background-color: $transparente;
   border: none;
-  border-radius: 2px;
+  border-radius: 0.125rem;
 }
 
 
@@ -487,14 +488,14 @@ onMounted(() => {
   border: none;
   background-color: $cor-primaria;
   color: $cor-light;
-  padding: 5px 15px 5px 15px;
-  border-radius: 5px;
-  margin-top: 10px;
+  padding: 0.3125rem 0.9375rem 0.3125rem 0.9375rem;
+  border-radius: 0.3125rem;
+  margin-top: 0.625rem;
   margin: 0 auto;
   display: flex;
   align-items: center;
   transition: .3s ease-in-out;
-  margin-top: 25px;
+  margin-top: 1.5625rem;
   font-size: 1rem;
   box-shadow: 0px 0px 15px $shadow;
   cursor: pointer;
@@ -518,8 +519,8 @@ onMounted(() => {
 .conhecimento h2 {
   color: $cor-light;
   margin-left: 12%;
-  margin-top: 30px;
-  margin-bottom: 25px;
+  margin-top: 1.875rem;
+  margin-bottom: 1.5625rem;
   font-weight: 500;
   font-size: 2.5rem;
 }
@@ -531,7 +532,7 @@ onMounted(() => {
 }
 
 .conhecimento svg {
-  max-width: 40px;
+  max-width: 2.5rem;
 }
 
 .conhecimento button {
@@ -541,13 +542,13 @@ onMounted(() => {
   position: absolute;
 
   margin-top: 5%;
-  width: 80px;
-  height: 80px;
-  max-width: 80px;
-  max-height: 80px;
+  width: 5rem;
+  height: 5rem;
+  max-width: 5rem;
+  max-height: 5rem;
   background-color: $transparente;
-  border-radius: 10px;
-  border: 0.5px solid $cor-light;
+  border-radius: 0.625rem;
+  border: 0.03125rem solid $cor-light;
   color: $cor-light;
   cursor: pointer;
   animation: appear 0.6s ease-out;
@@ -558,13 +559,13 @@ onMounted(() => {
 
 .bolaConhecimento {
   position: absolute;
-  width: 90px;
-  height: 90px;
+  width: 5.625rem;
+  height: 5.625rem;
   border-radius: 50%;
   background-color: $cor-primaria;
   top: 65%;
   left: 14%;
-  filter: blur(60px);
+  filter: blur(3.75rem);
 }
 
 .logofooter {
@@ -573,7 +574,7 @@ onMounted(() => {
   justify-content: center;
   width: 80%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 1.25rem;
   overflow: hidden;
   transition: .3s ease-in-out;
 }
@@ -586,6 +587,19 @@ onMounted(() => {
 .logofooter:hover {
   overflow: hidden;
   rotate: 10deg;
+}
+
+#titleProjetos {
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-top: 11rem;
+}
+
+@media screen and (max-width: 1582px) {
+  #titleProjetos {
+    margin-top: 4rem;
+  }
 }
 
 @media screen and (max-width: 1024px) {
@@ -602,24 +616,20 @@ onMounted(() => {
   }
 
   .apresentacao p {
-    max-width: 70vw;
+    max-width: 43.75rem;
   }
 
   .linkLP {
-    width: 200px;
-    height: 35px;
+    width: 12.5rem;
+    height: 2.1875rem;
   }
 
   .btnSocial {
-    width: 20px;
+    width: 1.25rem;
   }
 
   #titleProjetos {
     font-size: 1.5rem;
-  }
-
-  .corpo {
-    margin-top: 500px;
   }
 
   .conteudos h2 {
@@ -637,7 +647,7 @@ onMounted(() => {
 
   .conteudoAbout p,
   .experiencia p {
-    width: 70%;
+    width: 43.75rem;
     font-size: 1rem;
   }
 
@@ -652,10 +662,10 @@ onMounted(() => {
   }
 
   .conhecimento button {
-    width: 70px;
-    height: 70px;
-    max-width: 70px;
-    max-height: 70px;
+    width: 4.375rem;
+    height: 4.375rem;
+    max-width: 4.375rem;
+    max-height: 4.375rem;
   }
 
   .btnVue {
@@ -704,19 +714,19 @@ onMounted(() => {
   }
 
   .btnMysql img {
-    max-width: 50px;
+    max-width: 3.125rem;
   }
 
   .btnJs img,
   .btnTs img {
-    max-width: 28px;
+    max-width: 1.75rem;
     margin-top: 50%;
     margin-left: 30%;
   }
 
   .btnVue svg,
   .btnSass svg {
-    max-width: 45px;
+    max-width: 2.8125rem;
   }
 
   .divVue p,
@@ -734,22 +744,21 @@ onMounted(() => {
   }
 
   .bolaConhecimento {
-    width: 70px;
-    height: 70px;
+    width: 4.375rem;
+    height: 4.375rem;
     top: 60%;
     left: 10%;
-    filter: blur(40px);
+    filter: blur(2.5rem);
   }
 }
 
 @media screen and (max-width: 960px) {
   .corpo {
-    margin-top: 1000px;
+    margin-top: 15rem;
   }
-
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 878px) {
   .home-container {
     height: 80vh;
   }
@@ -759,7 +768,7 @@ onMounted(() => {
   }
 
   .apresentacao h1 {
-    margin-top: 40px;
+    margin-top: 2.5rem;
     width: 80%;
     text-align: center;
     font-size: 2.3rem;
@@ -776,27 +785,57 @@ onMounted(() => {
 
   .apresentacao p {
     margin-top: 2%;
-    max-width: 80vw;
+    max-width: 53.125rem;
     font-size: 1rem;
   }
 
   .linkLP {
-    width: 300px;
-    height: 35px;
+    width: 18.75rem;
+    height: 2.1875rem;
   }
 
   .btnSocial {
-    width: 25px;
+    width: 1.5625rem;
   }
-
 
   .corpo {
-    margin-top: 1000px;
+    margin-top: 20rem;
   }
 
+
+
   .conteudos h2 {
-    font-size: 1.8rem;
+    font-size: 1.8rem;margin-top: 2.5rem;
+    width: 80%;
+    text-align: center;
+    font-size: 2.3rem;
+    margin: 0 auto;
   }
+
+  .apresentacao h2 {
+    display: none;
+  }
+
+  #nameTitulo span {
+    font-size: 3rem;
+  }
+
+  .apresentacao p {
+    margin-top: 2%;
+    max-width: 53.125rem;
+    font-size: 1rem;
+  }
+
+  .linkLP {
+    width: 18.75rem;
+    height: 2.1875rem;
+  }
+
+  .btnSocial {
+    width: 1.5625rem;
+  }
+
+
 
   .conteudos p {
     line-height: 1.8rem;
@@ -804,7 +843,7 @@ onMounted(() => {
 
   .conteudoAbout p,
   .experiencia p {
-    width: 85%;
+    width: 43.75rem;
     font-size: 1rem;
     max-width: 200%;
   }
@@ -819,10 +858,10 @@ onMounted(() => {
   }
 
   .conhecimento button {
-    width: 60px;
-    height: 60px;
-    max-width: 60px;
-    max-height: 60px;
+    width: 3.75rem;
+    height: 3.75rem;
+    max-width: 3.75rem;
+    max-height: 3.75rem;
     margin-top: 20%;
   }
 
@@ -872,19 +911,19 @@ onMounted(() => {
   }
 
   .btnMysql img {
-    max-width: 50px;
+    max-width: 3.125rem;
   }
 
   .btnJs img,
   .btnTs img {
-    max-width: 28px;
+    max-width: 1.75rem;
     margin-top: 50%;
     margin-left: 30%;
   }
 
   .btnVue svg,
   .btnSass svg {
-    max-width: 45px;
+    max-width: 2.8125rem;
   }
 
   .divVue p,
@@ -902,17 +941,17 @@ onMounted(() => {
   }
 
   .bolaConhecimento {
-    width: 70px;
-    height: 70px;
+    width: 4.375rem;
+    height: 4.375rem;
     top: 60%;
     left: 10%;
-    filter: blur(40px);
+    filter: blur(2.5rem);
   }
 
   .conteudoAbout,
   .experiencia {
     flex-direction: column;
-    margin: 30px auto;
+    margin: 1.875rem auto;
   }
 
   .conteudoAbout .text-container,
@@ -924,15 +963,188 @@ onMounted(() => {
 
   .conteudoAbout .card,
   .experiencia .card {
-    height: 200px;
+    height: 12.5rem;
     margin: 0;
   }
+
+  .tech-container .tech-item {
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+  
+  .tech-container {
+    height: 60vh;
+  }
+  
+  /* Ajustar posicionamento dos ícones de tecnologia no mobile */
+  .tech-item[style*="top: 20%; left: 15%"] {
+    top: 15% !important;
+    left: 10% !important;
+  }
+  
+  .tech-item[style*="top: 28%; left: 35%"] {
+    top: 20% !important;
+    left: 32% !important;
+  }
+  
+  .tech-item[style*="top: 45%; left: 22%"] {
+    top: 40% !important;
+    left: 15% !important;
+  }
+  
+  .tech-item[style*="top: 18%; left: 60%"] {
+    top: 15% !important;
+    left: 55% !important;
+  }
+  
+  .tech-item[style*="top: 38%; left: 52%"] {
+    top: 35% !important;
+    left: 48% !important;
+  }
+  
+  .tech-item[style*="top: 60%; left: 40%"] {
+    top: 55% !important;
+    left: 30% !important;
+  }
+  
+  .tech-item[style*="top: 25%; left: 75%"] {
+    top: 20% !important;
+    left: 70% !important;
+  }
+  
+  .tech-item[style*="top: 55%; left: 70%"] {
+    top: 50% !important;
+    left: 65% !important;
+  }
+  
+  .tech-item[style*="top: 70%; left: 60%"] {
+    top: 65% !important;
+    left: 50% !important;
+  }
+  
+  .tech-item[style*="top: 72%; left: 22%"] {
+    top: 65% !important;
+    left: 18% !important;
+  }
+  
+  .tech-item[style*="top: 85%; left: 40%"] {
+    top: 75% !important;
+    left: 38% !important;
+  }
+  
+  .tech-item[style*="top: 50%; left: 85%"] {
+    top: 45% !important;
+    left: 82% !important;
+  }
+  
+  .tech-item[style*="top: 80%; left: 75%"] {
+    top: 70% !important;
+    left: 75% !important;
+  }
+  
+  .tech-item[style*="top: 15%; left: 88%"] {
+    top: 10% !important;
+    left: 85% !important;
+  }
+  
+  .tech-item[style*="top: 90%; left: 55%"] {
+    top: 85% !important;
+    left: 58% !important;
+  }
+  
+  .tech-item[style*="top: 75%; left: 88%"] {
+    top: 70% !important;
+    left: 85% !important;
+  }
+
+  /* Melhorias gerais de responsividade */
+  #spanDefault {
+    margin-left: 5%;
+    font-size: 0.9rem;
+    display: block;
+    width: 90%;
+    text-align: center;
+  }
+  
+  .conhecimento h2 {
+    margin-left: 5%;
+    text-align: center;
+    font-size: 1.8rem;
+  }
+  
+  .conteudoAbout .text-container,
+  .experiencia .text-container {
+    width: 90%;
+    padding: 0 10px;
+  }
+  
+  .conteudoAbout .card,
+  .experiencia .card {
+    width: 60%;
+    margin: 20px 0;
+  }
+  
+  .conteudoAbout .card img,
+  .experiencia .card img {
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .bolaConhecimento {
+    width: 3.75rem;
+    height: 3.75rem;
+    top: 50%;
+    left: 15%;
+  }
+  
 }
 
 @media screen and (max-width: 480px) {
+  .tech-container .tech-item {
+    width: 3.125rem;
+    height: 3.125rem;
+  }
+  
+  .tech-container {
+    height: 55vh;
+  }
+
   .conteudoAbout .card,
   .experiencia .card {
-    height: 150px;
+    height: auto;
+    width: 80%;
+  }
+  
+  .conteudoAbout .card img,
+  .experiencia .card img {
+    width: 100%;
+  }
+  
+  .logofooter img {
+    width: 15%;
+  }
+  
+  .apresentacao h1 {
+    font-size: 1.8rem;
+  }
+  
+  #nameTitulo span {
+    font-size: 2rem;
+  }
+  
+  .linkLP {
+    width: 15.625rem;
+    height: 2.5rem;
+  }
+  
+  .btnProjects button,
+  .btnAbout,
+  .btnExp {
+    padding: 0.5rem 1rem;
+  }
+  
+  .conhecimento {
+    height: 90vh;
   }
 }
 
@@ -946,7 +1158,7 @@ onMounted(() => {
   }
 
   .apresentacao h1 {
-    margin-top: 40px;
+    margin-top: 2.5rem;
     width: 90%;
     text-align: center;
     font-size: 2rem;
@@ -963,24 +1175,154 @@ onMounted(() => {
 
   .apresentacao p {
     margin-top: 2%;
-    max-width: 80vw;
+    max-width: 53.125rem;
     font-size: 1rem;
     text-align: center;
   }
 
   .linkLP {
-    width: 300px;
-    height: 35px;
+    width: 18.75rem;
+    height: 2.1875rem;
   }
 
   .btnSocial {
-    width: 25px;
+    width: 1.5625rem;
   }
 
   .conhecimento button {
     margin-top: 20%;
   }
 
+  .home-container {
+    height: auto;
+    min-height: 80vh;
+    border-radius: 2.5rem;
+    border-width: 0.9375rem;
+  }
+  
+  .apresentacao {
+    margin-top: 25%;
+    padding-bottom: 2.5rem;
+  }
+  
+  .apresentacao h1 {
+    font-size: 1.5rem;
+  }
+  
+  #nameTitulo span {
+    font-size: 1.7rem;
+  }
+  
+  .apresentacao p {
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+  }
+  
+  .linkLP {
+    width: 13.75rem;
+    height: 2.1875rem;
+  }
+  
+  .btnSocial {
+    width: 1.25rem;
+  }
+  
+  .conhecimento {
+    height: 100vh;
+  }
+  
+  .conhecimento h2 {
+    font-size: 1.5rem;
+  }
+  
+  #spanDefault {
+    font-size: 0.8rem;
+  }
+  
+  .tech-container .tech-item {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .tech-container .tech-item img {
+    height: 1.875rem;
+    width: 1.875rem;
+  }
+  
+  .conteudoAbout p, 
+  .experiencia p {
+    font-size: 0.9rem;
+    line-height: 1.6rem;
+  }
+  
+  .conteudoAbout h2, 
+  .experiencia h2 {
+    font-size: 1.5rem;
+  }
+  
+  #hr {
+    margin-top: 1.875rem;
+    margin-bottom: 1.875rem;
+  }
+  
+  /* Ajuste dos cards em telas muito pequenas */
+  .conteudoAbout,
+  .experiencia {
+    margin: 1.25rem auto;
+    padding: 0 0.625rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .tech-container .tech-item {
+    width: 2.1875rem;
+    height: 2.1875rem;
+  }
+  
+  .tech-container .tech-item img {
+    height: 1.5625rem;
+    width: 1.5625rem;
+  }
+  
+  .apresentacao h1 {
+    font-size: 1.3rem;
+  }
+  
+  #nameTitulo span {
+    font-size: 1.5rem;
+  }
+  
+  .linkLP {
+    width: 12.5rem;
+  }
+  
+  .conhecimento {
+    height: 80vh;
+  }
+  
+  #titleProjetos {
+    margin-top: 15%;
+    font-size: 1.2rem;
+  }
+}
+
+/* Melhorias para touch em dispositivos móveis */
+@media (hover: none) {
+  .tech-item {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .tech-item:active {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .btnAbout:active,
+  .btnExp:active,
+  .btnProjects button:active {
+    background-color: $hover;
+    transform: scale(1.1);
+  }
 }
 
 @keyframes appear {
@@ -1106,7 +1448,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: 60px auto;
+  margin: 3.75rem auto;
   flex-direction: row;
 }
 
@@ -1116,7 +1458,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 1.25rem;
 }
 
 .conteudoAbout .card,
@@ -1125,7 +1467,7 @@ onMounted(() => {
   height: auto; /* Alterado de 300px para auto para se ajustar à altura da imagem */
   background-size: cover;
   background-position: center;
-  border-radius: 16px;
+  border-radius: 1rem;
   transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   overflow: hidden; /* Adicionado para conter a imagem dentro dos limites do card */
 }
@@ -1140,14 +1482,14 @@ onMounted(() => {
 
 .conteudoAbout .card:hover,
 .experiencia .card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-0.5rem);
 }
 
 .tech-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.25rem;
   justify-items: center;
   padding: 0 10%;
   max-width: 80%;
@@ -1160,11 +1502,11 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80px;
-  height: 80px;
+  width: 5rem;
+  height: 5rem;
   background-color: $transparente;
-  border-radius: 10px;
-  border: 0.5px solid $cor-light;
+  border-radius: 0.625rem;
+  border: 0.03125rem solid $cor-light;
   cursor: pointer;
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
@@ -1175,7 +1517,7 @@ onMounted(() => {
 }
 
 .tech-item i {
-  font-size: 40px;
+  font-size: 2.5rem;
   color: $cor-light;
   font-family: 'devicon' !important;
   display: inline-block;
@@ -1183,17 +1525,17 @@ onMounted(() => {
 
 .tooltip {
   visibility: hidden;
-  width: 120px;
+  width: 7.5rem;
   background-color: $cor-primaria;
   color: $cor-light;
   text-align: center;
-  border-radius: 6px;
-  padding: 5px;
+  border-radius: 0.375rem;
+  padding: 0.3125rem;
   position: absolute;
   z-index: 1;
   bottom: 125%;
   left: 50%;
-  margin-left: -60px;
+  margin-left: -3.75rem;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -1204,42 +1546,42 @@ onMounted(() => {
 }
 
 /* Responsive adjustments for tech grid */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 878px) {
   .tech-grid {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    gap: 0.9375rem;
     padding: 0 5%;
   }
   
   .tech-item {
-    width: 70px;
-    height: 70px;
+    width: 4.375rem;
+    height: 4.375rem;
   }
   
   .tech-item i {
-    font-size: 35px;
+    font-size: 2.1875rem;
   }
   
   .tooltip {
-    width: 100px;
-    margin-left: -50px;
+    width: 6.25rem;
+    margin-left: -3.125rem;
     font-size: 0.9rem;
   }
 }
 
 @media screen and (max-width: 480px) {
   .tech-grid {
-    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(3.75rem, 1fr));
+    gap: 0.625rem;
   }
   
   .tech-item {
-    width: 60px;
-    height: 60px;
+    width: 3.75rem;
+    height: 3.75rem;
   }
   
   .tech-item i {
-    font-size: 30px;
+    font-size: 1.875rem;
   }
 }
 
@@ -1255,37 +1597,1010 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80px;
-  height: 80px;
+  width: 5rem;
+  height: 5rem;
   background-color: $transparente;
-  border-radius: 10px;
-  border: 0.5px solid $cor-light;
+  border-radius: 0.625rem;
+  border: 0.03125rem solid $cor-light;
   cursor: pointer;
   transition: transform 0.3s ease, background-color 0.3s ease;
   animation: appear 0.8s ease-out forwards;
   animation-delay: calc(var(--order) * 0.2s);
   opacity: 0;
+  z-index: 2;
 }
 
-@media screen and (max-width: 768px) {
+.tech-container .tech-item:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced responsive styles for tech items */
+@media screen and (max-width: 600px) {
+  .tech-container {
+    height: 60vh;
+  }
+  
   .tech-container .tech-item {
-    width: 70px;
-    height: 70px;
+    width: 3.4375rem;
+    height: 3.4375rem;
+  }
+  
+  .tech-container .tech-item img {
+    height: 2.1875rem;
+    width: 2.1875rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .tech-container {
+    height: 55vh;
+  }
+  
+  .tech-container .tech-item {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .tech-container .tech-item img {
+    height: 1.875rem;
+    width: 1.875rem;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .tech-container {
+    height: 50vh;
+  }
+  
+  .tech-container .tech-item {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .tech-container .tech-item img {
+    height: 1.5625rem;
+    width: 1.5625rem;
+  }
+}
+
+@media screen and (max-width: 878px) {
+  .tech-container .tech-item {
+    width: 3.75rem;
+    height: 3.75rem;
   }
   
   .tech-container {
     height: 60vh;
   }
+  
+  /* Ajustar posicionamento dos ícones de tecnologia no mobile */
+  .tech-item[style*="top: 20%; left: 15%"] {
+    top: 15% !important;
+    left: 10% !important;
+  }
+  
+  .tech-item[style*="top: 28%; left: 35%"] {
+    top: 20% !important;
+    left: 32% !important;
+  }
+  
+  .tech-item[style*="top: 45%; left: 22%"] {
+    top: 40% !important;
+    left: 15% !important;
+  }
+  
+  .tech-item[style*="top: 18%; left: 60%"] {
+    top: 15% !important;
+    left: 55% !important;
+  }
+  
+  .tech-item[style*="top: 38%; left: 52%"] {
+    top: 35% !important;
+    left: 48% !important;
+  }
+  
+  .tech-item[style*="top: 60%; left: 40%"] {
+    top: 55% !important;
+    left: 30% !important;
+  }
+  
+  .tech-item[style*="top: 25%; left: 75%"] {
+    top: 20% !important;
+    left: 70% !important;
+  }
+  
+  .tech-item[style*="top: 55%; left: 70%"] {
+    top: 50% !important;
+    left: 65% !important;
+  }
+  
+  .tech-item[style*="top: 70%; left: 60%"] {
+    top: 65% !important;
+    left: 50% !important;
+  }
+  
+  .tech-item[style*="top: 72%; left: 22%"] {
+    top: 65% !important;
+    left: 18% !important;
+  }
+  
+  .tech-item[style*="top: 85%; left: 40%"] {
+    top: 75% !important;
+    left: 38% !important;
+  }
+  
+  .tech-item[style*="top: 50%; left: 85%"] {
+    top: 45% !important;
+    left: 82% !important;
+  }
+  
+  .tech-item[style*="top: 80%; left: 75%"] {
+    top: 70% !important;
+    left: 75% !important;
+  }
+  
+  .tech-item[style*="top: 15%; left: 88%"] {
+    top: 10% !important;
+    left: 85% !important;
+  }
+  
+  .tech-item[style*="top: 90%; left: 55%"] {
+    top: 85% !important;
+    left: 58% !important;
+  }
+  
+  .tech-item[style*="top: 75%; left: 88%"] {
+    top: 70% !important;
+    left: 85% !important;
+  }
+
+  /* Melhorias gerais de responsividade */
+  #spanDefault {
+    margin-left: 5%;
+    font-size: 0.9rem;
+    display: block;
+    width: 90%;
+    text-align: center;
+  }
+  
+  .conhecimento h2 {
+    margin-left: 5%;
+    text-align: center;
+    font-size: 1.8rem;
+  }
+  
+  .conteudoAbout .text-container,
+  .experiencia .text-container {
+    width: 90%;
+    padding: 0 10px;
+  }
+  
+  .conteudoAbout .card,
+  .experiencia .card {
+    width: 60%;
+    margin: 20px 0;
+  }
+  
+  .conteudoAbout .card img,
+  .experiencia .card img {
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .bolaConhecimento {
+    width: 3.75rem;
+    height: 3.75rem;
+    top: 50%;
+    left: 15%;
+  }
 }
 
 @media screen and (max-width: 480px) {
   .tech-container .tech-item {
-    width: 60px;
-    height: 60px;
+    width: 3.125rem;
+    height: 3.125rem;
   }
   
   .tech-container {
-    height: 50vh;
+    height: 55vh;
+  }
+
+  .conteudoAbout .card,
+  .experiencia .card {
+    height: auto;
+    width: 80%;
+  }
+  
+  .conteudoAbout .card img,
+  .experiencia .card img {
+    width: 100%;
+  }
+  
+  .logofooter img {
+    width: 15%;
+  }
+  
+  .apresentacao h1 {
+    font-size: 1.8rem;
+  }
+  
+  #nameTitulo span {
+    font-size: 2rem;
+  }
+  
+  .linkLP {
+    width: 15.625rem;
+    height: 2.5rem;
+  }
+  
+  .btnProjects button,
+  .btnAbout,
+  .btnExp {
+    padding: 0.5rem 1rem;
+  }
+  
+  .conhecimento {
+    height: 90vh;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .home-container {
+    height: 80vh;
+  }
+
+  .apresentacao {
+    margin-top: 18%;
+  }
+
+  .apresentacao h1 {
+    margin-top: 2.5rem;
+    width: 90%;
+    text-align: center;
+    font-size: 2rem;
+    margin: 0 auto;
+  }
+
+  .apresentacao h2 {
+    display: none;
+  }
+
+  #nameTitulo span {
+    font-size: 2.7rem;
+  }
+
+  .apresentacao p {
+    margin-top: 2%;
+    max-width: 53.125rem;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .linkLP {
+    width: 18.75rem;
+    height: 2.1875rem;
+  }
+
+  .btnSocial {
+    width: 1.5625rem;
+  }
+
+  .conhecimento button {
+    margin-top: 20%;
+  }
+
+  .home-container {
+    height: auto;
+    min-height: 80vh;
+    border-radius: 2.5rem;
+    border-width: 0.9375rem;
+  }
+  
+  .apresentacao {
+    margin-top: 25%;
+    padding-bottom: 2.5rem;
+  }
+  
+  .apresentacao h1 {
+    font-size: 1.5rem;
+  }
+  
+  #nameTitulo span {
+    font-size: 1.7rem;
+  }
+  
+  .apresentacao p {
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+  }
+  
+  .linkLP {
+    width: 13.75rem;
+    height: 2.1875rem;
+  }
+  
+  .btnSocial {
+    width: 1.25rem;
+  }
+  
+  .conhecimento {
+    height: 100vh;
+  }
+  
+  .conhecimento h2 {
+    font-size: 1.5rem;
+  }
+  
+  #spanDefault {
+    font-size: 0.8rem;
+  }
+  
+  .tech-container .tech-item {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .tech-container .tech-item img {
+    height: 1.875rem;
+    width: 1.875rem;
+  }
+  
+  .conteudoAbout p, 
+  .experiencia p {
+    font-size: 0.9rem;
+    line-height: 1.6rem;
+  }
+  
+  .conteudoAbout h2, 
+  .experiencia h2 {
+    font-size: 1.5rem;
+  }
+  
+  #hr {
+    margin-top: 1.875rem;
+    margin-bottom: 1.875rem;
+  }
+  
+  /* Ajuste dos cards em telas muito pequenas */
+  .conteudoAbout,
+  .experiencia {
+    margin: 1.25rem auto;
+    padding: 0 0.625rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .tech-container .tech-item {
+    width: 2.1875rem;
+    height: 2.1875rem;
+  }
+  
+  .tech-container .tech-item img {
+    height: 1.5625rem;
+    width: 1.5625rem;
+  }
+  
+  .apresentacao h1 {
+    font-size: 1.3rem;
+  }
+  
+  #nameTitulo span {
+    font-size: 1.5rem;
+  }
+  
+  .linkLP {
+    width: 12.5rem;
+  }
+  
+  .conhecimento {
+    height: 80vh;
+  }
+  
+  #titleProjetos {
+    margin-top: 15%;
+    font-size: 1.2rem;
+  }
+}
+
+/* Melhorias para touch em dispositivos móveis */
+@media (hover: none) {
+  .tech-item {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .tech-item:active {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .btnAbout:active,
+  .btnExp:active,
+  .btnProjects button:active {
+    background-color: $hover;
+    transform: scale(1.1);
+  }
+}
+
+/* Melhorias na responsividade para dispositivos entre 1024px e 769px */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .home-container {
+    height: 85vh;
+    border-radius: 3.125rem;
+    border-width: 1.125rem;
+  }
+
+  .apresentacao {
+    margin-top: 15%;
+  }
+
+  .apresentacao h1 {
+    font-size: 2.8rem;
+  }
+
+  .apresentacao h2 {
+    font-size: 2.8rem;
+    width: 85vw;
+  }
+
+  #nameTitulo span {
+    font-size: 2.8rem;
+  }
+
+  .apresentacao p {
+    max-width: 46.875rem;
+    font-size: 1.1rem;
+    line-height: 1.7rem;
+  }
+
+  .linkLP {
+    width: 14.375rem;
+    height: 2.375rem;
+  }
+
+  .btnSocial {
+    width: 1.375rem;
+  }
+
+
+  .tech-container {
+    height: 65vh;
+  }
+
+  .conhecimento h2 {
+    font-size: 2.2rem;
+    margin-left: 9%;
+  }
+
+  #spanDefault {
+    font-size: 0.95rem;
+    margin-left: 9%;
+  }
+
+  .conteudoAbout h2, 
+  .experiencia h2 {
+    font-size: 2rem;
+  }
+
+  .conteudoAbout p,
+  .experiencia p {
+    width: 50rem;
+    font-size: 1.1rem;
+    line-height: 1.9rem;
+  }
+
+  .conteudoAbout .card,
+  .experiencia .card {
+    width: 35%;
+  }
+}
+
+/* Tablets pequenos e celulares grandes */
+@media screen and (max-width: 878px) {
+  .home-container {
+    height: auto;
+    min-height: 85vh;
+    border-radius: 2.8125rem;
+    border-width: 1rem;
+  }
+
+  .apresentacao {
+    margin-top: 16%;
+    padding-bottom: 2.5rem;
+  }
+
+  .apresentacao h1 {
+    font-size: 2.2rem;
+    width: 85%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .apresentacao h2 {
+    font-size: 2.2rem;
+    width: 85vw;
+  }
+
+  #nameTitulo span {
+    font-size: 2.4rem;
+  }
+
+  .apresentacao p {
+    max-width: 50rem;
+    font-size: 1rem;
+    line-height: 1.6rem;
+    text-align: center;
+  }
+
+
+  /* Melhorias na seção de tecnologias */
+  .conhecimento {
+    height: 90vh;
+  }
+
+  .conhecimento h2 {
+    font-size: 2rem;
+    margin-left: 8%;
+    text-align: center;
+    margin-top: 1.25rem;
+  }
+
+  #spanDefault {
+    font-size: 0.95rem;
+    margin-left: 8%;
+    display: block;
+    width: 85%;
+    text-align: center;
+  }
+
+  /* Ajustes nas seções Sobre e Experiência */
+  .conteudoAbout,
+  .experiencia {
+    flex-direction: column;
+    margin: 2.5rem auto;
+    gap: 1.5625rem;
+  }
+
+  .conteudoAbout .text-container,
+  .experiencia .text-container {
+    width: 85%;
+    padding: 0 0.9375rem;
+    order: 1;
+  }
+
+  .conteudoAbout .card,
+  .experiencia .card {
+    width: 65%;
+    height: auto;
+    order: 0;
+    margin: 0.625rem 0;
+  }
+
+  .conteudoAbout .card img,
+  .experiencia .card img {
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .conteudoAbout h2, 
+  .experiencia h2 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .conteudoAbout p,
+  .experiencia p {
+    width: 100%;
+    font-size: 1rem;
+    line-height: 1.7rem;
+    text-align: center;
+  }
+
+  .btnAbout,
+  .btnExp,
+  .btnProjects button {
+    font-size: 0.9rem;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* Ajuste na bolha de fundo */
+  .bolaConhecimento {
+    width: 4.375rem;
+    height: 4.375rem;
+    top: 60%;
+    left: 12%;
+    filter: blur(2.8125rem);
+  }
+
+  /* Ajuste no logo do footer */
+  .logofooter img {
+    width: 8%;
+  }
+
+  .corpo{
+    margin-top: 45rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .corpo {
+    margin-top: 35rem;
+  }
+}
+
+/* Tablets pequenos e celulares grandes */
+@media screen and (max-width: 600px) {
+  .home-container {
+    border-radius: 2.5rem;
+    border-width: 0.9375rem;
+    min-height: 80vh;
+  }
+
+  .apresentacao {
+    margin-top: 18%;
+  }
+
+  .apresentacao h1 {
+    font-size: 1.9rem;
+  }
+
+  #nameTitulo span {
+    font-size: 2.1rem;
+  }
+
+  .linkLP {
+    width: 15.625rem;
+    height: 2.1875rem;
+  }
+
+  .btnSocial {
+    width: 1.375rem;
+  }
+
+  .conhecimento h2 {
+    font-size: 1.7rem;
+  }
+
+  #spanDefault {
+    font-size: 0.9rem;
+    width: 90%;
+  }
+
+  .tech-container {
+    height: 60vh;
+  }
+
+  .tech-container .tech-item {
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+
+  .tech-container .tech-item img {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+
+  /* Melhorar o posicionamento dos ícones de tecnologia */
+  .tech-item[style*="top: 20%; left: 15%"] {
+    top: 15% !important;
+    left: 12% !important;
+  }
+  
+  .tech-item[style*="top: 28%; left: 35%"] {
+    top: 22% !important;
+    left: 32% !important;
+  }
+  
+  .tech-item[style*="top: 45%; left: 22%"] {
+    top: 38% !important;
+    left: 18% !important;
+  }
+  
+  .tech-item[style*="top: 55%; left: 40%"] {
+    top: 48% !important;
+    left: 36% !important;
+  }
+
+  .conteudoAbout .card,
+  .experiencia .card {
+    width: 75%;
+  }
+
+  #hr {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .logofooter img {
+    width: 10%;
+  }
+}
+
+/* Celulares médios */
+@media screen and (max-width: 480px) {
+  .home-container {
+    border-radius: 2.1875rem;
+    border-width: 0.75rem;
+  }
+  
+  .apresentacao {
+    margin-top: 20%;
+  }
+  
+  .apresentacao h1 {
+    font-size: 1.7rem;
+  }
+  
+  #nameTitulo span {
+    font-size: 1.9rem;
+  }
+  
+  .apresentacao p {
+    max-width: 53.125rem;
+    font-size: 0.95rem;
+    line-height: 1.5rem;
+  }
+  
+  .linkLP {
+    width: 13.75rem;
+    height: 2.1875rem;
+  }
+  
+  .btnSocial {
+    width: 1.25rem;
+  }
+  
+  .tech-container .tech-item {
+    width: 3.125rem;
+    height: 3.125rem;
+  }
+  
+  .tech-container .tech-item img {
+    height: 2rem;
+    width: 2rem;
+  }
+  
+  .conteudoAbout h2, 
+  .experiencia h2 {
+    font-size: 1.6rem;
+  }
+  
+  .conteudoAbout p,
+  .experiencia p {
+    font-size: 0.95rem;
+    line-height: 1.6rem;
+  }
+  
+  .conteudoAbout .card,
+  .experiencia .card {
+    width: 85%;
+  }
+  
+  .btnAbout,
+  .btnExp,
+  .btnProjects button {
+    font-size: 0.8rem;
+    padding: 0.3125rem 0.75rem;
+  }
+  
+  .logofooter img {
+    width: 12%;
+  }
+}
+
+/* Celulares pequenos */
+@media screen and (max-width: 375px) {
+  .home-container {
+    border-radius: 1.875rem;
+    border-width: 0.625rem;
+  }
+  
+  .apresentacao {
+    margin-top: 22%;
+    padding-bottom: 1.875rem;
+  }
+  
+  .apresentacao h1 {
+    font-size: 1.5rem;
+  }
+  
+  #nameTitulo span {
+    font-size: 1.7rem;
+  }
+  
+  .apresentacao p {
+    max-width: 56.25rem;
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+  }
+  
+  .linkLP {
+    width: 12.5rem;
+    margin-top: 1.25rem;
+  }
+  
+  .tech-container .tech-item {
+    width: 2.8125rem;
+    height: 2.8125rem;
+  }
+  
+  .tech-container .tech-item img {
+    height: 1.75rem;
+    width: 1.75rem;
+  }
+  
+  .tech-container {
+    height: 55vh;
+  }
+  
+  .conhecimento h2 {
+    font-size: 1.5rem;
+  }
+  
+  #spanDefault {
+    font-size: 0.85rem;
+  }
+  
+  .conteudoAbout h2, 
+  .experiencia h2 {
+    font-size: 1.5rem;
+  }
+  
+  .conteudoAbout p,
+  .experiencia p {
+    font-size: 0.9rem;
+    line-height: 1.5rem;
+  }
+  
+  #hr {
+    margin-top: 1.875rem;
+    margin-bottom: 1.875rem;
+  }
+}
+
+/* Celulares muito pequenos */
+@media screen and (max-width: 320px) {
+  .apresentacao {
+    margin-top: 25%;
+  }
+  
+  .apresentacao h1 {
+    font-size: 1.3rem;
+  }
+  
+  #nameTitulo span {
+    font-size: 1.5rem;
+  }
+  
+  .linkLP {
+    width: 11.25rem;
+    height: 2rem;
+  }
+  
+  .btnSocial {
+    width: 1.125rem;
+  }
+  
+  .tech-container .tech-item {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .tech-container .tech-item img {
+    height: 1.5625rem;
+    width: 1.5625rem;
+  }
+  
+  .conteudoAbout h2, 
+  .experiencia h2 {
+    font-size: 1.4rem;
+  }
+  
+  .conteudoAbout p,
+  .experiencia p {
+    font-size: 0.85rem;
+    line-height: 1.4rem;
+  }
+  
+  .btnAbout,
+  .btnExp,
+  .btnProjects button {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+  }
+}
+
+/* Melhorias para interações touch em dispositivos móveis */
+@media (hover: none) {
+  .tech-item {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .tech-item:active {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .btnAbout:active,
+  .btnExp:active,
+  .btnProjects button:active {
+    background-color: $hover;
+    transform: scale(1.1);
+  }
+}
+
+/* Melhorias na responsividade para dispositivos entre 1024px e 769px */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .home-container {
+    height: 85vh;
+    border-radius: 3.125rem;
+    border-width: 1.125rem;
+  }
+
+  .apresentacao {
+    margin-top: 15%;
+  }
+
+  .apresentacao h1 {
+    font-size: 2.8rem;
+  }
+
+  .apresentacao h2 {
+    font-size: 2.8rem;
+    width: 85vw;
+  }
+
+  #nameTitulo span {
+    font-size: 2.8rem;
+  }
+
+  .apresentacao p {
+    max-width: 46.875rem;
+    font-size: 1.1rem;
+    line-height: 1.7rem;
+  }
+
+  .linkLP {
+    width: 14.375rem;
+    height: 2.375rem;
+  }
+
+  .btnSocial {
+    width: 1.375rem;
+  }
+
+
+  .tech-container {
+    height: 65vh;
+  }
+
+  .conhecimento h2 {
+    font-size: 2.2rem;
+    margin-left: 9%;
+  }
+
+  #spanDefault {
+    font-size: 0.95rem;
+    margin-left: 9%;
+  }
+
+  .conteudoAbout h2, 
+  .experiencia h2 {
+    font-size: 2rem;
+  }
+
+  .conteudoAbout p,
+  .experiencia p {
+    width: 50rem;
+    font-size: 1.1rem;
+    line-height: 1.9rem;
+  }
+
+  .conteudoAbout .card,
+  .experiencia .card {
+    width: 35%;
   }
 }
 </style>
