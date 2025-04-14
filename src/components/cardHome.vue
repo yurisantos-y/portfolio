@@ -63,6 +63,13 @@ export default {
 <style lang="scss">
 @import '../scss/style.scss';
 
+// Define responsive breakpoints
+$mobile-small: 480px;
+$mobile: 640px;
+$tablet: 768px;
+$desktop-small: 992px;
+$desktop: 1200px;
+
 .card-container {
   display: flex;
   justify-content: center;
@@ -74,7 +81,24 @@ export default {
   overflow: visible;
   width: 100%;
   max-width: 960px;
-  //overflow-x: hidden;
+  
+  @media (max-width: $desktop-small) {
+    max-width: 90%;
+  }
+  
+  @media (max-width: $tablet) {
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    top: 120px;
+    margin-bottom: 80px;
+  }
+  
+  @media (max-width: $mobile) {
+    gap: 50px;
+    margin-bottom: 50px;
+  }
 }
 
 .cardProjeto {
@@ -88,11 +112,34 @@ export default {
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  
+  @media (max-width: $desktop-small) {
+    width: 400px;
+    height: 360px;
+  }
+  
+  @media (max-width: $tablet) {
+    width: 85vw;
+    height: 340px;
+    max-width: 500px;
+  }
+  
+  @media (max-width: $mobile) {
+    height: 300px;
+  }
+  
+  @media (max-width: $mobile-small) {
+    height: 250px;
+  }
 }
 
 .cardProjeto:hover {
   transform: translateY(-15px);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+  
+  @media (max-width: $mobile) {
+    transform: translateY(-10px);
+  }
 }
 
 .card-image {
@@ -131,12 +178,20 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: flex-start; /* Mantém o alinhamento no topo */
-  justify-content: center; /* Centraliza horizontalmente */
+  align-items: flex-start;
+  justify-content: center;
   position: absolute;
   top: 0;
   left: 0;
-  padding-top: 6rem; /* Alterado para 1rem conforme solicitado */
+  padding-top: 6rem;
+  
+  @media (max-width: $mobile) {
+    padding-top: 4rem;
+  }
+  
+  @media (max-width: $mobile-small) {
+    padding-top: 2.5rem;
+  }
 }
 
 .cardProjeto .btnTela {
@@ -151,6 +206,16 @@ export default {
   transition: all 0.3s ease;
   transform: translateY(20px);
   opacity: 0;
+  
+  @media (max-width: $mobile) {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+  
+  @media (max-width: $mobile-small) {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
 }
 
 .cardProjeto:hover .btnTela {
@@ -178,6 +243,20 @@ export default {
   transform: translateY(70px);
   transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   text-align: left;
+  
+  @media (max-width: $tablet) {
+    padding: 1.5rem;
+  }
+  
+  @media (max-width: $mobile) {
+    padding: 1.25rem;
+    transform: translateY(60px);
+  }
+  
+  @media (max-width: $mobile-small) {
+    padding: 1rem;
+    transform: translateY(50px);
+  }
 }
 
 .cardProjeto:hover .description {
@@ -190,6 +269,19 @@ export default {
   margin-bottom: 0.5rem;
   color: $cor-light;
   letter-spacing: -0.3px;
+  
+  @media (max-width: $tablet) {
+    font-size: 1.3rem;
+  }
+  
+  @media (max-width: $mobile) {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  @media (max-width: $mobile-small) {
+    font-size: 1.1rem;
+  }
 }
 
 .cardProjeto .description p {
@@ -201,12 +293,27 @@ export default {
   opacity: 0;
   overflow: hidden;
   transition: max-height 0.6s ease, opacity 0.6s ease, margin 0.6s ease;
+  
+  @media (max-width: $mobile) {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+  
+  @media (max-width: $mobile-small) {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    margin-bottom: 0.7rem;
+  }
 }
 
 .cardProjeto:hover .description p {
   max-height: 100px;
   opacity: 1;
   margin-bottom: 1rem;
+  
+  @media (max-width: $mobile-small) {
+    margin-bottom: 0.7rem;
+  }
 }
 
 .description-list {
@@ -218,6 +325,16 @@ export default {
   opacity: 0;
   transition: transform 0.5s ease, opacity 0.5s ease;
   transition-delay: 0s;
+  
+  @media (max-width: $mobile) {
+    gap: 6px;
+    margin-top: 0.7rem;
+  }
+  
+  @media (max-width: $mobile-small) {
+    gap: 5px;
+    margin-top: 0.5rem;
+  }
 }
 
 .cardProjeto:hover .description-list {
@@ -237,11 +354,25 @@ export default {
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
   list-style: none;
+  
+  @media (max-width: $mobile) {
+    padding: 3px 10px;
+    font-size: 0.7rem;
+  }
+  
+  @media (max-width: $mobile-small) {
+    padding: 2px 8px;
+    font-size: 0.65rem;
+  }
 }
 
 .description-list li:hover {
   background-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-3px);
+  
+  @media (max-width: $mobile) {
+    transform: translateY(-2px);
+  }
 }
 
 @keyframes fadeInUp {
@@ -255,251 +386,78 @@ export default {
   }
 }
 
+/* Improved touch device handling */
+@media (hover: none) {
   .card-container {
     max-width: 95%;
-    margin-top: -8rem;
-    flex-wrap: wrap;
-    justify-content: center;
     gap: 40px;
   }
   
   .cardProjeto .description {
-    padding: 1.5rem;
-    /* Para dispositivos touch, mostrar a descrição parcialmente visível */
+    /* For touch devices, show description partially visible */
     transform: translateY(55px);
-  }
-
-  /* Em dispositivos touch, melhorar as interações */
-  @media (hover: none) {
-    .cardProjeto .description {
-      transform: translateY(55px);
+    
+    @media (max-width: $mobile) {
+      transform: translateY(45px);
     }
     
-    .cardProjeto .description p {
-      max-height: 0;
-      opacity: 0;
+    @media (max-width: $mobile-small) {
+      transform: translateY(40px);
     }
-    
-    .cardProjeto:active .description {
-      transform: translateY(0);
-    }
-    
-    .cardProjeto:active .description p {
-      max-height: 100px;
-      opacity: 1;
-      margin-bottom: 1rem;
-    }
-    
-    .cardProjeto:active .btnTela {
-      transform: translateY(0);
-      opacity: 1;
-      transition-delay: 0.1s;
-    }
-    
-    .cardProjeto:active .description-list {
-      transform: translateY(0);
-      opacity: 1;
-      transition-delay: 0.2s;
-    }
-    
-    .cardProjeto:active .card-image {
-      filter: brightness(0.3);
-    }
-    
-    .cardProjeto:active .tela {
-      opacity: 1;
-    }
-  }
-
-@media screen and (max-width: 1600px) {
-  .card-container {
-    max-width: 95%;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-  }
-  
-}
-
-@media screen and (max-width: 1030px) {
-  .card-container {
-    max-width: 95%;
-    margin-top: -5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-  }
-  
-}
-
-@media screen and (max-width: 1024px) {
-  .card-container {
-    max-width: 95%;
-    margin-top: -12rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-  }
-  
-}
-
-@media screen and (max-width: 878px) {
-  .card-container {
-    max-width: 95%;
-    margin-top: -19rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-  }
-  
-}
-
-@media screen and (max-width: 480px) {
-  .cardProjeto {
-    height: 250px;
-  }
-  
-  .cardProjeto .description h2 {
-    font-size: 1.3rem;
   }
   
   .cardProjeto .description p {
-    font-size: 0.8rem;
+    max-height: 0;
+    opacity: 0;
   }
   
-  .description-list li {
-    padding: 3px 10px;
-    font-size: 0.7rem;
+  .cardProjeto:active .description {
+    transform: translateY(0);
   }
   
-  .cardProjeto .conteudoTela {
-    padding-top: 4rem;
-  }
-  
-  .cardProjeto .btnTela {
-    padding: 10px 20px;
-    font-size: 0.85rem;
-  }
-  
-  /* Pré-carrega parte da descrição para visibilidade imediata */
-  .cardProjeto .description h2 {
+  .cardProjeto:active .description p {
+    max-height: 100px;
     opacity: 1;
-    transition: opacity 0.3s ease;
+    margin-bottom: 1rem;
+    
+    @media (max-width: $mobile-small) {
+      margin-bottom: 0.7rem;
+    }
   }
-
+  
+  .cardProjeto:active .btnTela {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0.1s;
+  }
+  
+  .cardProjeto:active .description-list {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0.2s;
+  }
+  
+  .cardProjeto:active .card-image {
+    filter: brightness(0.3);
+  }
+  
+  .cardProjeto:active .tela {
+    opacity: 1;
+  }
+  
+  /* Ensure cards are properly spaced in the column on touch devices */
   .card-container {
-    max-width: 95%;
-    margin-top: -24rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-  }
-}
+    @media (max-width: $tablet) {
+      margin-top: 20px;
+      margin-bottom: 120px;
+      margin-top: -25rem;
+    }
+    
+    @media (max-width: $mobile) {
 
-
-@media screen and (max-width: 375px) {
-  .card-container {
-    max-width: 95%;
-    margin-top: -24rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-  }
-
-  .cardProjeto {
-    height: 220px;
-  }
-  
-  .cardProjeto .description {
-    padding: 1rem;
-    transform: translateY(45px);
-  }
-  
-  .cardProjeto .description h2 {
-    font-size: 1.2rem;
-    margin-bottom: 0.3rem;
-  }
-  
-  .description-list {
-    margin-top: 0.8rem;
-    gap: 5px;
-  }
-  
-  .cardProjeto .conteudoTela {
-    padding-top: 3rem;
-  }
-}
-
-@media screen and (max-width: 360px) {
-  .card-container {
-    max-width: 95%;
-    margin-top: -24rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-  }
-  
-  .cardProjeto {
-    height: 210px;
-    margin: 0;
-  }
-  
-  .cardProjeto .description {
-    transform: translateY(55px);
-  }
-  
-  .cardProjeto .btnTela {
-    padding: 8px 16px;
-    font-size: 0.75rem;
-  }
-  
-  .description-list {
-    gap: 4px;
-  }
-  
-  .description-list li {
-    padding: 3px 8px;
-    font-size: 0.65rem;
-  }
-}
-
-@media screen and (max-width: 320px) {
-
-  .card-container {
-    max-width: 95%;
-    margin-top: -12rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-  }
-  
-  .cardProjeto {
-    height: 190px;
-  }
-  
-  .cardProjeto .description h2 {
-    font-size: 1.1rem;
-    margin-bottom: 0.2rem;
-  }
-  
-  .cardProjeto .description p {
-    font-size: 0.75rem;
-    line-height: 1.3;
-  }
-  
-  .cardProjeto .btnTela {
-    padding: 6px 14px;
-    font-size: 0.7rem;
-  }
-  
-  .description-list li {
-    padding: 2px 6px;
-    font-size: 0.6rem;
-  }
-  
-  .cardProjeto .conteudoTela {
-    padding-top: 2.5rem;
+      margin-bottom: 120px;
+      margin-top: -25rem;
+    }
   }
 }
 </style>

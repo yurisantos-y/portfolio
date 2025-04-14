@@ -95,6 +95,7 @@ export default {
 
 .container {
   background-color: $cor-light;
+  min-height: 100vh;
 }
 
 .projects-container {

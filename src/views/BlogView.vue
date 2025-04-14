@@ -115,6 +115,8 @@ body {
 
 .container {
   background-color: $cor-light;
+  min-height: 100vh;
+  
 }
 
 .blog-container {
