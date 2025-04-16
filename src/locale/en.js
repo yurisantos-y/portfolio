@@ -119,5 +119,6 @@ export const en = {
     loading: 'Loading projects...',
     noProjects: 'No projects found',
     checkBack: 'Check back later',
+    visitProject: 'Visit Project',
   }
 }

@@ -95,11 +95,11 @@
                 </button>
                 
                 <a 
-                  href="/projects" 
+                  :href="project.external_url ? project.external_url : '/projects'" 
                   target="_blank" 
                   class="action-button view-button"
                 >
-                  View
+                  {{ project.external_url ? 'Visit Site' : 'View' }}
                 </a>
               </div>
             </article>

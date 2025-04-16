@@ -119,6 +119,6 @@ export const pt_BR = {
     loading: 'Carregando projetos...',
     noProjects: 'Nenhum projeto encontrado',
     checkBack: 'Verifique novamente mais tarde',
-  }
+    visitProject: 'Visitar Projeto',  }
 
 }

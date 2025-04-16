@@ -72,6 +72,19 @@
             ></textarea>
           </div>
 
+          <!-- Add the new external URL field -->
+          <div class="form-group">
+            <label for="external-url">Project URL</label>
+            <input 
+              id="external-url"
+              type="url" 
+              v-model="projectData.external_url" 
+              placeholder="https://example.com/your-project"
+              class="url-input"
+            >
+            <p class="input-hint">Add a link to your live project or repository</p>
+          </div>
+
           <div class="form-group tech-section">
             <label>Technologies Used</label>
             <div class="tech-input-wrapper">
@@ -117,6 +130,14 @@
                 <div class="preview-details">
                   <h2>{{ projectData.title || 'Project Title' }}</h2>
                   <p>{{ projectData.description || 'Project description will appear here...' }}</p>
+                  <a 
+                    v-if="projectData.external_url" 
+                    :href="projectData.external_url" 
+                    target="_blank"
+                    class="preview-link"
+                  >
+                    {{ projectData.external_url ? new URL(projectData.external_url).hostname : '' }}
+                  </a>
                   <div class="preview-techs">
                     <span v-for="(tech, index) in projectData.technologies" :key="index" class="preview-tech">
                       {{ tech }}
@@ -160,6 +181,7 @@ export default {
       title: '',
       description: '',
       image: null,
+      external_url: '',
       technologies: [],
       created_at: null,
       updated_at: null
@@ -280,6 +302,7 @@ export default {
           title: projectData.title,
           description: projectData.description,
           image_url: imageUrl,
+          external_url: projectData.external_url,
           technologies: projectData.technologies,
           user_id: user.id,
           updated_at: now
@@ -486,6 +509,26 @@ export default {
   border-color: rgba(0, 0, 0, 0.3);
 }
 
+.url-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.url-input:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+.input-hint {
+  margin-top: 5px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  font-style: italic;
+}
+
 .cover-preview {
   position: relative;
   margin: 1.5rem 0 2.5rem;
@@ -524,23 +567,30 @@ export default {
 
 .cover-placeholder {
   margin: 1.5rem 0 2.5rem;
+  border: 2px dashed rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cover-options {
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
 }
 
 .cover-option {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  gap: 8px;
+  padding: 10px 16px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.7);
-  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -765,6 +815,30 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+
+.preview-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #1a8917;
+  margin-bottom: 12px;
+  text-decoration: none;
+}
+
+.preview-link::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a8917' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'%3E%3C/path%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cline x1='10' y1='14' x2='21' y2='3'%3E%3C/line%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.preview-link:hover {
+  text-decoration: underline;
 }
 
 .preview-tech {

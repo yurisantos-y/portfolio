@@ -20,7 +20,11 @@
       <div v-else>
         
         <div class="projects-grid">
-          <div v-for="project in projects" :key="project.id" class="project-card">
+          <div v-for="project in projects" 
+               :key="project.id" 
+               class="project-card"
+               @click="navigateToProject(project)"
+               :class="{ 'has-link': project.external_url }">
             <div class="project-image">
               <img v-if="project.image_url" :src="project.image_url" :alt="project.title">
               <div v-else class="placeholder-image"></div>
@@ -35,6 +39,15 @@
                       class="tech-badge">
                   {{ tech }}
                 </span>
+              </div>
+              
+              <div v-if="project.external_url" class="project-link-indicator">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <polyline points="15 3 21 3 21 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>{{ $t('projects.visitProject') || 'Visit Project' }}</span>
               </div>
             </div>
           </div>
@@ -77,6 +90,12 @@ export default {
       }
     };
     
+    const navigateToProject = (project) => {
+      if (project.external_url) {
+        window.open(project.external_url, '_blank');
+      }
+    };
+    
     onMounted(() => {
       fetchProjects();
     });
@@ -84,7 +103,8 @@ export default {
     return {
       projects,
       loading,
-      error
+      error,
+      navigateToProject
     };
   }
 };
@@ -186,6 +206,10 @@ export default {
   height: 100%;
   position: relative;
   
+  &.has-link {
+    cursor: pointer;
+  }
+  
   &:hover {
     transform: translateY(-8px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
@@ -196,6 +220,11 @@ export default {
     
     .project-image img {
       transform: scale(1.08);
+    }
+    
+    .project-link-indicator {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }
@@ -284,6 +313,28 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.project-link-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #1a8917;
+  margin-top: auto;
+  padding-top: 1rem;
+  opacity: 0.8;
+  transform: translateY(5px);
+  transition: all 0.3s ease;
+  
+  svg {
+    stroke: #1a8917;
+  }
+  
+  span {
+    font-weight: 500;
+  }
 }
 
 .tech-badge {
