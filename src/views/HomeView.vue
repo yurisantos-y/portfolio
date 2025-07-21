@@ -338,7 +338,7 @@ onMounted(() => {
 
     <div class="experiencia" :class="{ 'animate__animated animate__fadeIn': experienceVisible }">
       <h2 class="experience-title animate__animated" :class="{ 'animate__fadeInDown': experienceVisible }">
-        Experience
+        {{ $t('experience.titleExperience') }}
       </h2>
       
       <div class="timeline-container animate__animated" :class="{ 'animate__fadeInUp': experienceVisible }">
@@ -347,63 +347,61 @@ onMounted(() => {
         
         <!-- Experience Cards -->
         <div class="timeline-item">
-
-          <div class="timeline-date">Dec 2024 - Feb 2025</div>
+          <div class="timeline-date">{{ $t('experience.computecDate') }}</div>
           <div class="experience-card">
             <div class="job-header">
-              <h3>Software Engineer</h3>
-              <p class="company">Toggle Innovations LLC</p>
+              <h3>{{ $t('experience.computecTitle') }}</h3>
+              <p class="company">{{ $t('experience.computecCompany') }}</p>
             </div>
             <div class="job-description">
-              <ul>
-                <li>Developed client, portal, and admin websites from concept to launch within a 3-month period, ensuring a cohesive and responsive design.</li>
-                <li>Collaborated with cross-functional teams to align website functionality with business goals and user needs.</li>
-              </ul>
+              <p>{{ $t('experience.computecDescription') }}</p>
             </div>
             <div class="tech-stack">
-              <span class="tech-tag">React</span>
-              <span class="tech-tag">NodeJS</span>
-              <span class="tech-tag">MongoDB</span>
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">Shadcn/ui</span>
+              <span class="tech-tag">Tailwind</span>
+              <span class="tech-tag">PostgreSQL</span>
+              <span class="tech-tag">Git</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">{{ $t('experience.doolaDate') }}</div>
+          <div class="experience-card">
+            <div class="job-header">
+              <h3>{{ $t('experience.doolaTitle') }}</h3>
+              <p class="company">{{ $t('experience.doolaCompany') }}</p>
+            </div>
+            <div class="job-description">
+              <p>{{ $t('experience.doolaDescription') }}</p>
+            </div>
+            <div class="tech-stack">
+              <span class="tech-tag">Dart</span>
+              <span class="tech-tag">Flutter</span>
               <span class="tech-tag">Firebase</span>
+              <span class="tech-tag">Git</span>
             </div>
           </div>
         </div>
 
         <div class="timeline-item">
-          <div class="timeline-date">July 2024 - Dec 2024</div>
+          <div class="timeline-date">{{ $t('experience.computecInternDate') }}</div>
           <div class="experience-card">
             <div class="job-header">
-              <h3>Full Stack Web Developer</h3>
-              <p class="company">Blast Catering LLC</p>
+              <h3>{{ $t('experience.computecInternTitle') }}</h3>
+              <p class="company">{{ $t('experience.computecInternCompany') }}</p>
             </div>
             <div class="job-description">
-              <ul>
-                <li>Optimized the customer-facing website by analyzing user analytics and enhancing key features, achieving up to 2x faster load times and a 60% improvement in user engagement.</li>
-                <li>Improved code quality and application efficiency by implementing best practices and shifting processing from client-side to server-side, reducing resource consumption by 45% and increasing maintainability by 30%.</li>
-              </ul>
+              <p>{{ $t('experience.computecInternDescription') }}</p>
             </div>
             <div class="tech-stack">
-              <span class="tech-tag">React</span>
-              <span class="tech-tag">TypeScript</span>
-              <span class="tech-tag">NodeJS</span>
-              <span class="tech-tag">MongoDB</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-date">Sept 2022 - June 2024</div>
-          <div class="experience-card">
-            <div class="job-header">
-              <h3>Software Engineer</h3>
-              <p class="company">Washon LLC</p>
-            </div>
-            <div class="job-description">
-              <ul>
-                <li>Revamped client application using Flutter/Dart, enhancing organization, scalability, and code quality by 2x.</li>
-                <li>Implemented the BLOC pattern and integrated Dio for API call management, reducing response times by 50%.</li>
-                <li>Minimized production crashes and optimized error handling with Flutter Bloc and Firebase.</li>
-              </ul>
+              <span class="tech-tag">PHP</span>
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Django</span>
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">HTML/CSS</span>
             </div>
           </div>
         </div>
@@ -1003,6 +1001,17 @@ body {
 
 .job-description {
   margin-bottom: 1.5rem;
+  
+  p {
+    color: $text-gray;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin: 0;
+    
+    @media (max-width: $mobile) {
+      font-size: 0.85rem;
+    }
+  }
   
   ul {
     list-style: none;

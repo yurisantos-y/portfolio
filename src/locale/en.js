@@ -53,6 +53,22 @@ export const en = {
     titleExperience: 'Experience',
     textExperience: 'I interned as a web developer from March 2023 to March 2024, creating a PHP consulting website. Currently, I have a scientific initiation scholarship focused on developing solutions for poultry farming. I have acquired solid programming skills and apply theoretical knowledge in practical projects.',
     downCv: 'Download CV',
+    
+    // New Experience Data
+    computecTitle: 'FullStack Developer',
+    computecCompany: 'COMPUTEC',
+    computecDate: '07/2024 - 12/2024',
+    computecDescription: 'Online menu application development. Created functionalities using Next.js, Shadcn/ui, Tailwind, PostgreSQL technologies and code version control with Git. Software developed with monolithic architecture',
+    
+    doolaTitle: 'Mobile Developer',
+    doolaCompany: 'Doola',
+    doolaDate: '02/2024 - Current',
+    doolaDescription: 'Development of an application in the Death Care sector. Created functionalities using Dart, Flutter, Firebase technologies and code version control with Git. I was responsible for system design, architecture and code implementation. End-to-end encryption implementation.',
+    
+    computecInternTitle: 'Internship - PHP/Python',
+    computecInternCompany: 'Computec',
+    computecInternDate: '03/2023 - 03/2024',
+    computecInternDescription: 'Contributed to the development of internal projects using technologies such as PHP, Node.js, JavaScript and HTML/CSS. Improved skills in Python and Django, developing customized solutions and following good programming practices.'
   },
 
   card: {

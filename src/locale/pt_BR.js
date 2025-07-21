@@ -53,6 +53,22 @@ export const pt_BR = {
     titleExperience: 'Experiência',
     textExperience: 'Estagiei como desenvolvedor web de março de 2023 a março de 2024, criando um site de consultoria em PHP. Atualmente, tenho uma bolsa de iniciação científica focada no desenvolvimento de soluções para avicultura. Adquiri habilidades sólidas em programação e aplico conhecimentos teóricos em projetos práticos.',
     downCv: 'Baixar Curriculo',
+    
+    // New Experience Data
+    computecTitle: 'Desenvolvedor FullStack',
+    computecCompany: 'COMPUTEC',
+    computecDate: '07/2024 - 12/2024',
+    computecDescription: 'Desenvolvimento aplicativo cardápio online. Criação de funcionalidades com as tecnologias Next.Js, Shadcn/ui, Tailwind, PostgreSQL e controle de versão de código com Git. Software desenvolvido com arquitetura monolítica',
+    
+    doolaTitle: 'Desenvolvedor Mobile',
+    doolaCompany: 'Doola',
+    doolaDate: '02/2024 - Atual',
+    doolaDescription: 'Desenvolvimento de um aplicativo no setor Death Care. Criação de funcionalidades com as tecnologias Dart, Flutter, FireBase e controle de versão de código com Git. Fui responsável pelo system design, arquitetura e implementação do código. Implementação de criptografia de ponta a ponta.',
+    
+    computecInternTitle: 'Estágio - PHP/Python',
+    computecInternCompany: 'Computec',
+    computecInternDate: '03/2023 - 03/2024',
+    computecInternDescription: 'Contribuí para o desenvolvimento de projetos internos utilizando tecnologias como PHP, Node.js, JavaScript e HTML/CSS. Aprimorei habilidades em Python e Django, desenvolvendo soluções personalizadas e seguindo boas práticas de programação.'
   },
 
   card: {
