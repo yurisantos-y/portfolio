@@ -23,10 +23,9 @@
         <div class="right-language">
           <label for="btnLanguage" :class="{ 'active-flag': englishChecked }">
             <input type="checkbox" id="btnLanguage" v-model="englishChecked" @change="toggleLanguage" class="hidden-checkbox" />
-            <input type="checkbox" id="btnLanguage" v-model="portugueseChecked" @change="toggleLanguage" class="hidden-checkbox" />
     
-            <img v-if="englishChecked" id="btnlanguage" @click="toggleLanguage('en')" src="../assets/flag-brazil.svg" alt="" />
-            <img v-else id="btnlanguage" @click="toggleLanguage('pt_BR')" src="../assets/flag-usa.svg" alt="" />
+            <img v-if="englishChecked" id="btnlanguage" @click="toggleLanguage" src="../assets/flag-brazil.svg" alt="Switch to Portuguese" />
+            <img v-else id="btnlanguage" @click="toggleLanguage" src="../assets/flag-usa.svg" alt="Switch to English" />
           </label>
         </div>
       </div>
@@ -42,11 +41,10 @@
           <RouterLink class="linknb-mobile" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
 
           <div class="right-language-mobile">
-            <label for="btnLanguage" :class="{ 'active-flag': englishChecked }">
-              <input type="checkbox" id="btnLanguage" v-model="englishChecked" @change="toggleLanguage" class="hidden-checkbox" />
-              <input type="checkbox" id="btnLanguage" v-model="portugueseChecked" @change="toggleLanguage" class="hidden-checkbox" />
-              <img v-if="englishChecked" id="btnlanguage" @click="toggleLanguage('en')" src="../assets/flag-brazil.svg" alt="" />
-              <img v-else id="btnlanguage" @click="toggleLanguage('pt_BR')" src="../assets/flag-usa.svg" alt="" />
+            <label for="btnLanguageMobile" :class="{ 'active-flag': englishChecked }">
+              <input type="checkbox" id="btnLanguageMobile" v-model="englishChecked" @change="toggleLanguage" class="hidden-checkbox" />
+              <img v-if="englishChecked" id="btnlanguage-mobile" @click="toggleLanguage" src="../assets/flag-brazil.svg" alt="Switch to Portuguese" />
+              <img v-else id="btnlanguage-mobile" @click="toggleLanguage" src="../assets/flag-usa.svg" alt="Switch to English" />
             </label>
           </div>
         </div>
@@ -95,6 +93,16 @@ export default {
       showModal: false,
     };
   },
+  computed: {
+    // Add a computed property to check if we're on the dashboard route
+    isDashboardRoute() {
+      return this.$route.path.includes('/dashboard');
+    },
+    // Add computed property for portugueseChecked to fix the Vue warning
+    portugueseChecked() {
+      return !this.englishChecked;
+    }
+  },
   methods: {
     toggleLanguage() {
       this.englishChecked = !this.englishChecked;
@@ -131,6 +139,10 @@ export default {
     // Add a computed property to check if we're on the dashboard route
     isDashboardRoute() {
       return this.$route.path.includes('/dashboard');
+    },
+    // Add computed property for portugueseChecked to fix the Vue warning
+    portugueseChecked() {
+      return !this.englishChecked;
     }
   }
 };

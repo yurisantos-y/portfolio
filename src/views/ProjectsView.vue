@@ -59,7 +59,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import { supabase } from '../lib/supabaseClient';
+import supabase from '../utils/supabaseClient';
 
 export default {
   name: 'ProjectsView',

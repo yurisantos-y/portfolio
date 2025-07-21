@@ -156,7 +156,7 @@
 <script>
 import { ref, reactive, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { supabase } from '../../lib/supabaseClient';
+import supabase from '../../utils/supabaseClient';
 import ModalDialog from '../../components/ModalDialog.vue';
 import UnsplashImagePicker from '../../components/UnsplashImagePicker.vue';
 // Importando CKEditor corretamente
