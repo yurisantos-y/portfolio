@@ -23,6 +23,12 @@ export const pt_BR = {
 
   know: {
     titleKnow: 'Conhecimentos',
+    subtitle: 'Tecnologias e ferramentas que domino para criar soluções digitais modernas e eficientes',
+    allDesc: 'Todas as tecnologias',
+    frontendDesc: 'Interface e experiência do usuário',
+    backendDesc: 'Servidor e banco de dados',
+    toolsDesc: 'Design e produtividade',
+    yearsExp: 'anos de experiência',
     textDefault: '/* Passe o mouse por cima das tecnologias para mais infomações*/',
     vue: 'Vue.js, biblioteca JavaScript progressiva, é adotada para criar interfaces de usuário interativas e componentes reutilizáveis.',
     html: 'HTML é uma linguagem de marcação essencial para definir a estrutura dos elementos em uma página web.',
@@ -32,6 +38,7 @@ export const pt_BR = {
     sass: 'Sass, um pré-processador CSS, acrescenta recursos como variáveis e mixins para facilitar a manutenção e organização do código estilizado.',
     postgresql: 'PostgreSQL, sistema de gerenciamento de banco de dados relacional de código aberto, destaca-se pela confiabilidade, robustez de recursos e eficiência na armazenagem e recuperação de dados.',
     python: 'Python, linguagem de programação versátil e legível, é amplamente utilizada em scripts do lado do servidor, automação de tarefas e desenvolvimento de APIs.',
+    go: 'Go (Golang), linguagem de programação desenvolvida pelo Google, é projetada para construir sistemas backend eficientes, escaláveis, microsserviços e aplicações concorrentes com excelente performance.',
     figma: 'Figma, ferramenta de design baseada na web, é essencial na prototipagem e design de interfaces, oferecendo colaboração em tempo real.',
     flutter: 'Flutter, framework do Google, permite a criação de aplicativos multiplataforma com uma única base de código, oferecendo alta performance e design personalizado.',
     tailwind: 'Tailwind CSS, framework utilitário, facilita a criação de designs personalizados através de classes pré-definidas, acelerando o processo de desenvolvimento.',

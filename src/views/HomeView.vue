@@ -1,12 +1,185 @@
 <script setup>
 import cardHome from '../components/cardHome.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const showSpanDefault = ref(true);
 const aboutVisible = ref(false);
 const experienceVisible = ref(false);
 const currentTechDescription = ref('');
 
+// Skills section reactive data
+const activeCategory = ref('all');
+const activeSkill = ref(null);
+
+// Skills data
+const skills = ref([
+  {
+    name: 'Vue.js',
+    key: 'vue',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg',
+    category: 'frontend',
+    level: 90,
+    experience: 3
+  },
+  {
+    name: 'JavaScript',
+    key: 'js',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
+    category: 'frontend',
+    level: 85,
+    experience: 4
+  },
+  {
+    name: 'TypeScript',
+    key: 'ts',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg',
+    category: 'frontend',
+    level: 80,
+    experience: 2
+  },
+  {
+    name: 'HTML5',
+    key: 'html',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg',
+    category: 'frontend',
+    level: 95,
+    experience: 5
+  },
+  {
+    name: 'CSS3',
+    key: 'css',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg',
+    category: 'frontend',
+    level: 90,
+    experience: 5
+  },
+  {
+    name: 'Sass',
+    key: 'sass',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.svg',
+    category: 'frontend',
+    level: 85,
+    experience: 3
+  },
+  {
+    name: 'Tailwind CSS',
+    key: 'tailwind',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
+    category: 'frontend',
+    level: 80,
+    experience: 2
+  },
+  {
+    name: 'Next.js',
+    key: 'nextjs',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg',
+    category: 'frontend',
+    level: 75,
+    experience: 1
+  },
+  {
+    name: 'Python',
+    key: 'python',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',
+    category: 'backend',
+    level: 80,
+    experience: 3
+  },
+  {
+    name: 'Go',
+    key: 'go',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original.svg',
+    category: 'backend',
+    level: 75,
+    experience: 1
+  },
+  {
+    name: 'PostgreSQL',
+    key: 'postgresql',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg',
+    category: 'backend',
+    level: 75,
+    experience: 2
+  },
+  {
+    name: 'Firebase',
+    key: 'firebase',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-plain.svg',
+    category: 'backend',
+    level: 70,
+    experience: 2
+  },
+  {
+    name: 'Supabase',
+    key: 'supabase',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg',
+    category: 'backend',
+    level: 75,
+    experience: 1
+  },
+  {
+    name: 'Prisma',
+    key: 'prisma',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg',
+    category: 'backend',
+    level: 70,
+    experience: 1
+  },
+  {
+    name: 'Figma',
+    key: 'figma',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg',
+    category: 'tools',
+    level: 85,
+    experience: 5
+  },
+  {
+    name: 'Flutter',
+    key: 'flutter',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg',
+    category: 'frontend',
+    level: 70,
+    experience: 1
+  },
+  {
+    name: 'Dart',
+    key: 'dart',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg',
+    category: 'frontend',
+    level: 65,
+    experience: 1
+  }
+]);
+
+// Computed property for filtered skills
+const filteredSkills = computed(() => {
+  if (activeCategory.value === 'all') {
+    return skills.value;
+  }
+  return skills.value.filter(skill => skill.category === activeCategory.value);
+});
+
+// Skills methods
+const setActiveCategory = (category) => {
+  activeCategory.value = category;
+};
+
+const setActiveSkill = (skill) => {
+  activeSkill.value = skill;
+};
+
+const clearActiveSkill = () => {
+  activeSkill.value = null;
+};
+
+const getSkillLevel = (level) => {
+  if (level >= 85) return 'Expert';
+  if (level >= 70) return 'Advanced';
+  if (level >= 50) return 'Intermediate';
+  return 'Beginner';
+};
+
+// Legacy methods for backward compatibility
 const hideSpanDefault = (description) => {
   showSpanDefault.value = false;
   currentTechDescription.value = description;
@@ -18,8 +191,6 @@ const showSpanDefaultOnMouseLeave = () => {
 }
 
 onMounted(() => {
-  // Removida a adição dinâmica do Devicon stylesheet (agora está no index.html)
-
   // Verificar se o IntersectionObserver é suportado
   if ('IntersectionObserver' in window) {
     // Opções para o observador
@@ -59,6 +230,7 @@ onMounted(() => {
       // Adicionar atributos data-section aos elementos para identificação
       const aboutSection = document.querySelector('.conteudoAbout');
       const experienceSection = document.querySelector('.experiencia');
+      const skillsSection = document.querySelector('.skills-section');
 
       if (aboutSection) {
         aboutSection.dataset.section = 'about';
@@ -68,6 +240,11 @@ onMounted(() => {
       if (experienceSection) {
         experienceSection.dataset.section = 'experience';
         observer.observe(experienceSection);
+      }
+
+      if (skillsSection) {
+        skillsSection.dataset.section = 'skills';
+        observer.observe(skillsSection);
       }
     }, 300);
   } else {
@@ -234,93 +411,83 @@ onMounted(() => {
     </div>
 
 
-    <div class="conhecimento">
-      <h2>{{ $t('know.titleKnow') }}</h2>
-      <span v-if="showSpanDefault" id="spanDefault">{{ $t('know.textDefault') }}</span>
-      <span v-else id="spanDefault">{{ currentTechDescription }}</span>
-      <div class="tech-container">
-        <div class="tech-item" style="top: 20%; left: 15%; --order: 1;" @mouseover="hideSpanDefault($t('know.vue'))"
-          @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg" />
+    <div class="skills-section">
+      <div class="skills-container">
+        <div class="skills-header">
+          <h2>{{ $t('know.titleKnow') }}</h2>
+          <p class="skills-subtitle">{{ $t('know.subtitle') }}</p>
         </div>
-        <div class="tech-item" style="top: 28%; left: 35%; --order: 2;" @mouseover="hideSpanDefault($t('know.html'))"
-          @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" />
+        
+        <div class="skills-categories">
+          <div 
+            class="category" 
+            :class="{ active: activeCategory === 'all' }"
+            @click="setActiveCategory('all')"
+          >
+            <h3>All</h3>
+            <p>{{ $t('know.allDesc') || 'All technologies' }}</p>
+          </div>
+          <div 
+            class="category frontend" 
+            :class="{ active: activeCategory === 'frontend' }"
+            @click="setActiveCategory('frontend')"
+          >
+            <h3>Frontend</h3>
+            <p>{{ $t('know.frontendDesc') }}</p>
+          </div>
+          <div 
+            class="category backend" 
+            :class="{ active: activeCategory === 'backend' }"
+            @click="setActiveCategory('backend')"
+          >
+            <h3>Backend</h3>
+            <p>{{ $t('know.backendDesc') }}</p>
+          </div>
+          <div 
+            class="category tools" 
+            :class="{ active: activeCategory === 'tools' }"
+            @click="setActiveCategory('tools')"
+          >
+            <h3>Tools & Design</h3>
+            <p>{{ $t('know.toolsDesc') }}</p>
+          </div>
         </div>
-        <div class="tech-item" style="top: 45%; left: 22%;" @mouseover="hideSpanDefault($t('know.css'))"
-          @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" />
+
+        <div class="skills-grid">
+          <div 
+            v-for="skill in filteredSkills" 
+            :key="skill.name"
+            class="skill-card"
+            :class="skill.category"
+            @mouseenter="setActiveSkill(skill)"
+            @mouseleave="clearActiveSkill"
+          >
+            <div class="skill-icon">
+              <img :src="skill.icon" :alt="skill.name" />
+            </div>
+            <div class="skill-content">
+              <h4>{{ skill.name }}</h4>
+              <div class="skill-level">
+                <div class="level-bar">
+                  <div 
+                    class="level-fill" 
+                    :style="{ width: skill.level + '%' }"
+                    :data-level="skill.level"
+                  ></div>
+                </div>
+                <span class="level-text">{{ getSkillLevel(skill.level) }}</span>
+              </div>
+              <div class="experience-badge">
+                {{ skill.experience }}+ {{ $t('know.yearsExp') }}
+              </div>
+            </div>
+            <div class="skill-overlay">
+              <p>{{ $t('know.' + skill.key) }}</p>
+            </div>
+          </div>
         </div>
-        <div class="tech-item" style="top: 18%; left: 60%; --order: 4;" @mouseover="hideSpanDefault($t('know.ts'))"
-          @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 38%; left: 52%; --order: 5;" @mouseover="hideSpanDefault($t('know.js'))"
-          @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 60%; left: 40%; --order: 6;" @mouseover="hideSpanDefault($t('know.sass'))"
-          @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 25%; left: 75%; --order: 7;" @mouseover="hideSpanDefault($t('know.python'))"
-          @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 55%; left: 70%; --order: 8;"
-          @mouseover="hideSpanDefault($t('know.postgresql'))" @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 70%; left: 60%; --order: 9;" @mouseover="hideSpanDefault($t('know.figma'))"
-          @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 72%; left: 22%; --order: 10;"
-          @mouseover="hideSpanDefault($t('know.flutter') || 'Flutter')" @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 85%; left: 40%; --order: 11;"
-          @mouseover="hideSpanDefault($t('know.tailwind') || 'Tailwind CSS')" @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 50%; left: 85%; --order: 12;"
-          @mouseover="hideSpanDefault($t('know.nextjs') || 'Next.js')" @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 80%; left: 75%; --order: 13;"
-          @mouseover="hideSpanDefault($t('know.dart') || 'Dart')" @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 15%; left: 88%; --order: 14;"
-          @mouseover="hideSpanDefault($t('know.firebase') || 'Firebase')" @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-plain.svg" />
-        </div>
-        <div class="tech-item" style="top: 90%; left: 55%; --order: 15;"
-          @mouseover="hideSpanDefault($t('know.supabase') || 'Supabase')" @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg" />
-        </div>
-        <div class="tech-item" style="top: 75%; left: 88%; --order: 16;"
-          @mouseover="hideSpanDefault($t('know.prisma') || 'Prisma')" @mouseleave="showSpanDefaultOnMouseLeave">
-          <img height="50px" width="50px"
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg" />
-        </div>
+
       </div>
-      <div class="bolaConhecimento"></div>
     </div>
 
     <div class="logofooter">
@@ -1017,157 +1184,396 @@ body {
   }
 }
 
-.conhecimento {
+// Modern Skills Section
+.skills-section {
   position: relative;
-  width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 6rem 2rem;
 
   @media (max-width: $tablet) {
-    height: auto;
-    min-height: 100vh;
-    padding-bottom: 4rem;
-  }
-}
-
-
-.conhecimento h2 {
-  color: $cor-light;
-  margin-left: 12%;
-  margin-top: 1.875rem;
-  margin-bottom: 1.5625rem;
-  font-weight: 500;
-  font-size: 2.5rem;
-
-  @media (max-width: $tablet) {
-    font-size: 2rem;
-    margin-left: 8%;
+    padding: 4rem 1.5rem;
   }
 
   @media (max-width: $mobile) {
-    font-size: 1.5rem;
-    margin-left: 5%;
+    padding: 3rem 1rem;
   }
 }
 
-#spanDefault {
-  margin-left: 12%;
-  font-weight: 400;
-  font-size: 1rem;
-
-  @media (max-width: $tablet) {
-    margin-left: 8%;
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: $mobile) {
-    margin-left: 5%;
-    font-size: 0.8rem;
-  }
-}
-
-.conhecimento svg {
-  max-width: 2.5rem;
-
-  @media (max-width: $mobile) {
-    max-width: 2rem;
-  }
-}
-
-.tech-container {
+.skills-container {
+  max-width: 1200px;
+  margin: 0 auto;
   position: relative;
-  height: 70vh;
-  width: 100%;
-
-  @media (max-width: $tablet) {
-    height: 60vh;
-  }
-
-  @media (max-width: $mobile) {
-    height: 50vh;
-  }
 }
 
-.tech-item {
-  position: absolute;
-  transition: transform 0.3s ease;
+.skills-header {
+  text-align: center;
+  margin-bottom: 4rem;
 
-  &:hover {
-    transform: scale(1.2);
-    z-index: 10;
-  }
+  h2 {
+    color: $cor-light;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, $cor-primaria 0%, lighten($cor-primaria, 10%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 
-  img {
     @media (max-width: $tablet) {
-      height: 40px;
-      width: 40px;
+      font-size: 2.5rem;
     }
 
     @media (max-width: $mobile) {
-      height: 30px;
-      width: 30px;
+      font-size: 2rem;
+    }
+  }
+
+  .skills-subtitle {
+    color: $text-gray;
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+
+    @media (max-width: $mobile) {
+      font-size: 1rem;
     }
   }
 }
 
-.conhecimento button {
+.skills-categories {
   display: flex;
-  align-items: center;
   justify-content: center;
-  position: absolute;
-
-  margin-top: 5%;
-  width: 5rem;
-  height: 5rem;
-  max-width: 5rem;
-  max-height: 5rem;
-  background-color: $transparente;
-  border-radius: 0.625rem;
-  border: 0.03125rem solid $cor-light;
-  color: $cor-light;
-  cursor: pointer;
-  animation: appear 0.6s ease-out;
-  opacity: 0;
-  animation-fill-mode: forwards;
+  gap: 2rem;
+  margin-bottom: 3rem;
 
   @media (max-width: $tablet) {
-    width: 4rem;
-    height: 4rem;
-    max-width: 4rem;
-    max-height: 4rem;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 
   @media (max-width: $mobile) {
-    width: 3rem;
-    height: 3rem;
-    max-width: 3rem;
-    max-height: 3rem;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 
+.category {
+  padding: 1rem 2rem;
+  background: rgba($cor-light, 0.05);
+  border: 1px solid rgba($cor-primaria, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 
-.bolaConhecimento {
-  position: absolute;
-  width: 5.625rem;
-  height: 5.625rem;
-  border-radius: 50%;
-  background-color: $cor-primaria;
-  top: 65%;
-  left: 14%;
-  filter: blur(3.75rem);
+  h3 {
+    color: $cor-light;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
 
-  @media (max-width: $tablet) {
-    width: 4rem;
-    height: 4rem;
-    filter: blur(2.5rem);
-    left: 10%;
+  p {
+    color: $text-gray;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  &:hover,
+  &.active {
+    transform: translateY(-5px);
+    background: rgba($cor-primaria, 0.1);
+    border-color: $cor-primaria;
+    box-shadow: 0 10px 30px rgba($cor-primaria, 0.2);
+  }
+
+  &.active {
+    background: rgba($cor-primaria, 0.15);
+    border-color: $cor-primaria;
   }
 
   @media (max-width: $mobile) {
-    width: 3rem;
-    height: 3rem;
-    filter: blur(2rem);
-    left: 8%;
+    padding: 0.8rem 1.5rem;
+    
+    h3 {
+      font-size: 1rem;
+    }
+    
+    p {
+      font-size: 0.8rem;
+    }
   }
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+
+  @media (max-width: $tablet) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  @media (max-width: $mobile) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.skill-card {
+  position: relative;
+  background: rgba($cor-light, 0.05);
+  border: 1px solid rgba($cor-light, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $cor-primaria, lighten($cor-primaria, 15%));
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    transform-origin: left;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    background: rgba($cor-light, 0.08);
+    border-color: rgba($cor-primaria, 0.5);
+    box-shadow: 
+      0 20px 40px rgba($cor-primaria, 0.15),
+      0 0 20px rgba($cor-primaria, 0.1);
+
+    &::before {
+      transform: scaleX(1);
+    }
+
+    .skill-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .skill-icon img {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+
+  @media (max-width: $mobile) {
+    padding: 1.5rem;
+  }
+}
+
+.skill-icon {
+  margin-bottom: 1.5rem;
+
+  img {
+    width: 60px;
+    height: 60px;
+    transition: all 0.4s ease;
+    filter: drop-shadow(0 5px 15px rgba($cor-primaria, 0.3));
+
+    @media (max-width: $mobile) {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
+
+.skill-content {
+  h4 {
+    color: $cor-light;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+
+    @media (max-width: $mobile) {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.experience-badge {
+  background: rgba($cor-primaria, 0.1);
+  color: $cor-primaria;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 0.5rem;
+  border: 1px solid rgba($cor-primaria, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  @media (max-width: $mobile) {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+  }
+}
+
+.skill-level {
+  .level-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba($cor-light, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+
+    .level-fill {
+      height: 100%;
+      background: linear-gradient(90deg, $cor-primaria, lighten($cor-primaria, 15%));
+      border-radius: 4px;
+      transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+
+      &::after {
+        content: attr(data-level) '%';
+        position: absolute;
+        right: 8px;
+        top: -25px;
+        color: $cor-light;
+        font-size: 0.8rem;
+        font-weight: 600;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+    }
+  }
+
+  .level-text {
+    color: $cor-primaria;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.skill-card:hover .level-fill::after {
+  opacity: 1;
+}
+
+.skill-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba($cor-primaria, 0.9), rgba($cor-primaria, 0.8));
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+
+  p {
+    color: $cor-light;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1.6;
+
+    @media (max-width: $mobile) {
+      font-size: 0.9rem;
+      padding: 1rem;
+    }
+  }
+}
+
+.skills-stats {
+  background: linear-gradient(135deg, rgba($cor-primaria, 0.1), rgba($cor-primaria, 0.05));
+  border: 1px solid rgba($cor-primaria, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  animation: fadeInUp 0.5s ease;
+
+  @media (max-width: $mobile) {
+    padding: 1.5rem;
+  }
+}
+
+.stats-card {
+  h3 {
+    color: $cor-light;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+
+    @media (max-width: $mobile) {
+      font-size: 1.5rem;
+    }
+  }
+
+  p {
+    color: $text-gray;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: $mobile) {
+      font-size: 1rem;
+    }
+  }
+
+  .experience-years {
+    span {
+      color: $cor-primaria;
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: rgba($cor-primaria, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      border: 1px solid rgba($cor-primaria, 0.3);
+
+      @media (max-width: $mobile) {
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.skill-card {
+  animation: fadeInUp 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.skill-card:nth-child(1) { animation-delay: 0.1s; }
+.skill-card:nth-child(2) { animation-delay: 0.2s; }
+.skill-card:nth-child(3) { animation-delay: 0.3s; }
+.skill-card:nth-child(4) { animation-delay: 0.4s; }
+.skill-card:nth-child(5) { animation-delay: 0.5s; }
+.skill-card:nth-child(6) { animation-delay: 0.6s; }
+
+// Legacy styles removal placeholder
+.conhecimento {
+  display: none; // Hide old section
 }
 
 .logofooter {

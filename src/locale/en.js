@@ -23,6 +23,12 @@ export const en = {
 
   know: {
     titleKnow: 'Skills',
+    subtitle: 'Technologies and tools I master to create modern and efficient digital solutions',
+    allDesc: 'All technologies',
+    frontendDesc: 'User interface and experience',
+    backendDesc: 'Server and database',
+    toolsDesc: 'Design and productivity',
+    yearsExp: 'years of experience',
     textDefault: '/* Hover over the technologies for more information*/',
     vue: 'Vue.js, a progressive JavaScript framework, is adopted to create interactive user interfaces and reusable components.',
     html: 'HTML is an essential markup language for defining the structure of elements on a web page.',
@@ -32,6 +38,7 @@ export const en = {
     sass: 'Sass, a CSS preprocessor, adds features such as variables and mixins to facilitate code maintenance and organization.',
     postgresql: 'PostgreSQL, a powerful open-source object-relational database system, is known for its reliability, feature robustness, and performance in storing and retrieving data.',
     python: 'Python, a versatile and readable programming language, is widely used in server-side scripts, task automation, and API development.',
+    go: 'Go (Golang), a programming language developed by Google, is designed for building efficient, scalable backend systems, microservices, and concurrent applications with excellent performance.',
     figma: 'Figma, a web-based design tool, is essential in prototyping and interface design, offering real-time collaboration.',
     flutter: 'Flutter, a Google framework, allows the creation of cross-platform applications with a single codebase, offering high performance and customized design.',
     tailwind: 'Tailwind CSS, a utility framework, facilitates the creation of custom designs through pre-defined classes, accelerating the development process.',
