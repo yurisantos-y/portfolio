@@ -2,10 +2,12 @@ import { ref, computed, onMounted } from 'vue'
 import { authService } from '../services/auth'
 import supabaseClient from '../utils/supabaseClient'
 
+// Initialize reactive state
 const user = ref(null)
 const loading = ref(true)
 const error = ref('')
 
+// Export function to use auth
 export function useAuth() {
   const isAuthenticated = computed(() => !!user.value)
   
@@ -53,7 +55,7 @@ export function useAuth() {
   
   const initAuth = () => {
     // Listen for auth changes
-    supabaseClient.auth.onAuthStateChange(async (event, session) => {
+    const { data: authListener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, session)
       
       if (event === 'SIGNED_IN' && session) {
@@ -65,6 +67,13 @@ export function useAuth() {
     
     // Check initial auth state
     checkUser()
+    
+    // Return cleanup function
+    return () => {
+      if (authListener && authListener.subscription) {
+        authListener.subscription.unsubscribe()
+      }
+    }
   }
   
   // Initialize on mount

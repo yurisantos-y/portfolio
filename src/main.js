@@ -6,7 +6,9 @@ import router from './router';
 
 // Import debug utilities in development
 if (import.meta.env.DEV) {
-  import('./utils/debug.js')
+  import('./utils/debug.js').catch(err => {
+    console.warn('Debug utilities not loaded:', err);
+  });
 }
 
 // Import locales
@@ -30,4 +32,14 @@ const app = createApp(App);
 app.use(i18n);
 app.use(router);
 
+// Wait for next tick before mounting to ensure proper initialization
 app.mount('#app');
+
+// Remove loading class after app is mounted
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      document.body.classList.add('app-loaded');
+    }, 100);
+  });
+}

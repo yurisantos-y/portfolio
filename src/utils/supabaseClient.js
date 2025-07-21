@@ -11,38 +11,47 @@ if (!supabaseUrl || !supabaseKey) {
 }
 
 // Create a single Supabase client instance to avoid multiple GoTrueClient instances
-const supabaseClient = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-    debug: process.env.NODE_ENV === 'development',
-    // Use current origin to ensure redirect works in all environments
-    redirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
-    // Configure storage key to ensure single instance
-    storageKey: 'portfolio-supabase-auth',
-    // Additional flow type for better compatibility
-    flowType: 'pkce'
-  },
-  // Add global headers to help with CORS and connectivity
-  global: {
-    headers: {
-      'X-Client-Info': 'portfolio-app',
-      'Access-Control-Allow-Origin': '*'
+let supabaseClient = null
+
+try {
+  supabaseClient = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey, {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      debug: import.meta.env.DEV,
+      // Use current origin to ensure redirect works in all environments
+      redirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
+      // Configure storage key to ensure single instance
+      storageKey: 'portfolio-supabase-auth',
+      // Additional flow type for better compatibility
+      flowType: 'pkce'
+    },
+    // Add global headers to help with CORS and connectivity
+    global: {
+      headers: {
+        'X-Client-Info': 'portfolio-app',
+        'Access-Control-Allow-Origin': '*'
+      }
+    },
+    // Database options for better connection handling
+    db: {
+      schema: 'public'
+    },
+    // Realtime options
+    realtime: {
+      params: {
+        eventsPerSecond: 10
+      }
     }
-  },
-  // Database options for better connection handling
-  db: {
-    schema: 'public'
-  },
-  // Realtime options
-  realtime: {
-    params: {
-      eventsPerSecond: 10
-    }
-  }
-}) : {
-  // Mock client for development when credentials are missing
+  }) : null
+} catch (error) {
+  console.error('Failed to initialize Supabase client:', error)
+  supabaseClient = null
+}
+
+// Provide a mock client if initialization fails
+const mockClient = {
   from: () => ({
     select: () => Promise.resolve({ data: [], error: null }),
     insert: () => Promise.resolve({ data: null, error: null }),
@@ -56,8 +65,16 @@ const supabaseClient = supabaseUrl && supabaseKey ? createClient(supabaseUrl, su
     getUser: () => Promise.resolve({ data: { user: null }, error: null }),
     getSession: () => Promise.resolve({ data: { session: null }, error: null }),
     signOut: () => Promise.resolve({ error: null }),
-    onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } }, error: null })
+    signInWithOAuth: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+    onAuthStateChange: () => ({ 
+      data: { 
+        subscription: { 
+          unsubscribe: () => {} 
+        } 
+      }, 
+      error: null 
+    })
   }
 }
 
-export default supabaseClient
+export default supabaseClient || mockClient

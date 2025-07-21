@@ -4,6 +4,28 @@
     <meta charset="UTF-8">
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Preload critical styles to prevent FOUC -->
+    <link rel="preload" href="/src/scss/style.scss" as="style">
+    
+    <!-- Critical CSS to prevent flash of unstyled content -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      body.app-loaded {
+        visibility: visible;
+        opacity: 1;
+      }
+      #app {
+        min-height: 100vh;
+      }
+    </style>
+    
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self';
@@ -26,5 +48,14 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    
+    <!-- Ensure body shows after app mounts -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+          document.body.classList.add('app-loaded');
+        }, 100);
+      });
+    </script>
   </body>
 </html>
