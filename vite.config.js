@@ -40,6 +40,12 @@ export default defineConfig({
             if (id.includes('date-fns')) {
               return 'vendor-date';
             }
+            if (id.includes('@ckeditor') || id.includes('ckeditor')) {
+              return 'vendor-ckeditor';
+            }
+            if (id.includes('vue-i18n') || id.includes('@intlify')) {
+              return 'vendor-i18n';
+            }
             // Other node_modules go to vendor
             return 'vendor';
           }
@@ -61,6 +67,6 @@ export default defineConfig({
         }
       }
     },
-    chunkSizeWarningLimit: 800
+    chunkSizeWarningLimit: 600
   }
 })
