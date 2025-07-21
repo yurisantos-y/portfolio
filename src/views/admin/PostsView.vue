@@ -2,136 +2,159 @@
   <div class="posts-manager">
     <div class="posts-header">
       <div class="container">
-        <h1>Your Stories</h1>
-        <router-link to="/dashboard/posts/new" class="new-story-button">
-          Write a story
-        </router-link>
+        <div class="header-content">
+          <div class="header-left">
+            <button @click="goBack" class="back-button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <div class="title-section">
+              <h1>Stories</h1>
+              <p class="subtitle">{{ posts.length }} {{ posts.length === 1 ? 'story' : 'stories' }}</p>
+            </div>
+          </div>
+          <router-link to="/dashboard/posts/new" class="new-story-button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            New Story
+          </router-link>
+        </div>
       </div>
     </div>
 
     <div class="content-container">
       <div class="container">
-        <div class="filters-bar">
-          <div class="search-box">
+        <div class="filters-section">
+          <div class="search-container">
             <input 
               type="text" 
               v-model="searchQuery" 
-              placeholder="Search your stories..." 
+              placeholder="Search stories..." 
               @input="handleSearch"
+              class="search-input"
             >
-            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
             </svg>
           </div>
           
-          <div class="status-filter">
-            <select v-model="statusFilter" @change="applyFilters">
-              <option value="all">All Stories</option>
-              <option value="published">Published</option>
-              <option value="draft">Drafts</option>
-              <option value="archived">Archived</option>
-            </select>
+          <div class="status-tabs">
+            <button 
+              v-for="status in statusOptions" 
+              :key="status.value"
+              @click="statusFilter = status.value"
+              :class="['status-tab', { active: statusFilter === status.value }]"
+            >
+              {{ status.label }}
+            </button>
+          </div>
+        </div>
+        <div v-if="loading" class="loading-container">
+          <div class="loading-animation">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
           </div>
         </div>
         
-        <div v-if="loading" class="loading-state">
-          <div class="loading-spinner">
-            <span></span><span></span><span></span>
+        <div v-else-if="error" class="error-container">
+          <div class="error-content">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <p>{{ error }}</p>
           </div>
-          <p>Loading your stories...</p>
         </div>
         
-        <div v-else-if="error" class="error-message">
-          {{ error }}
-        </div>
-        
-        <div v-else>
-          <div v-if="filteredPosts.length > 0" class="posts-list">
+        <div v-else class="stories-content">
+          <div v-if="filteredPosts.length > 0" class="stories-grid">
             <article 
               v-for="post in filteredPosts" 
               :key="post.id" 
-              class="post-item"
+              class="story-card"
             >
-              <div class="post-content">
-                <div class="post-info">
+              <div class="story-main">
+                <div class="story-header">
                   <router-link 
                     :to="`/dashboard/posts/edit/${post.id}`" 
-                    class="post-title"
+                    class="story-title"
                   >
-                    {{ post.title || 'Untitled Story' }}
+                    {{ post.title || 'Untitled' }}
                   </router-link>
                   
-                  <p v-if="post.summary" class="post-summary">{{ post.summary }}</p>
-                  
-                  <div class="post-meta">
-                    <span 
-                      class="post-status" 
-                      :class="post.status"
-                    >
-                      {{ post.status }}
-                    </span>
-                    
-                    <time 
-                      class="post-date"
-                      :title="formatFullDate(post.created_at)"
-                    >
-                      {{ formatDate(post.created_at) }}
-                    </time>
-                    
-                    <time 
-                      v-if="post.published_at" 
-                      class="post-date"
-                      :title="formatFullDate(post.published_at)"
-                    >
-                      Published {{ formatDate(post.published_at) }}
-                    </time>
+                  <div class="story-status" :class="post.status">
+                    {{ getStatusLabel(post.status) }}
                   </div>
                 </div>
                 
-                <div v-if="post.cover_image" class="post-thumbnail">
-                  <img :src="post.cover_image" alt="Cover image">
+                <p v-if="post.summary" class="story-excerpt">
+                  {{ post.summary }}
+                </p>
+                
+                <div class="story-meta">
+                  <time class="story-date">
+                    {{ formatDate(post.created_at) }}
+                  </time>
+                  <time v-if="post.published_at && post.status === 'published'" class="published-date">
+                    Published {{ formatDate(post.published_at) }}
+                  </time>
                 </div>
               </div>
               
-              <div class="post-actions">
+              <div v-if="post.cover_image" class="story-image">
+                <img :src="post.cover_image" :alt="post.title || 'Story cover'">
+              </div>
+              
+              <div class="story-actions">
                 <router-link 
                   :to="`/dashboard/posts/edit/${post.id}`" 
-                  class="action-button edit-button"
+                  class="action-btn edit-btn"
                 >
                   Edit
                 </router-link>
-                <button 
-                  @click="confirmDelete(post)" 
-                  class="action-button delete-button"
-                >
-                  Delete
-                </button>
                 
                 <a 
                   v-if="post.status === 'published'" 
                   :href="`/blog/${post.slug || post.id}`" 
                   target="_blank" 
-                  class="action-button view-button"
+                  class="action-btn view-btn"
                 >
                   View
                 </a>
+                
+                <button 
+                  @click="confirmDelete(post)" 
+                  class="action-btn delete-btn"
+                >
+                  Delete
+                </button>
               </div>
             </article>
           </div>
           
-          <div v-else class="empty-state">
-            <div class="empty-state-content">
-              <svg class="empty-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 14H12M9 17H15M3 10V18C3 19.1046 3.89543 20 5 20H19C20.1046 20 21 19.1046 21 18V10M3 10V6C3 4.89543 3.89543 4 5 4H19C20.1046 4 21 4.89543 21 6V10M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <h2>No stories found</h2>
-              <p>
-                {{ statusFilter !== 'all' ? 
-                  `You don't have any ${statusFilter} stories yet.` : 
-                  'Start writing your first story!' }}
-              </p>
+          <div v-else class="empty-container">
+            <div class="empty-content">
+              <div class="empty-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14,2 14,8 20,8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10,9 9,9 8,9"/>
+                </svg>
+              </div>
+              <h3>{{ getEmptyStateTitle() }}</h3>
+              <p>{{ getEmptyStateMessage() }}</p>
               <router-link to="/dashboard/posts/new" class="new-story-button">
-                Write a story
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+                Write Your First Story
               </router-link>
             </div>
           </div>
@@ -139,19 +162,22 @@
       </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div v-if="showDeleteConfirm" class="modal-overlay" @click.self="cancelDelete">
-      <div class="modal-content">
-        <h3>Delete Story</h3>
-        <p>Are you sure you want to delete "<strong>{{ postToDelete?.title }}</strong>"?</p>
-        <p class="warning-text">This action cannot be undone.</p>
-        
-        <div class="modal-actions">
-          <button @click="cancelDelete" class="modal-button cancel-button">
+    <!-- Confirmation Modal -->
+    <div v-if="showDeleteConfirm" class="modal-backdrop" @click.self="cancelDelete">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Delete Story</h3>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete "<strong>{{ postToDelete?.title }}</strong>"?</p>
+          <p class="warning">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button @click="cancelDelete" class="btn-cancel">
             Cancel
           </button>
-          <button @click="deletePost" class="modal-button delete-button">
-            Delete
+          <button @click="deletePost" class="btn-delete">
+            Delete Story
           </button>
         </div>
       </div>
@@ -177,6 +203,13 @@ export default {
     const showDeleteConfirm = ref(false);
     const postToDelete = ref(null);
 
+    const statusOptions = ref([
+      { label: 'All', value: 'all' },
+      { label: 'Published', value: 'published' },
+      { label: 'Drafts', value: 'draft' },
+      { label: 'Archived', value: 'archived' }
+    ]);
+
     const fetchPosts = async () => {
       try {
         loading.value = true;
@@ -192,7 +225,7 @@ export default {
         posts.value = data || [];
       } catch (err) {
         console.error('Error fetching posts:', err);
-        error.value = 'Failed to load posts. Please try again.';
+        error.value = 'Failed to load stories. Please try again.';
       } finally {
         loading.value = false;
       }
@@ -218,12 +251,37 @@ export default {
       return result;
     });
 
+    const goBack = () => {
+      // Check if there's previous history
+      if (window.history.length > 1) {
+        router.go(-1);
+      } else {
+        // Fallback to dashboard if no history
+        router.push('/dashboard');
+      }
+    };
+
     const handleSearch = () => {
       // Debounce implementation could be added here
     };
 
-    const applyFilters = () => {
-      // Additional filter logic if needed
+    const getStatusLabel = (status) => {
+      const labels = {
+        published: 'Published',
+        draft: 'Draft',
+        archived: 'Archived'
+      };
+      return labels[status] || status;
+    };
+
+    const getEmptyStateTitle = () => {
+      if (statusFilter.value === 'all') return 'No stories yet';
+      return `No ${statusFilter.value} stories`;
+    };
+
+    const getEmptyStateMessage = () => {
+      if (statusFilter.value === 'all') return 'Start writing your first story to get started.';
+      return `You don't have any ${statusFilter.value} stories yet.`;
     };
 
     const formatDate = (dateString) => {
@@ -293,11 +351,15 @@ export default {
       error,
       searchQuery,
       statusFilter,
+      statusOptions,
       showDeleteConfirm,
       postToDelete,
       filteredPosts,
+      goBack,
       handleSearch,
-      applyFilters,
+      getStatusLabel,
+      getEmptyStateTitle,
+      getEmptyStateMessage,
       formatDate,
       formatFullDate,
       editPost,
@@ -310,491 +372,593 @@ export default {
 </script>
 
 <style scoped>
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+}
+
 .posts-manager {
-  background-color: #fff;
+  background: #fafafa;
   min-height: 100vh;
-  color: rgba(0, 0, 0, 0.84);
-  font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  color: #1a1a1a;
+  line-height: 1.6;
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 24px;
 }
 
-/* Header */
+/* Header Styles */
 .posts-header {
-  padding: 1.5rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 32px 0;
 }
 
-.posts-header .container {
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 16px;
 }
 
-.posts-header h1 {
-  font-size: 24px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.84);
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #475569;
+  transform: translateX(-2px);
+}
+
+.back-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.title-section h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.025em;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
   margin: 0;
+  font-weight: 500;
 }
 
 .new-story-button {
-  display: inline-block;
-  background-color: #1a8917;
-  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #1a1a1a;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
   font-size: 14px;
-  font-weight: 500;
-  padding: 8px 16px;
-  border-radius: 4px;
+  font-weight: 600;
   text-decoration: none;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .new-story-button:hover {
-  background-color: #0f6d14;
+  background: #2d2d2d;
+  transform: translateY(-1px);
+}
+
+.new-story-button svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* Content Container */
 .content-container {
-  padding: 2rem 0 4rem;
+  padding: 48px 0;
 }
 
-/* Filter Bar */
-.filters-bar {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+/* Filters Section */
+.filters-section {
+  margin-bottom: 48px;
 }
 
-.search-box {
+.search-container {
   position: relative;
-  flex: 2;
-  min-width: 240px;
+  max-width: 480px;
+  margin-bottom: 32px;
 }
 
-.status-filter {
-  flex: 1;
-  min-width: 160px;
-}
-
-.search-box input {
+.search-input {
   width: 100%;
-  padding: 10px 16px 10px 40px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.8);
-  background-color: #fff;
+  padding: 16px 20px 16px 52px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 16px;
+  background: white;
+  color: #1a1a1a;
+  transition: all 0.2s ease;
 }
 
-.search-box input:focus {
+.search-input:focus {
   outline: none;
-  border-color: rgba(0, 0, 0, 0.3);
+  border-color: #1a1a1a;
+  box-shadow: 0 0 0 4px rgba(26, 26, 26, 0.1);
 }
 
 .search-icon {
   position: absolute;
-  left: 14px;
+  left: 18px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(0, 0, 0, 0.4);
+  color: #9ca3af;
   pointer-events: none;
 }
 
-.status-filter select {
-  width: 100%;
-  padding: 10px 16px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
+.status-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.status-tab {
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.8);
-  background-color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 32px;
+  transition: all 0.2s ease;
 }
 
-.status-filter select:focus {
-  outline: none;
-  border-color: rgba(0, 0, 0, 0.3);
+.status-tab:hover {
+  background: #f3f4f6;
+  color: #374151;
 }
 
-/* Posts List */
-.posts-list {
+.status-tab.active {
+  background: #1a1a1a;
+  color: white;
+}
+
+/* Loading State */
+.loading-container {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  justify-content: center;
+  padding: 120px 0;
 }
 
-.post-item {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding-bottom: 1.5rem;
-}
-
-.post-item:last-child {
-  border-bottom: none;
-}
-
-.post-content {
+.loading-animation {
   display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
+  gap: 8px;
 }
 
-.post-info {
-  flex: 1;
-  min-width: 0;
+.loading-dot {
+  width: 8px;
+  height: 8px;
+  background: #1a1a1a;
+  border-radius: 50%;
+  animation: loading-bounce 1.4s ease-in-out infinite both;
 }
 
-.post-title {
-  display: block;
-  font-family: Georgia, serif;
-  font-size: 18px;
+.loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes loading-bounce {
+  0%, 80%, 100% { 
+    transform: scale(0);
+  } 40% { 
+    transform: scale(1.0);
+  }
+}
+
+/* Error State */
+.error-container {
+  display: flex;
+  justify-content: center;
+  padding: 120px 0;
+}
+
+.error-content {
+  text-align: center;
+  color: #dc2626;
+}
+
+.error-content svg {
+  margin-bottom: 16px;
+}
+
+.error-content p {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Stories Grid */
+.stories-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.story-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.story-card:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.story-main {
+  padding: 32px;
+}
+
+.story-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.story-title {
+  font-size: 20px;
   font-weight: 700;
-  color: rgba(0, 0, 0, 0.84);
+  color: #1a1a1a;
   text-decoration: none;
-  margin-bottom: 0.5rem;
   line-height: 1.3;
+  letter-spacing: -0.025em;
+  flex: 1;
+  transition: color 0.2s ease;
 }
 
-.post-title:hover {
-  color: rgba(0, 0, 0, 0.68);
+.story-title:hover {
+  color: #4b5563;
 }
 
-.post-summary {
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.54);
-  margin: 0.5rem 0;
+.story-status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  flex-shrink: 0;
+}
+
+.story-status.published {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.story-status.draft {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.story-status.archived {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.story-excerpt {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0 0 24px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.post-meta {
+.story-meta {
   display: flex;
-  align-items: center;
+  gap: 16px;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 0.5rem;
-  font-size: 13px;
 }
 
-.post-status {
-  padding: 2px 8px;
-  border-radius: 100px;
-  font-size: 12px;
+.story-date,
+.published-date {
+  font-size: 14px;
+  color: #9ca3af;
   font-weight: 500;
 }
 
-.post-status.published {
-  background-color: rgba(26, 137, 23, 0.1);
-  color: #1a8917;
-}
-
-.post-status.draft {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.post-status.archived {
-  background-color: rgba(117, 117, 117, 0.1);
-  color: #757575;
-}
-
-.post-date {
-  color: rgba(0, 0, 0, 0.54);
-}
-
-.post-thumbnail {
-  width: 120px;
-  height: 90px;
-  flex-shrink: 0;
-  border-radius: 4px;
+.story-image {
+  height: 200px;
   overflow: hidden;
+  border-top: 1px solid #e5e7eb;
 }
 
-.post-thumbnail img {
+.story-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-.post-actions {
+.story-card:hover .story-image img {
+  transform: scale(1.05);
+}
+
+.story-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 8px;
+  padding: 20px 32px;
+  border-top: 1px solid #f3f4f6;
+  background: #fafafa;
 }
 
-.action-button {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 100px;
+.action-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
   font-size: 13px;
-  font-weight: 500;
-  text-align: center;
-  cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background-color: transparent;
-  color: rgba(0, 0, 0, 0.6);
+  font-weight: 600;
   text-decoration: none;
+  border: none;
+  cursor: pointer;
   transition: all 0.2s ease;
-}
-
-.action-button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.8);
-}
-
-.action-button.edit-button {
-  color: #1a8917;
-  border-color: rgba(26, 137, 23, 0.4);
-}
-
-.action-button.edit-button:hover {
-  background-color: rgba(26, 137, 23, 0.05);
-  border-color: #1a8917;
-}
-
-.action-button.delete-button {
-  color: #c62828;
-  border-color: rgba(198, 40, 40, 0.4);
-}
-
-.action-button.delete-button:hover {
-  background-color: rgba(198, 40, 40, 0.05);
-  border-color: #c62828;
-}
-
-.action-button.view-button {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-/* Loading State */
-.loading-state {
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 4rem 0;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.54);
 }
 
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
+.edit-btn {
+  background: #1a1a1a;
+  color: white;
 }
 
-.loading-spinner span {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.3);
-  margin: 0 4px;
-  animation: bounce .6s cubic-bezier(0.6, 0.1, 1, 0.4) infinite alternate;
+.edit-btn:hover {
+  background: #2d2d2d;
+  transform: translateY(-1px);
 }
 
-.loading-spinner span:nth-child(1) {
-  animation-delay: .1s;
+.view-btn {
+  background: #f3f4f6;
+  color: #6b7280;
 }
 
-.loading-spinner span:nth-child(2) {
-  animation-delay: .2s;
+.view-btn:hover {
+  background: #e5e7eb;
+  color: #374151;
+  transform: translateY(-1px);
 }
 
-.loading-spinner span:nth-child(3) {
-  animation-delay: .3s;
+.delete-btn {
+  background: #fef2f2;
+  color: #dc2626;
 }
 
-@keyframes bounce {
-  to {
-    transform: translateY(8px);
-    opacity: 0.3;
-  }
-}
-
-/* Error Message */
-.error-message {
-  padding: 2rem;
-  background-color: rgba(198, 40, 40, 0.05);
-  color: #c62828;
-  text-align: center;
-  border-radius: 4px;
-  margin-bottom: 2rem;
+.delete-btn:hover {
+  background: #fee2e2;
+  transform: translateY(-1px);
 }
 
 /* Empty State */
-.empty-state {
-  padding: 4rem 0;
-  text-align: center;
+.empty-container {
+  display: flex;
+  justify-content: center;
+  padding: 120px 0;
 }
 
-.empty-state-content {
+.empty-content {
+  text-align: center;
   max-width: 400px;
-  margin: 0 auto;
 }
 
 .empty-icon {
-  color: rgba(0, 0, 0, 0.2);
-  width: 64px;
-  height: 64px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
+  color: #d1d5db;
 }
 
-.empty-state h2 {
+.empty-content h3 {
   font-size: 20px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.84);
-  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
 }
 
-.empty-state p {
-  color: rgba(0, 0, 0, 0.54);
-  margin-bottom: 2rem;
+.empty-content p {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0 0 32px 0;
 }
 
-/* Delete Modal */
-.modal-overlay {
+/* Modal Styles */
+.modal-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
-  padding: 1rem;
+  z-index: 50;
+  padding: 16px;
 }
 
-.modal-content {
-  background-color: #fff;
-  border-radius: 4px;
-  max-width: 400px;
+.modal {
+  background: white;
+  border-radius: 16px;
+  max-width: 480px;
   width: 100%;
-  padding: 2rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
-.modal-content h3 {
+.modal-header {
+  padding: 32px 32px 0;
+}
+
+.modal-header h3 {
   font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.modal-body {
+  padding: 16px 32px 32px;
+}
+
+.modal-body p {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0 0 8px 0;
+}
+
+.warning {
+  color: #dc2626 !important;
   font-weight: 600;
-  color: rgba(0, 0, 0, 0.84);
-  margin-top: 0;
-  margin-bottom: 1rem;
 }
 
-.modal-content p {
-  color: rgba(0, 0, 0, 0.68);
-  margin-bottom: 0.5rem;
-}
-
-.warning-text {
-  color: #c62828;
-  font-weight: 500;
-  font-size: 14px;
-  margin-bottom: 1.5rem;
-}
-
-.modal-actions {
+.modal-footer {
   display: flex;
-  gap: 1rem;
+  gap: 12px;
+  padding: 0 32px 32px;
   justify-content: flex-end;
 }
 
-.modal-button {
-  padding: 8px 16px;
-  border-radius: 4px;
+.btn-cancel {
+  padding: 12px 24px;
+  border: 2px solid #e5e7eb;
+  background: transparent;
+  color: #6b7280;
+  border-radius: 8px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.modal-button.cancel-button {
-  background-color: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  color: rgba(0, 0, 0, 0.6);
+.btn-cancel:hover {
+  border-color: #d1d5db;
+  color: #374151;
 }
 
-.modal-button.cancel-button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.8);
-}
-
-.modal-button.delete-button {
-  background-color: #c62828;
-  color: #fff;
+.btn-delete {
+  padding: 12px 24px;
+  background: #dc2626;
+  color: white;
   border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.modal-button.delete-button:hover {
-  background-color: #b71c1c;
+.btn-delete:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
 }
 
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
-  .post-content {
+  .container {
+    padding: 0 16px;
+  }
+  
+  .header-content {
     flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
   }
   
-  .post-thumbnail {
-    width: 100%;
-    height: 180px;
-    order: -1;
-    margin-bottom: 1rem;
+  .header-left {
+    justify-content: flex-start;
+    gap: 12px;
   }
   
-  .filters-bar {
-    flex-direction: column;
-    gap: 1rem;
+  .title-section h1 {
+    font-size: 28px;
   }
   
-  .search-box, .status-filter {
-    width: 100%;
+  .content-container {
+    padding: 32px 0;
   }
   
-  .post-actions {
+  .filters-section {
+    margin-bottom: 32px;
+  }
+  
+  .story-main {
+    padding: 24px;
+  }
+  
+  .story-actions {
+    padding: 16px 24px;
     flex-wrap: wrap;
   }
   
-  .action-button {
+  .action-btn {
     flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+  
+  .modal {
+    margin: 16px;
+  }
+  
+  .modal-header,
+  .modal-body {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  
+  .modal-footer {
+    padding: 0 24px 24px;
+    flex-direction: column;
+  }
+  
+  .btn-cancel,
+  .btn-delete {
+    width: 100%;
+    justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
-  .posts-header .container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+  .status-tabs {
+    justify-content: center;
   }
   
-  .post-meta {
+  .story-header {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+    align-items: stretch;
+    gap: 12px;
   }
   
-  .modal-actions {
-    flex-direction: column;
-  }
-  
-  .modal-button {
-    width: 100%;
-    text-align: center;
+  .story-status {
+    align-self: flex-start;
   }
 }
 </style>
