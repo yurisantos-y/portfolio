@@ -157,42 +157,79 @@ onMounted(() => {
       <button><a href="/projects">{{ $t('card.seeMore') }}</a></button>
     </div>
 
-    <div class="conteudoAbout" :class="{ 'animate__animated animate__fadeIn': aboutVisible }">
-      <div class="text-container">
-        <h2 class="animate__animated" :class="{ 'animate__fadeInDown': aboutVisible }">{{ $t('about.titleAbout') }}</h2>
-        <div class="lineAbout">
-          <p class="animate__animated" :class="{ 'animate__fadeIn': aboutVisible }">{{ $t('about.text') }}</p>
-        </div>
-        <a href="/about">
-          <button class="btnAbout animate__animated" id="btnNewButton" :class="{ 'animate__fadeInUp': aboutVisible }">
-            {{ $t('about.btnAbout') }}
-          </button>
-        </a>
-      </div>
-      <div class="card">
-        <img src="../assets/aboutMe.png" alt="Projeto 2">
-      </div>
-    </div>
 
-    <hr id="hr" class="animate__animated" :class="{ 'animate__fadeIn': aboutVisible }">
 
     <div class="experiencia" :class="{ 'animate__animated animate__fadeIn': experienceVisible }">
-      <div class="card">
-        <img src="../assets/experience.png" alt="Projeto 2">
-      </div>
-      <div class="text-container">
-        <h2 class="animate__animated" :class="{ 'animate__fadeInDown': experienceVisible }">{{
-          $t('experience.titleExperience') }}</h2>
-        <div class="flexExperience">
-          <p class="animate__animated" :class="{ 'animate__fadeIn': experienceVisible }">{{
-            $t('experience.textExperience') }}</p>
+      <h2 class="experience-title animate__animated" :class="{ 'animate__fadeInDown': experienceVisible }">
+        Experience
+      </h2>
+      
+      <div class="timeline-container animate__animated" :class="{ 'animate__fadeInUp': experienceVisible }">
+        <!-- Timeline Line -->
+        <div class="timeline-line"></div>
+        
+        <!-- Experience Cards -->
+        <div class="timeline-item">
+
+          <div class="timeline-date">Dec 2024 - Feb 2025</div>
+          <div class="experience-card">
+            <div class="job-header">
+              <h3>Software Engineer</h3>
+              <p class="company">Toggle Innovations LLC</p>
+            </div>
+            <div class="job-description">
+              <ul>
+                <li>Developed client, portal, and admin websites from concept to launch within a 3-month period, ensuring a cohesive and responsive design.</li>
+                <li>Collaborated with cross-functional teams to align website functionality with business goals and user needs.</li>
+              </ul>
+            </div>
+            <div class="tech-stack">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">NodeJS</span>
+              <span class="tech-tag">MongoDB</span>
+              <span class="tech-tag">Firebase</span>
+            </div>
+          </div>
         </div>
-        <a href="/about">
-          <button class="btnExp animate__animated" id="btnNewButton"
-            :class="{ 'animate__fadeInUp': experienceVisible }">
-            {{ $t('experience.titleExperience') }}
-          </button>
-        </a>
+
+        <div class="timeline-item">
+          <div class="timeline-date">July 2024 - Dec 2024</div>
+          <div class="experience-card">
+            <div class="job-header">
+              <h3>Full Stack Web Developer</h3>
+              <p class="company">Blast Catering LLC</p>
+            </div>
+            <div class="job-description">
+              <ul>
+                <li>Optimized the customer-facing website by analyzing user analytics and enhancing key features, achieving up to 2x faster load times and a 60% improvement in user engagement.</li>
+                <li>Improved code quality and application efficiency by implementing best practices and shifting processing from client-side to server-side, reducing resource consumption by 45% and increasing maintainability by 30%.</li>
+              </ul>
+            </div>
+            <div class="tech-stack">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">NodeJS</span>
+              <span class="tech-tag">MongoDB</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">Sept 2022 - June 2024</div>
+          <div class="experience-card">
+            <div class="job-header">
+              <h3>Software Engineer</h3>
+              <p class="company">Washon LLC</p>
+            </div>
+            <div class="job-description">
+              <ul>
+                <li>Revamped client application using Flutter/Dart, enhancing organization, scalability, and code quality by 2x.</li>
+                <li>Implemented the BLOC pattern and integrated Dio for API call management, reducing response times by 50%.</li>
+                <li>Minimized production crashes and optimized error handling with Flutter Bloc and Firebase.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -621,13 +658,16 @@ body {
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
+  padding: 4rem 2rem;
 
   @media (max-width: $desktop-small) {
     flex-direction: column;
-    padding: 0 1rem;
+    padding: 3rem 1rem;
   }
 
   @media (max-width: $tablet) {
+    padding: 2rem 1rem;
+    
     .card {
       margin-top: 2rem;
 
@@ -639,6 +679,222 @@ body {
   }
 }
 
+// New Experience Section Styles
+.experiencia {
+  background-color: $cor-dark;
+  color: $cor-light;
+  width: 100%;
+  padding: 6rem 0;
+  position: relative;
+}
+
+.experience-title {
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 4rem;
+  color: $cor-light;
+  
+  @media (max-width: $tablet) {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: $mobile) {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.timeline-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 2rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, 
+    rgba(237, 76, 92, 0.8) 0%, 
+    rgba(255, 157, 99, 0.8) 50%,
+    rgba(237, 76, 92, 0.8) 100%
+  );
+  
+  @media (max-width: $tablet) {
+    left: 1rem;
+  }
+  
+  @media (max-width: $mobile) {
+    left: 0.5rem;
+  }
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 4rem;
+  padding-left: 4rem;
+  
+  @media (max-width: $tablet) {
+    padding-left: 3rem;
+    margin-bottom: 3rem;
+  }
+  
+  @media (max-width: $mobile) {
+    padding-left: 2rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+.timeline-date {
+  position: absolute;
+  left: -12rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: $cor-light;
+  font-weight: 600;
+  white-space: nowrap;
+  
+  @media (max-width: $desktop-small) {
+    position: relative;
+    left: 0;
+    top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  @media (max-width: $mobile) {
+    font-size: 0.8rem;
+  }
+}
+
+.experience-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(135deg, rgba(237, 76, 92, 1) 0%, rgba(255, 157, 99, 1) 100%);
+  }
+  
+  &:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(237, 76, 92, 0.2);
+  }
+  
+  @media (max-width: $tablet) {
+    padding: 1.5rem;
+  }
+  
+  @media (max-width: $mobile) {
+    padding: 1rem;
+  }
+}
+
+.job-header {
+  margin-bottom: 1.5rem;
+  
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: $cor-light;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+    
+    @media (max-width: $mobile) {
+      font-size: 1.2rem;
+    }
+  }
+  
+  .company {
+    font-size: 1rem;
+    color: rgba(237, 76, 92, 1);
+    font-weight: 600;
+    margin: 0;
+    
+    @media (max-width: $mobile) {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.job-description {
+  margin-bottom: 1.5rem;
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      position: relative;
+      padding-left: 1.2rem;
+      margin-bottom: 0.8rem;
+      color: $text-gray;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      
+      &:before {
+        content: "▶";
+        position: absolute;
+        left: 0;
+        color: rgba(255, 157, 99, 1);
+        font-size: 0.7rem;
+        top: 0.2rem;
+      }
+      
+      @media (max-width: $mobile) {
+        font-size: 0.85rem;
+        padding-left: 1rem;
+      }
+    }
+  }
+}
+
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  
+  .tech-tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: $cor-light;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: rgba(237, 76, 92, 0.2);
+      border-color: rgba(237, 76, 92, 0.5);
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: $mobile) {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+    }
+  }
+}
+
 .text-container {
   @media (max-width: $desktop-small) {
     width: 100%;
@@ -646,13 +902,11 @@ body {
   }
 }
 
-.conteudoAbout a,
-.experiencia a {
+.conteudoAbout a {
   text-decoration: none;
 }
 
-.conteudoAbout h2,
-.experiencia h2 {
+.conteudoAbout h2 {
   margin-bottom: 1.875rem;
   font-size: 2rem;
   font-weight: 600;
@@ -668,8 +922,7 @@ body {
   }
 }
 
-.conteudoAbout p,
-.experiencia p {
+.conteudoAbout p {
   width: 85%;
   max-width: 100%;
   margin: 0 auto;
@@ -730,7 +983,6 @@ body {
 
 
 .btnAbout,
-.btnExp,
 .btnProjects button {
   border: none;
   background-color: $cor-primaria;
@@ -756,7 +1008,6 @@ body {
 
 
 .btnAbout:hover,
-.btnExp:hover,
 .btnProjects button:hover {
   background-color: $hover;
   transform: scale(1.2);
@@ -974,9 +1225,7 @@ body {
 
 // Add responsive layout for larger screens
 @media (min-width: $desktop-small) {
-
-  .conteudoAbout,
-  .experiencia {
+  .conteudoAbout {
     flex-direction: row;
     gap: 3rem;
     padding: 0 5%;
@@ -993,10 +1242,6 @@ body {
         height: auto;
       }
     }
-  }
-
-  .experiencia {
-    flex-direction: row-reverse;
   }
 }
 
@@ -1017,8 +1262,7 @@ body {
     width: 10rem;
   }
 
-  .conteudoAbout p,
-  .experiencia p {
+  .conteudoAbout p {
     font-size: 0.9rem;
     line-height: 1.4rem;
   }
