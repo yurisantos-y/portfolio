@@ -2,22 +2,23 @@
   <div class="card-container">
     <div class="cardProjeto">
       <div class="card-content">
-        <img src="../assets/projeto1.jpeg" alt="Projeto 1" class="card-image">
+        <img src="../assets/doola.png" alt="Doola App" class="card-image">
         <div class="card-details">
           <div class="tela">
             <div class="conteudoTela">
-              <a href="https://yurisantos-y.github.io/linkbio/" target="_blank">
+              <a href="https://www.doola.com.br/" target="_blank">
                 <button class="btnTela">{{ $t('card.titlebtn')}}</button>
               </a>
             </div>
           </div>
           <div class="description">
-            <h2>LinkBio</h2>
-            <p>{{ $t('card.linkbioDesc')}}</p>
+            <h2>Doola</h2>
+            <p>{{ $t('card.doolaDesc')}}</p>
             <ul class="description-list">
-              <li>HTML</li>
-              <li>CSS</li>
-              <li>JavaScript</li>
+              <li>Flutter</li>
+              <li>Dart</li>
+              <li>Firebase</li>
+              <li>Criptografia</li>
             </ul>
           </div>
         </div>
@@ -26,23 +27,23 @@
 
     <div class="cardProjeto">
       <div class="card-content">
-        <img src="../assets/projeto2.jpeg" alt="Projeto 2" class="card-image" id="secondProject">
+        <img src="../assets/sig-food.png" alt="Sig-food" class="card-image" id="secondProject">
         <div class="card-details">
           <div class="tela">
             <div class="conteudoTela">
-              <a href="https://prosperecf.com.br/" target="_blank">
+              <a href="https://sig-food.vercel.app/" target="_blank">
                 <button class="btnTela">{{ $t('card.titlebtn')}}</button>
               </a>
             </div>
           </div>
           <div class="description">
-            <h2>Prosperecf</h2>
-            <p>{{ $t('card.prosperecfDesc')}}</p>
+            <h2>Sig-food</h2>
+            <p>{{ $t('card.sigfoodDesc')}}</p>
             <ul class="description-list">
-              <li>HTML</li>
-              <li>CSS</li>
-              <li>JavaScript</li>
-              <li>PHP</li>
+              <li>Next.js</li>
+              <li>Tailwind</li>
+              <li>ShadcnUI</li>
+              <li>PostgreSQL</li>
             </ul>
           </div>
         </div>

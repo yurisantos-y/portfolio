@@ -73,8 +73,8 @@ export const en = {
 
   card: {
     titlebtn: 'Visit Website',
-    linkbioDesc: 'This project was created with the aim of centralizing my contacts and social media links in an easy and accessible way.',
-    prosperecfDesc: 'This project was developed during my internship and refers to a consulting page created to meet the specific needs of the company owner.',
+    doolaDesc: 'Posthumous messaging app built with Dart, Flutter and Firebase using end-to-end encryption to ensure complete security for messages.',
+    sigfoodDesc: 'Online menu management software built with Next.js, Tailwind, ShadcnUI and PostgreSQL for complete control of orders and menus.',
     seeMore: 'See More',
   },
 

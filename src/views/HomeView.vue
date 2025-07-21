@@ -823,6 +823,7 @@ body {
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
+  margin-top: 2rem;
   padding: 4rem 2rem;
 
   @media (max-width: $desktop-small) {
