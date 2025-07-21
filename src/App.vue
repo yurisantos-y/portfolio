@@ -1,5 +1,19 @@
 <script setup>
+import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import navBar from './components/navBar.vue'
+import { useOAuthCallback } from './composables/useOAuthCallback'
+
+const route = useRoute()
+const { handleCallback } = useOAuthCallback()
+
+onMounted(async () => {
+  // Check if this is an OAuth callback
+  if (route.hash && (route.hash.includes('access_token') || route.hash.includes('code'))) {
+    console.log('🔄 OAuth callback detected')
+    await handleCallback()
+  }
+})
 </script>
 
 <template>

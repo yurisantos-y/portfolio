@@ -16,17 +16,29 @@ const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabase
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
-    // Disable automatic token refresh in development to prevent CORS issues
     debug: process.env.NODE_ENV === 'development',
     // Use current origin to ensure redirect works in all environments
-    redirectTo: typeof window !== 'undefined' ? `${window.location.origin}` : undefined,
+    redirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
     // Configure storage key to ensure single instance
-    storageKey: 'portfolio-supabase-auth'
+    storageKey: 'portfolio-supabase-auth',
+    // Additional flow type for better compatibility
+    flowType: 'pkce'
   },
-  // Add global headers to help with CORS
+  // Add global headers to help with CORS and connectivity
   global: {
     headers: {
-      'X-Client-Info': 'portfolio-app'
+      'X-Client-Info': 'portfolio-app',
+      'Access-Control-Allow-Origin': '*'
+    }
+  },
+  // Database options for better connection handling
+  db: {
+    schema: 'public'
+  },
+  // Realtime options
+  realtime: {
+    params: {
+      eventsPerSecond: 10
     }
   }
 }) : {

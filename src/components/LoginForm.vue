@@ -26,23 +26,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { authService } from '../services/auth'
+import { useAuth } from '../composables/useAuth'
 
-const error = ref('')
-const loading = ref(false)
+const { login, loading, error } = useAuth()
 
 const handleGoogleLogin = async () => {
-  error.value = ''
-  loading.value = true
-  
-  try {
-    await authService.loginWithGoogle()
-    // Não precisamos navegar aqui pois o OAuth redirecionará automaticamente
-  } catch (err) {
-    error.value = 'Ocorreu um erro ao conectar com o Google. Por favor, tente novamente.'
-    loading.value = false
-  }
+  await login()
 }
 </script>
 

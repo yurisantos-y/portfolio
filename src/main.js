@@ -4,6 +4,11 @@ import { createI18n } from 'vue-i18n';
 import App from './App.vue';
 import router from './router';
 
+// Import debug utilities in development
+if (import.meta.env.DEV) {
+  import('./utils/debug.js')
+}
+
 // Import locales
 import { pt_BR } from '../src/locale/pt_BR.js';
 import { en } from '../src/locale/en.js';

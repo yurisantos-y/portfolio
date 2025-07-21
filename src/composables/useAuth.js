@@ -1,0 +1,85 @@
+import { ref, computed, onMounted } from 'vue'
+import { authService } from '../services/auth'
+import supabase from '../utils/supabaseClient'
+
+const user = ref(null)
+const loading = ref(true)
+const error = ref('')
+
+export function useAuth() {
+  const isAuthenticated = computed(() => !!user.value)
+  
+  const login = async () => {
+    try {
+      error.value = ''
+      loading.value = true
+      
+      // Check if we're on localhost and get the correct port
+      const currentUrl = new URL(window.location.href)
+      console.log('Current URL:', currentUrl.href)
+      console.log('Current port:', currentUrl.port)
+      
+      await authService.loginWithGoogle()
+    } catch (err) {
+      console.error('Login error:', err)
+      error.value = err.message || 'Erro ao fazer login'
+    } finally {
+      loading.value = false
+    }
+  }
+  
+  const logout = async () => {
+    try {
+      await authService.logout()
+      user.value = null
+    } catch (err) {
+      console.error('Logout error:', err)
+      error.value = err.message || 'Erro ao fazer logout'
+    }
+  }
+  
+  const checkUser = async () => {
+    try {
+      loading.value = true
+      const currentUser = await authService.getCurrentUser()
+      user.value = currentUser
+    } catch (err) {
+      console.error('Check user error:', err)
+      user.value = null
+    } finally {
+      loading.value = false
+    }
+  }
+  
+  const initAuth = () => {
+    // Listen for auth changes
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth state changed:', event, session)
+      
+      if (event === 'SIGNED_IN' && session) {
+        await checkUser()
+      } else if (event === 'SIGNED_OUT') {
+        user.value = null
+      }
+    })
+    
+    // Check initial auth state
+    checkUser()
+  }
+  
+  // Initialize on mount
+  onMounted(() => {
+    initAuth()
+  })
+  
+  return {
+    user,
+    loading,
+    error,
+    isAuthenticated,
+    login,
+    logout,
+    checkUser,
+    initAuth
+  }
+}

@@ -4,18 +4,33 @@ export const authService = {
   async loginWithGoogle(redirectPath = '/dashboard') {
     // Define the correct redirect URL based on the environment
     const isProduction = window.location.hostname !== 'localhost';
-    const redirectUrl = isProduction 
-      ? `https://yurisantos-y.netlify.app${redirectPath}` 
-      : `${window.location.origin}${redirectPath}`;
+    
+    // Get the current port for development
+    const currentPort = window.location.port || (window.location.protocol === 'https:' ? '443' : '80');
+    const baseUrl = isProduction 
+      ? 'https://yurisantos-y.netlify.app' 
+      : `${window.location.protocol}//${window.location.hostname}:${currentPort}`;
+    
+    const redirectUrl = `${baseUrl}${redirectPath}`;
+    
+    console.log('Redirect URL:', redirectUrl); // Debug log
     
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectUrl
+        redirectTo: redirectUrl,
+        skipBrowserRedirect: false,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        }
       }
     })
     
-    if (error) throw error
+    if (error) {
+      console.error('OAuth error:', error);
+      throw error;
+    }
     
     return data
   },
