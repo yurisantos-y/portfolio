@@ -58,7 +58,7 @@ export const pt_BR = {
     computecTitle: 'Desenvolvedor FullStack',
     computecCompany: 'COMPUTEC',
     computecDate: '07/2024 - 12/2024',
-    computecDescription: 'Desenvolvimento aplicativo cardápio online. Criação de funcionalidades com as tecnologias Next.Js, Shadcn/ui, Tailwind, PostgreSQL e controle de versão de código com Git. Software desenvolvido com arquitetura monolítica',
+    computecDescription: 'Desenvolvimento de um software de cardápio online. Criação de funcionalidades com as tecnologias Next.Js, Shadcn/ui, Tailwind, PostgreSQL e controle de versão de código com Git. Software desenvolvido com arquitetura monolítica',
     
     doolaTitle: 'Desenvolvedor Mobile',
     doolaCompany: 'Doola',

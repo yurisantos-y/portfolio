@@ -24,5 +24,43 @@ export default defineConfig({
   },
   define: {
     global: 'globalThis',
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          // Vendor libraries
+          if (id.includes('node_modules')) {
+            if (id.includes('vue') || id.includes('vue-router')) {
+              return 'vendor-vue';
+            }
+            if (id.includes('@supabase') || id.includes('supabase')) {
+              return 'vendor-supabase';
+            }
+            if (id.includes('date-fns')) {
+              return 'vendor-date';
+            }
+            // Other node_modules go to vendor
+            return 'vendor';
+          }
+          
+          // Admin views
+          if (id.includes('/admin/') || id.includes('AdminView')) {
+            return 'admin';
+          }
+          
+          // Auth related
+          if (id.includes('auth') || id.includes('login')) {
+            return 'auth';
+          }
+          
+          // Blog related
+          if (id.includes('Blog')) {
+            return 'blog';
+          }
+        }
+      }
+    },
+    chunkSizeWarningLimit: 800
   }
 })
