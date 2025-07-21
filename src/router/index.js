@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { authService } from '../services/auth'
 import HomeView from '../views/HomeView.vue'
-import { useSupabaseAuth } from '../composables/useSupabaseAuth'
 import publicRoutes from './routes/public'
 import authRoutes from './routes/auth'
 import protectedRoutes from './routes/protected'

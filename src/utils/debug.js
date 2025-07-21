@@ -1,5 +1,5 @@
 // Debug utility to check Supabase connectivity
-import supabase from '../utils/supabaseClient'
+import supabaseClient from '../utils/supabaseClient'
 
 export const debugSupabase = {
   async testConnection() {
@@ -32,7 +32,7 @@ export const debugSupabase = {
       
       // Test 3: Check auth configuration
       console.log('🔐 Auth Configuration:')
-      const session = await supabase.auth.getSession()
+      const session = await supabaseClient.auth.getSession()
       console.log('Current session:', session)
       
       // Test 4: Check current URL and redirect configuration
@@ -52,7 +52,7 @@ export const debugSupabase = {
     console.log('🔐 Testing Auth functionality...')
     
     try {
-      const { data, error } = await supabase.auth.getUser()
+      const { data, error } = await supabaseClient.auth.getUser()
       console.log('Current user:', data)
       if (error) console.error('Auth error:', error)
       

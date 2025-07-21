@@ -1,6 +1,6 @@
 import { ref, computed, onMounted } from 'vue'
 import { authService } from '../services/auth'
-import supabase from '../utils/supabaseClient'
+import supabaseClient from '../utils/supabaseClient'
 
 const user = ref(null)
 const loading = ref(true)
@@ -53,7 +53,7 @@ export function useAuth() {
   
   const initAuth = () => {
     // Listen for auth changes
-    supabase.auth.onAuthStateChange(async (event, session) => {
+    supabaseClient.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, session)
       
       if (event === 'SIGNED_IN' && session) {

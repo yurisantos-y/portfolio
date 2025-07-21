@@ -3,7 +3,7 @@
 async function fetchTags() {
   try {
     // Corrigir a consulta Supabase
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('tags')
       .select('*')
       .order('name', { ascending: true });
@@ -21,7 +21,7 @@ async function fetchTags() {
 async function savePost() {
   try {
     // Verificar autenticação explicitamente
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     
     if (!session) {
       throw new Error('User not authenticated');
@@ -40,7 +40,7 @@ async function savePost() {
       // outros campos necessários
     };
     
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('posts')
       .insert([postData])
       .select();
@@ -54,7 +54,7 @@ async function savePost() {
         tag_id: tagId
       }));
       
-      const { error: relError } = await supabase
+      const { error: relError } = await supabaseClient
         .from('post_tags')
         .insert(tagRelations);
       

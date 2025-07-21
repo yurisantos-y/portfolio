@@ -159,7 +159,7 @@
 <script>
 import { ref, reactive, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import supabase from '../../utils/supabaseClient';
+import supabaseClient from '../../utils/supabaseClient';
 
 export default {
   name: 'CreateProjectView',
@@ -259,14 +259,14 @@ export default {
         const fileName = `${Date.now()}.${fileExt}`;
         const filePath = `projects/${fileName}`;
         
-        const { error: uploadError } = await supabase.storage
+        const { error: uploadError } = await supabaseClient.storage
           .from('project-images')
           .upload(filePath, imageFile.value);
         
         if (uploadError) throw uploadError;
         
         // Get the public URL
-        const { data: publicURL } = supabase.storage
+        const { data: publicURL } = supabaseClient.storage
           .from('project-images')
           .getPublicUrl(filePath);
         
@@ -287,7 +287,7 @@ export default {
         isSaving.value = true;
         error.value = '';
         
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data: { user } } = await supabaseClient.auth.getUser();
         if (!user) throw new Error('User not authenticated');
         
         let imageUrl = projectData.image;

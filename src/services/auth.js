@@ -1,4 +1,4 @@
-import supabase from '../utils/supabaseClient'
+import supabaseClient from '../utils/supabaseClient'
 
 export const authService = {
   async loginWithGoogle(redirectPath = '/dashboard') {
@@ -15,7 +15,7 @@ export const authService = {
     
     console.log('Redirect URL:', redirectUrl); // Debug log
     
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: redirectUrl,
@@ -36,15 +36,15 @@ export const authService = {
   },
   
   async logout() {
-    return await supabase.auth.signOut()
+    return await supabaseClient.auth.signOut()
   },
   
   async getCurrentUser() {
-    const { data } = await supabase.auth.getUser()
+    const { data } = await supabaseClient.auth.getUser()
     if (!data.user) return null
     
     // Verifique se é o usuário autorizado
-    const { data: userData, error: userError } = await supabase
+    const { data: userData, error: userError } = await supabaseClient
       .from('authorized_users')
       .select('id')
       .eq('id', data.user.id)

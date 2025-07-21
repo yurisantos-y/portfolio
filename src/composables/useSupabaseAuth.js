@@ -1,25 +1,25 @@
 import { ref, onMounted } from 'vue'
-import supabase from '../utils/supabaseClient'
+import supabaseClient from '../utils/supabaseClient'
 
-// Alterando para exportação nomeada para compatibilidade com as importações existentes
+// Shared state to avoid multiple instances
+const user = ref(null)
+const session = ref(null)
+const loading = ref(true)
+
 export function useSupabaseAuth() {
-  const user = ref(null)
-  const session = ref(null)
-  const loading = ref(true)
-
   // Verificar a sessão atual
   onMounted(async () => {
     console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
     
     // Obter a sessão atual
-    const { data } = await supabase.auth.getSession()
+    const { data } = await supabaseClient.auth.getSession()
     session.value = data.session
     user.value = data.session?.user || null
     
     loading.value = false
     
     // Inscrever-se para atualizações de autenticação
-    const { data: authListener } = supabase.auth.onAuthStateChange(
+    const { data: authListener } = supabaseClient.auth.onAuthStateChange(
       (event, newSession) => {
         session.value = newSession
         user.value = newSession?.user || null
@@ -46,5 +46,5 @@ export function useSupabaseAuth() {
   }
 }
 
-// Também fornecemos uma exportação padrão para compatibilidade
+// Default export
 export default useSupabaseAuth

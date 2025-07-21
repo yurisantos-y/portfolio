@@ -156,7 +156,7 @@
 <script>
 import { ref, reactive, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import supabase from '../../utils/supabaseClient';
+import supabaseClient from '../../utils/supabaseClient';
 import ModalDialog from '../../components/ModalDialog.vue';
 import UnsplashImagePicker from '../../components/UnsplashImagePicker.vue';
 // Importando CKEditor corretamente
@@ -342,7 +342,7 @@ export default {
         isSaving.value = true;
         error.value = '';
         
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data: { user } } = await supabaseClient.auth.getUser();
         if (!user) throw new Error('User not authenticated');
         
         postData.author_id = user.id;

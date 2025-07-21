@@ -200,7 +200,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { format, formatDistance } from 'date-fns';
-import supabase from '../../utils/supabaseClient';
+import supabaseClient from '../../utils/supabaseClient';
 
 export default {
   name: 'ProjectsView',

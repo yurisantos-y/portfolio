@@ -11,7 +11,7 @@ if (!supabaseUrl || !supabaseKey) {
 }
 
 // Create a single Supabase client instance to avoid multiple GoTrueClient instances
-const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey, {
+const supabaseClient = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
@@ -60,4 +60,4 @@ const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabase
   }
 }
 
-export default supabase
+export default supabaseClient

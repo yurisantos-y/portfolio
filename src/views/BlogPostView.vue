@@ -39,7 +39,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import supabase from '../utils/supabaseClient';
+import supabaseClient from '../utils/supabaseClient';
 import { format } from 'date-fns';
 
 const route = useRoute();

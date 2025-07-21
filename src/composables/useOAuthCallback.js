@@ -1,6 +1,6 @@
 // OAuth callback handler
 import { useRouter } from 'vue-router'
-import supabase from '../utils/supabaseClient'
+import supabaseClient from '../utils/supabaseClient'
 
 export function useOAuthCallback() {
   const router = useRouter()
@@ -17,7 +17,7 @@ export function useOAuthCallback() {
       console.log('Hash params:', Object.fromEntries(hashParams.entries()))
       
       // Handle Supabase auth callback
-      const { data, error } = await supabase.auth.getSession()
+      const { data, error } = await supabaseClient.auth.getSession()
       
       if (error) {
         console.error('❌ OAuth callback error:', error)

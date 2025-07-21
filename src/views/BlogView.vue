@@ -42,7 +42,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import supabase from '../utils/supabaseClient';
+import supabaseClient from '../utils/supabaseClient';
 import { format } from 'date-fns';
 import { useRouter } from 'vue-router';
 
