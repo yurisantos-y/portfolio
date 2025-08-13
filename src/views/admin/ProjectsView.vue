@@ -218,7 +218,7 @@ export default {
         loading.value = true;
         error.value = null;
         
-        const { data, error: err } = await supabase
+        const { data, error: err } = await supabaseClient
           .from('projects')
           .select('*')
           .order('created_at', { ascending: false });
@@ -298,7 +298,7 @@ export default {
         loading.value = true;
         
         // First delete the project from the database
-        const { error: err } = await supabase
+        const { error: err } = await supabaseClient
           .from('projects')
           .delete()
           .eq('id', projectToDelete.value.id);

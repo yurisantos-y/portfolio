@@ -56,7 +56,7 @@ const fetchPosts = async () => {
     loading.value = true;
     error.value = null;
     
-    const { data, error: err } = await supabase
+    const { data, error: err } = await supabaseClient
       .from('blog_posts')
       .select(`
         *,

@@ -230,7 +230,7 @@ export default {
 
     const fetchPost = async (id) => {
       try {
-        const { data, error: fetchError } = await supabase
+        const { data, error: fetchError } = await supabaseClient
           .from('blog_posts')
           .select('*')
           .eq('id', id)
@@ -250,7 +250,7 @@ export default {
 
     const fetchTags = async () => {
       try {
-        const { data, error: tagsError } = await supabase
+        const { data, error: tagsError } = await supabaseClient
           .from('blog_tags')
           .select('*')
           .order('name');
@@ -264,7 +264,7 @@ export default {
 
     const fetchPostTags = async (postId) => {
       try {
-        const { data, error: tagsError } = await supabase
+        const { data, error: tagsError } = await supabaseClient
           .from('blog_post_tags')
           .select(`
             tag_id,
@@ -354,7 +354,7 @@ export default {
             postData.published_at = now;
           }
           
-          const { error: updateError } = await supabase
+          const { error: updateError } = await supabaseClient
             .from('blog_posts')
             .update(postData)
             .eq('id', route.params.id);
@@ -369,7 +369,7 @@ export default {
             postData.published_at = now;
           }
           
-          const { data: newPost, error: createError } = await supabase
+          const { data: newPost, error: createError } = await supabaseClient
             .from('blog_posts')
             .insert(postData)
             .select()
@@ -393,14 +393,14 @@ export default {
 
     const updatePostTags = async (postId) => {
       try {
-        await supabase
+        await supabaseClient
           .from('blog_post_tags')
           .delete()
           .eq('post_id', postId);
         
         const newTags = selectedTags.value.filter(tag => tag.isNew);
         for (const tag of newTags) {
-          const { data: createdTag, error: createTagError } = await supabase
+          const { data: createdTag, error: createTagError } = await supabaseClient
             .from('blog_tags')
             .insert({
               name: tag.name,
@@ -423,7 +423,7 @@ export default {
         }));
         
         if (postTags.length > 0) {
-          const { error: tagLinkError } = await supabase
+          const { error: tagLinkError } = await supabaseClient
             .from('blog_post_tags')
             .insert(postTags);
           

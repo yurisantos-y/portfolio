@@ -74,7 +74,7 @@ export default {
         loading.value = true;
         error.value = null;
         
-        const { data, error: fetchError } = await supabase
+        const { data, error: fetchError } = await supabaseClient
           .from('projects')
           .select('*')
           .order('created_at', { ascending: false });

@@ -225,7 +225,7 @@ export default {
 
     const fetchProject = async (id) => {
       try {
-        const { data, error: fetchError } = await supabase
+        const { data, error: fetchError } = await supabaseClient
           .from('projects')
           .select('*')
           .eq('id', id)
@@ -310,7 +310,7 @@ export default {
         
         if (isEditing.value) {
           // Update existing project
-          const { error: updateError } = await supabase
+          const { error: updateError } = await supabaseClient
             .from('projects')
             .update(projectPayload)
             .eq('id', route.params.id);
@@ -321,7 +321,7 @@ export default {
           // Create new project
           projectPayload.created_at = now;
           
-          const { error: createError } = await supabase
+          const { error: createError } = await supabaseClient
             .from('projects')
             .insert([projectPayload]);
           

@@ -215,7 +215,7 @@ export default {
         loading.value = true;
         error.value = null;
         
-        const { data, error: err } = await supabase
+        const { data, error: err } = await supabaseClient
           .from('blog_posts')
           .select('*')
           .order('created_at', { ascending: false });
@@ -321,7 +321,7 @@ export default {
       
       try {
         loading.value = true;
-        const { error: err } = await supabase
+        const { error: err } = await supabaseClient
           .from('blog_posts')
           .delete()
           .eq('id', postToDelete.value.id);
