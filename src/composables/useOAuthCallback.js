@@ -20,13 +20,28 @@ export function useOAuthCallback() {
       console.log('📝 Hash params:', Object.fromEntries(hashParams.entries()))
       
       // Handle Supabase auth callback
-      const { data, error } = await supabaseClient.auth.getSession()
+  let { data, error } = await supabaseClient.auth.getSession()
       
       if (error) {
         console.error('❌ OAuth callback error:', error)
         throw error
       }
       
+      // If no session yet but we have an authorization code in the query params (PKCE flow), try to exchange it manually
+      if (!data.session) {
+        const authCode = urlParams.get('code')
+        if (authCode) {
+          console.log('🔁 No session yet. Attempting code exchange...')
+          const { data: exchangeData, error: exchangeError } = await supabaseClient.auth.exchangeCodeForSession({ authCode })
+          if (exchangeError) {
+            console.error('❌ Code exchange failed:', exchangeError)
+          } else {
+            console.log('✅ Code exchange successful')
+            data = exchangeData
+          }
+        }
+      }
+
       if (data.session) {
         console.log('✅ OAuth callback successful, session found')
         console.log('👤 User:', data.session.user?.email)
@@ -38,11 +53,11 @@ export function useOAuthCallback() {
         console.log('🎯 Redirecting to:', intendedPath)
         
         // Clean up URL parameters
-        window.history.replaceState({}, document.title, window.location.pathname)
+  window.history.replaceState({}, document.title, window.location.pathname)
         
         await router.push(intendedPath)
       } else {
-        console.log('❌ No session found in callback')
+        console.log('❌ No session found in callback even after code exchange')
         await router.push('/login')
       }
       

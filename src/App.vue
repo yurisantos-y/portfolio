@@ -8,8 +8,10 @@ const route = useRoute()
 const { handleCallback } = useOAuthCallback()
 
 onMounted(async () => {
-  // Check if this is an OAuth callback
-  if (route.hash && (route.hash.includes('access_token') || route.hash.includes('code'))) {
+  // Check if this is an OAuth callback (hash or query string)
+  const hasHashToken = route.hash && (route.hash.includes('access_token') || route.hash.includes('code') || route.hash.includes('auth-callback'))
+  const hasQueryToken = (route.query && (route.query.code || route.query.access_token))
+  if (hasHashToken || hasQueryToken) {
     console.log('🔄 OAuth callback detected')
     await handleCallback()
   }

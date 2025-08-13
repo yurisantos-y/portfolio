@@ -2,23 +2,16 @@ import supabaseClient from '../utils/supabaseClient'
 
 export const authService = {
   async loginWithGoogle(redirectPath = '/dashboard') {
-    // Define the correct redirect URL based on the environment
-    const isProduction = window.location.hostname !== 'localhost';
-    
-    // Get the current port for development
-    const currentPort = window.location.port || (window.location.protocol === 'https:' ? '443' : '80');
-    const baseUrl = isProduction 
-      ? 'https://yurisantos-y.vercel.app' 
-      : `${window.location.protocol}//${window.location.hostname}:${currentPort}`;
-    
-    const redirectUrl = `${baseUrl}${redirectPath}`;
-    
-    console.log('🔍 Login Debug Info:');
-    console.log('- Is Production:', isProduction);
-    console.log('- Current Hostname:', window.location.hostname);
-    console.log('- Current Port:', currentPort);
-    console.log('- Base URL:', baseUrl);
-    console.log('- Redirect URL:', redirectUrl);
+  // Persist intended path so callback handler can redirect after session established
+  sessionStorage.setItem('intended-path', redirectPath)
+
+  // Use current origin for redirect (must be whitelisted in Supabase settings)
+  const origin = window.location.origin
+  // Add a lightweight flag to detect callback scenario reliably
+  const redirectUrl = `${origin}/#auth-callback`
+  console.log('🔍 Login Debug Info:')
+  console.log('- Origin:', origin)
+  console.log('- Redirect URL (will receive hash params):', redirectUrl)
     
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: 'google',
