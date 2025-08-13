@@ -13,7 +13,12 @@ export const authService = {
     
     const redirectUrl = `${baseUrl}${redirectPath}`;
     
-    console.log('Redirect URL:', redirectUrl); // Debug log
+    console.log('🔍 Login Debug Info:');
+    console.log('- Is Production:', isProduction);
+    console.log('- Current Hostname:', window.location.hostname);
+    console.log('- Current Port:', currentPort);
+    console.log('- Base URL:', baseUrl);
+    console.log('- Redirect URL:', redirectUrl);
     
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: 'google',

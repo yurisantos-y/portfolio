@@ -32,8 +32,6 @@ try {
       persistSession: true,
       detectSessionInUrl: true,
       debug: import.meta.env.DEV,
-      // Use current origin to ensure redirect works in all environments
-      redirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
       // Configure storage key to ensure single instance
       storageKey: 'portfolio-supabase-auth',
       // Additional flow type for better compatibility
