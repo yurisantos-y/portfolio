@@ -6,7 +6,19 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
 if (!supabaseUrl || !supabaseKey) {
   console.error('Missing Supabase environment variables', {
     url: supabaseUrl ? 'Set' : 'Missing',
-    key: supabaseKey ? 'Set' : 'Missing'
+    key: supabaseKey ? 'Set' : 'Missing',
+    env: import.meta.env.MODE,
+    urlValue: supabaseUrl,
+    keyPrefix: supabaseKey ? supabaseKey.substring(0, 20) + '...' : 'undefined'
+  })
+} else {
+  console.log('Supabase environment check:', {
+    url: supabaseUrl ? 'Set' : 'Missing',
+    key: supabaseKey ? 'Set' : 'Missing',
+    env: import.meta.env.MODE,
+    origin: typeof window !== 'undefined' ? window.location.origin : 'SSR',
+    urlValue: supabaseUrl,
+    keyPrefix: supabaseKey.substring(0, 20) + '...'
   })
 }
 
@@ -27,11 +39,10 @@ try {
       // Additional flow type for better compatibility
       flowType: 'pkce'
     },
-    // Add global headers to help with CORS and connectivity
+    // Simplified global headers - remove duplicate auth headers
     global: {
       headers: {
-        'X-Client-Info': 'portfolio-app',
-        'Access-Control-Allow-Origin': '*'
+        'X-Client-Info': 'portfolio-app@1.0.0'
       }
     },
     // Database options for better connection handling
