@@ -6,12 +6,13 @@ To resolve the CORS errors and Supabase authentication issues, you need to creat
 
 ### Steps:
 
-1. **Create a `.env` file in the root of your project**:
+1. **Create a `.env` file in the root of your project** (do NOT commit it):
    ```
    VITE_SUPABASE_URL=your_supabase_url_here
    VITE_SUPABASE_KEY=your_supabase_anon_key_here
+   VITE_SITE_URL=http://localhost:5173
    VITE_UNSPLASH_ACCESS_KEY=your_unsplash_access_key_here
-   VITE_UNSPLASH_SECRET_KEY=your_unsplash_secret_key_here
+   # DO NOT put Unsplash secret key here for frontend; keep it only in a backend service if required
    ```
 
 2. **Get your Supabase credentials**:
@@ -28,6 +29,11 @@ To resolve the CORS errors and Supabase authentication issues, you need to creat
 4. **For production deployment**:
    - Update the Site URL to your production domain
    - Add production URLs to redirect URLs
+
+### Security Notes:
+
+❗ Never expose service_role or Unsplash secret in the browser.
+Use only anon public key on client. Rotate any leaked keys immediately in Supabase dashboard.
 
 ### What was fixed:
 

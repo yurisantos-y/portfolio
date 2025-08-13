@@ -5,8 +5,8 @@ export const authService = {
   // Persist intended path so callback handler can redirect after session established
   sessionStorage.setItem('intended-path', redirectPath)
 
-  // Use current origin for redirect (must be whitelisted in Supabase settings)
-  const origin = window.location.origin
+  // Prefer configured site URL (useful when multiple dev origins) else current origin
+  const origin = import.meta.env.VITE_SITE_URL || window.location.origin
   // Add a lightweight flag to detect callback scenario reliably
   const redirectUrl = `${origin}/#auth-callback`
   console.log('🔍 Login Debug Info:')
