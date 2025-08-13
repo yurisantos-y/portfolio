@@ -69,7 +69,7 @@
           <textarea name="message" id="message" :placeholder="$t('modal.msg')" required></textarea>
           <button type="submit" class="btn-enviar">{{ $t('modal.btn') }}</button>
 
-          <input type="hidden" name="_next" value="http://localhost:5173/thank">
+          <input type="hidden" name="_next" value="https://yurisantos-y.vercel.app/thank">
 
      </form>
       </div>

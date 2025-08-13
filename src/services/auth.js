@@ -8,7 +8,7 @@ export const authService = {
     // Get the current port for development
     const currentPort = window.location.port || (window.location.protocol === 'https:' ? '443' : '80');
     const baseUrl = isProduction 
-      ? 'https://yurisantos-y.netlify.app' 
+      ? 'https://yurisantos-y.vercel.app' 
       : `${window.location.protocol}//${window.location.hostname}:${currentPort}`;
     
     const redirectUrl = `${baseUrl}${redirectPath}`;
