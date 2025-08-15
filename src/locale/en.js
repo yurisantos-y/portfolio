@@ -18,7 +18,8 @@ export const en = {
   about: {
     titleAbout: 'About Me',
     text: 'My main focus is on coding, strategy, and development, areas in which I have been honing my skills for the past two years. In every project I undertake, I recognize the importance of maintaining efficient workflows, promoting strong communication, and applying a significant dose of self-discipline to ensure success.',
-    btnAbout: 'About Me'
+    btnAbout: 'About Me',
+    yearsExp: 'years of experience'
   },
 
   know: {

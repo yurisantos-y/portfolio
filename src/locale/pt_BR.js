@@ -18,7 +18,8 @@ export const pt_BR = {
   about: {
     titleAbout: 'Sobre mim',
     text: 'Meu foco principal está na codificação, estratégia e desenvolvimento, áreas em que venho aprimorando minhas habilidades nos últimos dois anos. Em cada projeto que abraço, reconheço a importância de manter fluxos de trabalho eficientes, promover uma comunicação sólida e aplicar uma dose significativa de autodisciplina para assegurar o sucesso.',
-    btnAbout: 'Sobre mim'
+    btnAbout: 'Sobre mim',
+    yearsExp: 'anos de experiência'
   },
 
   know: {

@@ -2,22 +2,22 @@ import supabaseClient from '../utils/supabaseClient'
 
 export const authService = {
   async loginWithGoogle(redirectPath = '/dashboard') {
-  // Persist intended path so callback handler can redirect after session established
-  sessionStorage.setItem('intended-path', redirectPath)
+    // Persist intended path so callback handler can redirect after session established
+    sessionStorage.setItem('intended-path', redirectPath)
 
-  // Prefer configured site URL (useful when multiple dev origins) else current origin
-  const origin = import.meta.env.VITE_SITE_URL || window.location.origin
-  // Add a lightweight flag to detect callback scenario reliably
-  const redirectUrl = `${origin}/#auth-callback`
-  console.log('🔍 Login Debug Info:')
-  console.log('- Origin:', origin)
-  console.log('- Redirect URL (will receive hash params):', redirectUrl)
+    // Determine base site URL: prefer explicit env (set different for prod) else current origin
+    const siteUrl = (import.meta.env.VITE_PUBLIC_SITE_URL || import.meta.env.VITE_SITE_URL || window.location.origin).replace(/\/$/, '')
+    // Use path-based callback instead of hash for cleaner routing
+    const redirectUrl = `${siteUrl}/auth/callback`
+    console.log('🔍 Login Debug Info:')
+    console.log('- Site URL:', siteUrl)
+    console.log('- Redirect URL (path callback):', redirectUrl)
     
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectUrl,
-        skipBrowserRedirect: false,
+  redirectTo: redirectUrl,
+  skipBrowserRedirect: false,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',

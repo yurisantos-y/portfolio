@@ -1,9 +1,10 @@
 // OAuth callback handler
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import supabaseClient from '../utils/supabaseClient'
 
 export function useOAuthCallback() {
   const router = useRouter()
+  const route = useRoute()
   
   const handleCallback = async () => {
     try {
@@ -12,12 +13,9 @@ export function useOAuthCallback() {
       console.log('🏠 Current hostname:', window.location.hostname)
       console.log('🔗 Current origin:', window.location.origin)
       
-      // Check if we have auth callback parameters
-      const urlParams = new URLSearchParams(window.location.search)
-      const hashParams = new URLSearchParams(window.location.hash.substring(1))
-      
-      console.log('📝 URL params:', Object.fromEntries(urlParams.entries()))
-      console.log('📝 Hash params:', Object.fromEntries(hashParams.entries()))
+  // For path-based callback, Supabase returns params in query (?code=...)
+  const urlParams = new URLSearchParams(window.location.search)
+  console.log('📝 Query params:', Object.fromEntries(urlParams.entries()))
       
       // Handle Supabase auth callback
   let { data, error } = await supabaseClient.auth.getSession()
@@ -27,35 +25,25 @@ export function useOAuthCallback() {
         throw error
       }
       
-      // If no session yet but we have an authorization code in the query params (PKCE flow), try to exchange it manually
-      if (!data.session) {
-        const authCode = urlParams.get('code')
-        if (authCode) {
-          console.log('🔁 No session yet. Attempting code exchange...')
-          const { data: exchangeData, error: exchangeError } = await supabaseClient.auth.exchangeCodeForSession({ authCode })
-          if (exchangeError) {
-            console.error('❌ Code exchange failed:', exchangeError)
-          } else {
-            console.log('✅ Code exchange successful')
-            data = exchangeData
-          }
-        }
-      }
+  // Supabase JS v2 should automatically handle code exchange on redirectTo (PKCE)
+  // Extra manual exchange not usually needed for path-based callback.
 
       if (data.session) {
         console.log('✅ OAuth callback successful, session found')
         console.log('👤 User:', data.session.user?.email)
         
         // Redirect to dashboard or intended page
-        const intendedPath = sessionStorage.getItem('intended-path') || '/dashboard'
-        sessionStorage.removeItem('intended-path')
+  const intendedPath = sessionStorage.getItem('intended-path') || '/dashboard'
+  sessionStorage.removeItem('intended-path')
         
         console.log('🎯 Redirecting to:', intendedPath)
         
-        // Clean up URL parameters
-  window.history.replaceState({}, document.title, window.location.pathname)
+  // Clean up URL parameters (remove code, state from URL)
+  window.history.replaceState({}, document.title, '/dashboard')
         
-        await router.push(intendedPath)
+        if (route.path !== intendedPath) {
+          await router.replace(intendedPath)
+        }
       } else {
         console.log('❌ No session found in callback even after code exchange')
         await router.push('/login')

@@ -1,6 +1,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { authService } from '../services/auth'
 import supabaseClient from '../utils/supabaseClient'
+import router from '../router'
 
 // Initialize reactive state
 const user = ref(null)
@@ -57,9 +58,18 @@ export function useAuth() {
     // Listen for auth changes
     const { data: authListener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, session)
-      
+
       if (event === 'SIGNED_IN' && session) {
         await checkUser()
+        // Only redirect if user is authorized and not already at dashboard or editing content
+        if (user.value) {
+          const intendedPath = sessionStorage.getItem('intended-path') || '/dashboard'
+          sessionStorage.removeItem('intended-path')
+          // Avoid redirect loop if already there
+            if (router.currentRoute.value.path !== intendedPath) {
+              router.replace(intendedPath).catch(() => {})
+            }
+        }
       } else if (event === 'SIGNED_OUT') {
         user.value = null
       }

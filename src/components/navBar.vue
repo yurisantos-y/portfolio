@@ -14,9 +14,9 @@
           
             <button id="btnChamadaModal" @click="showModal = true" class="linknb">{{ $t('navbar.contact') }}</button>
 
-            <RouterLink class="linknb" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
+            <!-- <RouterLink class="linknb" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink> -->
             <a class="linknb" href="/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
-            <RouterLink class="linknb" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
+            <!-- <RouterLink class="linknb" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink> -->
           </div>
         </nav>
     
@@ -36,9 +36,9 @@
           <RouterLink class="linknb-mobile" to="/" exact >{{ $t("navbar.home") }}</RouterLink>
           <RouterLink class="linknb-mobile" to="/about" exact >{{ $t("navbar.about") }}</RouterLink>
           <button id="btnChamadaModalMB" class="linknb-mobile" @click="closeMobileMenuAndOpenModal">{{ $t('navbar.contact') }}</button>
-          <RouterLink class="linknb-mobile" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink>
+          <!-- <RouterLink class="linknb-mobile" to="/blog" exact >{{ $t("navbar.blog") }}</RouterLink> -->
           <a class="linknb-mobile" href="/cv/cv.pdf" download="cvYuri.pdf">{{ $t("navbar.cv") }}</a>
-          <RouterLink class="linknb-mobile" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink>
+          <!-- <RouterLink class="linknb-mobile" to="/projects" exact >{{ $t("navbar.projects") }}</RouterLink> -->
 
           <div class="right-language-mobile">
             <label for="btnLanguageMobile" :class="{ 'active-flag': englishChecked }">
