@@ -1,13 +1,25 @@
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import supabaseClient from '../utils/supabaseClient'
 
-// Shared state to avoid multiple instances
-let user = ref(null)
-let session = ref(null)
-let loading = ref(true)
-let authListener = null
+// Create state variables using proper scoping
+const createAuthState = () => ({
+  user: ref(null),
+  session: ref(null),
+  loading: ref(true),
+  authListener: null
+})
+
+// Global state instance
+let globalAuthState = null
 
 export function useSupabaseAuth() {
+  // Initialize global state if not exists
+  if (!globalAuthState) {
+    globalAuthState = createAuthState()
+  }
+
+  const { user, session, loading } = globalAuthState
+
   // Verificar a sessão atual
   onMounted(async () => {
     console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
@@ -21,14 +33,14 @@ export function useSupabaseAuth() {
       loading.value = false
       
       // Inscrever-se para atualizações de autenticação (avoid duplicate listeners)
-      if (!authListener) {
+      if (!globalAuthState.authListener) {
         const { data: listener } = supabaseClient.auth.onAuthStateChange(
           (event, newSession) => {
             session.value = newSession
             user.value = newSession?.user || null
           }
         )
-        authListener = listener
+        globalAuthState.authListener = listener
       }
     } catch (error) {
       console.error('Error initializing auth:', error)
@@ -43,11 +55,17 @@ export function useSupabaseAuth() {
 
   // Cleanup function
   const cleanup = () => {
-    if (authListener && authListener.subscription) {
-      authListener.subscription.unsubscribe()
-      authListener = null
+    if (globalAuthState.authListener && globalAuthState.authListener.subscription) {
+      globalAuthState.authListener.subscription.unsubscribe()
+      globalAuthState.authListener = null
     }
   }
+
+  // Cleanup on unmount
+  onUnmounted(() => {
+    // Note: Don't cleanup global state on unmount as it should persist
+    // cleanup()
+  })
 
   return {
     user,

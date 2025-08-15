@@ -26,75 +26,92 @@ export default defineConfig({
     global: 'globalThis',
   },
   build: {
-    // Improve build stability
+    // Improve build stability and prevent TDZ issues
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: false,
         drop_debugger: true,
+        // Prevent aggressive optimizations that can cause TDZ
+        hoist_vars: false,
+        hoist_funs: false,
+        sequences: false
       },
       format: {
         comments: false,
       },
+      mangle: {
+        // Prevent variable name mangling that can cause scoping issues
+        keep_fnames: true,
+        reserved: ['supabaseClient', 'createClient', 'useSupabaseAuth']
+      }
     },
     rollupOptions: {
       output: {
-        // More conservative chunk splitting to prevent TDZ issues
+        // Conservative chunk splitting to prevent dependency issues
         manualChunks: (id) => {
-          // Vendor libraries - keep them separate and stable
+          // Keep Supabase and auth code together to prevent circular dependencies
+          if (id.includes('@supabase') || 
+              id.includes('supabaseClient') || 
+              id.includes('supabaseFactory') ||
+              id.includes('useSupabaseAuth') ||
+              id.includes('useAuth') ||
+              id.includes('services/auth')) {
+            return 'supabase-auth';
+          }
+          
+          // Vue core
+          if (id.includes('node_modules/vue/') || id.includes('node_modules/@vue/')) {
+            return 'vendor-vue';
+          }
+          
+          // Vue Router
+          if (id.includes('vue-router')) {
+            return 'vendor-router';
+          }
+          
+          // Internationalization
+          if (id.includes('vue-i18n') || id.includes('@intlify')) {
+            return 'vendor-i18n';
+          }
+          
+          // CKEditor (large dependency)
+          if (id.includes('@ckeditor') || id.includes('ckeditor')) {
+            return 'vendor-ckeditor';
+          }
+          
+          // Other vendor dependencies
           if (id.includes('node_modules')) {
-            if (id.includes('vue') && (id.includes('vue/') || id.includes('vue-router'))) {
-              return 'vendor-vue';
-            }
-            if (id.includes('@supabase') || id.includes('supabase')) {
-              return 'vendor-supabase';
-            }
-            if (id.includes('date-fns')) {
-              return 'vendor-date';
-            }
-            // Split CKEditor into its own large chunk
-            if (id.includes('@ckeditor') || id.includes('ckeditor')) {
-              return 'vendor-ckeditor';
-            }
-            if (id.includes('vue-i18n') || id.includes('@intlify')) {
-              return 'vendor-i18n';
-            }
-            // Other node_modules go to vendor
             return 'vendor';
           }
           
-          // Keep auth-related code together to prevent circular dependency issues
-          if (id.includes('composables/useAuth') || 
-              id.includes('composables/useSupabaseAuth') || 
-              id.includes('services/auth') || 
-              id.includes('utils/supabaseClient')) {
-            return 'auth-core';
-          }
-          
-          // Admin views
+          // Admin components
           if (id.includes('/admin/') || id.includes('AdminView')) {
             return 'admin';
           }
           
-          // Auth views (separate from core auth logic)
+          // Login components
           if (id.includes('login') || id.includes('LoginForm') || id.includes('LoginView')) {
             return 'auth-ui';
           }
           
-          // Blog related
+          // Blog components
           if (id.includes('Blog')) {
             return 'blog';
           }
         },
-        // Ensure proper module format
-        format: 'es',
-        // Better chunk file naming
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
-          return `assets/${facadeModuleId}-[hash].js`;
-        },
-      }
+        // Ensure proper initialization order
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
+      },
+      // External dependencies that should not be bundled
+      external: [],
+      // Ensure proper module resolution
+      preserveEntrySignatures: 'strict'
     },
-    chunkSizeWarningLimit: 1500 // Increase limit for CKEditor
+    // Target modern browsers to avoid compatibility issues
+    target: 'es2020',
+    chunkSizeWarningLimit: 1500
   }
 })
