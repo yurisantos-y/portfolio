@@ -16,6 +16,7 @@
         visibility: hidden;
         opacity: 0;
         transition: opacity 0.3s ease;
+        background-color: #1a1a1a; /* Fallback background */
       }
       body.app-loaded {
         visibility: visible;
@@ -23,6 +24,27 @@
       }
       #app {
         min-height: 100vh;
+      }
+      /* Loading spinner */
+      .loading-spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        z-index: 9999;
+      }
+      @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+      body.app-loaded .loading-spinner {
+        display: none;
       }
     </style>
     
@@ -46,16 +68,19 @@
     <title>Yuri Santos | Portfolio</title>
   </head>
   <body>
+    <div class="loading-spinner"></div>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
     
-    <!-- Ensure body shows after app mounts -->
+    <!-- Fallback loading handler -->
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(() => {
+      // Fallback to show content if app doesn't load properly
+      setTimeout(function() {
+        if (!document.body.classList.contains('app-loaded')) {
+          console.warn('App loading timeout - showing content anyway');
           document.body.classList.add('app-loaded');
-        }, 100);
-      });
+        }
+      }, 5000);
     </script>
   </body>
 </html>

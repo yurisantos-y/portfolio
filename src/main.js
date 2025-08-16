@@ -27,19 +27,33 @@ const i18n = createI18n({
   messages: languages
 });
 
-const app = createApp(App);
+// Ensure DOM is ready before creating the app
+function initializeApp() {
+  const app = createApp(App);
 
-app.use(i18n);
-app.use(router);
+  app.use(i18n);
+  app.use(router);
 
-// Wait for next tick before mounting to ensure proper initialization
-app.mount('#app');
+  // Mount the app
+  app.mount('#app');
 
-// Remove loading class after app is mounted
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
+  // Remove loading class after app is mounted
+  if (typeof document !== 'undefined') {
     setTimeout(() => {
       document.body.classList.add('app-loaded');
     }, 100);
-  });
+  }
+}
+
+// Initialize app when DOM is ready
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  } else {
+    // DOM is already ready
+    initializeApp();
+  }
+} else {
+  // SSR environment
+  initializeApp();
 }

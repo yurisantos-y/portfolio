@@ -2,51 +2,64 @@
 import { createClient } from '@supabase/supabase-js'
 
 // Store configuration once
-const config = {
-  url: null,
-  key: null,
-  initialized: false
-}
+let config = null;
+let clientInstance = null;
 
 // Initialize configuration immediately
 function initConfig() {
-  if (config.initialized) return config
+  if (config) return config;
   
-  config.url = import.meta.env.VITE_SUPABASE_URL
-  config.key = import.meta.env.VITE_SUPABASE_KEY
-  config.initialized = true
+  config = {
+    url: import.meta.env.VITE_SUPABASE_URL,
+    key: import.meta.env.VITE_SUPABASE_KEY,
+    initialized: true
+  };
   
-  return config
+  return config;
 }
 
-// Initialize config immediately
-initConfig()
+// Get configuration safely
+function getConfig() {
+  return config || initConfig();
+}
 
 // Log configuration status
-if (!config.url || !config.key) {
-  console.error('Missing Supabase environment variables', {
-    url: config.url ? 'Set' : 'Missing',
-    key: config.key ? 'Set' : 'Missing',
-    env: import.meta.env.MODE
-  })
-} else {
-  console.log('Supabase environment check:', {
-    url: 'Set',
-    key: 'Set',
-    env: import.meta.env.MODE,
-    origin: typeof window !== 'undefined' ? window.location.origin : 'SSR'
-  })
+function logConfigStatus() {
+  const cfg = getConfig();
+  
+  if (!cfg.url || !cfg.key) {
+    console.error('Missing Supabase environment variables', {
+      url: cfg.url ? 'Set' : 'Missing',
+      key: cfg.key ? 'Set' : 'Missing',
+      env: import.meta.env.MODE
+    });
+  } else {
+    console.log('Supabase environment check:', {
+      url: 'Set',
+      key: 'Set',
+      env: import.meta.env.MODE,
+      origin: typeof window !== 'undefined' ? window.location.origin : 'SSR'
+    });
+  }
 }
 
 // Create client factory
 function createSupabaseInstance() {
-  if (!config.url || !config.key) {
-    console.warn('Creating mock Supabase client due to missing configuration')
-    return createMockClient()
+  // Return existing instance if available
+  if (clientInstance) {
+    return clientInstance;
+  }
+  
+  const cfg = getConfig();
+  
+  if (!cfg.url || !cfg.key) {
+    console.warn('Creating mock Supabase client due to missing configuration');
+    clientInstance = createMockClient();
+    return clientInstance;
   }
 
   try {
-    const client = createClient(config.url, config.key, {
+    clientInstance = createClient(cfg.url, cfg.key, {
       auth: {
         autoRefreshToken: true,
         persistSession: true,
@@ -68,13 +81,14 @@ function createSupabaseInstance() {
           eventsPerSecond: 10
         }
       }
-    })
+    });
 
-    console.log('✅ Supabase client created successfully')
-    return client
+    console.log('✅ Supabase client created successfully');
+    return clientInstance;
   } catch (error) {
-    console.error('❌ Failed to create Supabase client:', error)
-    return createMockClient()
+    console.error('❌ Failed to create Supabase client:', error);
+    clientInstance = createMockClient();
+    return clientInstance;
   }
 }
 
@@ -111,7 +125,17 @@ function createMockClient() {
 }
 
 // Create and export singleton instance
-const supabaseClient = createSupabaseInstance()
+function getSupabaseClient() {
+  if (!clientInstance) {
+    // Log config status on first access
+    logConfigStatus();
+    clientInstance = createSupabaseInstance();
+  }
+  return clientInstance;
+}
 
-export default supabaseClient
-export { createSupabaseInstance, config }
+// Export the factory function as default
+const supabaseClient = getSupabaseClient();
+
+export default supabaseClient;
+export { createSupabaseInstance, getConfig as config, getSupabaseClient };

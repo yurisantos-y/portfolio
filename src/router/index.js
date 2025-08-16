@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { authService } from '../services/auth'
 import HomeView from '../views/HomeView.vue'
 import publicRoutes from './routes/public'
 import authRoutes from './routes/auth'
 import protectedRoutes from './routes/protected'
+
+// Lazy load auth service to prevent circular dependencies
+let authService = null;
 
 const routes = [
   {
@@ -23,15 +25,40 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  const currentUser = await authService.getCurrentUser()
-  
-  if (requiresAuth && !currentUser) {
-    next('/login')
-  } else if (to.path === '/login' && currentUser) {
-    next('/dashboard')
-  } else {
-    next()
+  try {
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    
+    if (requiresAuth) {
+      // Lazy load auth service when needed
+      if (!authService) {
+        const { authService: loadedAuthService } = await import('../services/auth');
+        authService = loadedAuthService;
+      }
+      
+      const currentUser = await authService.getCurrentUser();
+      
+      if (!currentUser) {
+        next('/login');
+        return;
+      }
+    } else if (to.path === '/login') {
+      // Lazy load auth service for login redirect check
+      if (!authService) {
+        const { authService: loadedAuthService } = await import('../services/auth');
+        authService = loadedAuthService;
+      }
+      
+      const currentUser = await authService.getCurrentUser();
+      if (currentUser) {
+        next('/dashboard');
+        return;
+      }
+    }
+    
+    next();
+  } catch (error) {
+    console.error('Router navigation error:', error);
+    next();
   }
 })
 

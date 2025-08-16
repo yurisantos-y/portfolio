@@ -35,7 +35,12 @@ export default defineConfig({
         // Prevent aggressive optimizations that can cause TDZ
         hoist_vars: false,
         hoist_funs: false,
-        sequences: false
+        sequences: false,
+        // Prevent function inlining that can cause initialization issues
+        inline: 1,
+        // Keep function calls to preserve execution order
+        keep_fargs: true,
+        keep_infinity: true
       },
       format: {
         comments: false,
@@ -43,13 +48,26 @@ export default defineConfig({
       mangle: {
         // Prevent variable name mangling that can cause scoping issues
         keep_fnames: true,
-        reserved: ['supabaseClient', 'createClient', 'useSupabaseAuth']
+        reserved: ['supabaseClient', 'createClient', 'useSupabaseAuth', 'isFunction', 'defineComponent']
       }
     },
     rollupOptions: {
       output: {
         // Conservative chunk splitting to prevent dependency issues
         manualChunks: (id) => {
+          // Keep Vue core first to prevent TDZ issues
+          if (id.includes('node_modules/vue/dist/') || 
+              id.includes('node_modules/@vue/runtime-core') ||
+              id.includes('node_modules/@vue/runtime-dom') ||
+              id.includes('node_modules/@vue/shared')) {
+            return 'vendor-vue';
+          }
+          
+          // Vue Router - separate from Vue core
+          if (id.includes('vue-router')) {
+            return 'vendor-router';
+          }
+          
           // Keep Supabase and auth code together to prevent circular dependencies
           if (id.includes('@supabase') || 
               id.includes('supabaseClient') || 
@@ -58,16 +76,6 @@ export default defineConfig({
               id.includes('useAuth') ||
               id.includes('services/auth')) {
             return 'supabase-auth';
-          }
-          
-          // Vue core
-          if (id.includes('node_modules/vue/') || id.includes('node_modules/@vue/')) {
-            return 'vendor-vue';
-          }
-          
-          // Vue Router
-          if (id.includes('vue-router')) {
-            return 'vendor-router';
           }
           
           // Internationalization
