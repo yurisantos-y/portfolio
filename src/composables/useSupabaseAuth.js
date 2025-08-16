@@ -1,46 +1,47 @@
 import { ref, onMounted, onUnmounted } from 'vue'
-import supabaseClient from '../utils/supabaseClient'
+
+// Dynamic import to prevent circular dependencies
+let supabaseClient = null
+
+async function getSupabaseClient() {
+  if (!supabaseClient) {
+    const module = await import('../utils/supabaseClient.js')
+    supabaseClient = module.default
+  }
+  return supabaseClient
+}
 
 // Create state variables using proper scoping
-const createAuthState = () => ({
-  user: ref(null),
-  session: ref(null),
-  loading: ref(true),
-  authListener: null
-})
-
-// Global state instance
-let globalAuthState = null
+const user = ref(null)
+const session = ref(null)
+const loading = ref(true)
+let authListener = null
 
 export function useSupabaseAuth() {
-  // Initialize global state if not exists
-  if (!globalAuthState) {
-    globalAuthState = createAuthState()
-  }
-
-  const { user, session, loading } = globalAuthState
 
   // Verificar a sessão atual
   onMounted(async () => {
     console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
     
     try {
+      const client = await getSupabaseClient()
+      
       // Obter a sessão atual
-      const { data } = await supabaseClient.auth.getSession()
+      const { data } = await client.auth.getSession()
       session.value = data.session
       user.value = data.session?.user || null
       
       loading.value = false
       
       // Inscrever-se para atualizações de autenticação (avoid duplicate listeners)
-      if (!globalAuthState.authListener) {
-        const { data: listener } = supabaseClient.auth.onAuthStateChange(
+      if (!authListener) {
+        const { data: listener } = client.auth.onAuthStateChange(
           (event, newSession) => {
             session.value = newSession
             user.value = newSession?.user || null
           }
         )
-        globalAuthState.authListener = listener
+        authListener = listener
       }
     } catch (error) {
       console.error('Error initializing auth:', error)
@@ -55,9 +56,9 @@ export function useSupabaseAuth() {
 
   // Cleanup function
   const cleanup = () => {
-    if (globalAuthState.authListener && globalAuthState.authListener.subscription) {
-      globalAuthState.authListener.subscription.unsubscribe()
-      globalAuthState.authListener = null
+    if (authListener && authListener.subscription) {
+      authListener.subscription.unsubscribe()
+      authListener = null
     }
   }
 

@@ -1,94 +1,50 @@
-// Supabase client factory with proper initialization order
+// Simplified Supabase client factory
 import { createClient } from '@supabase/supabase-js'
 
-// Store configuration once
-let config = null;
-let clientInstance = null;
+// Configuration
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
 
-// Initialize configuration immediately
-function initConfig() {
-  if (config) return config;
-  
-  config = {
-    url: import.meta.env.VITE_SUPABASE_URL,
-    key: import.meta.env.VITE_SUPABASE_KEY,
-    initialized: true
-  };
-  
-  return config;
+// Validate environment variables
+if (!supabaseUrl || !supabaseKey) {
+  console.warn('Missing Supabase environment variables', {
+    url: supabaseUrl ? 'Set' : 'Missing',
+    key: supabaseKey ? 'Set' : 'Missing',
+    env: import.meta.env.MODE
+  })
 }
 
-// Get configuration safely
-function getConfig() {
-  return config || initConfig();
-}
+// Create client instance
+let clientInstance = null
 
-// Log configuration status
-function logConfigStatus() {
-  const cfg = getConfig();
-  
-  if (!cfg.url || !cfg.key) {
-    console.error('Missing Supabase environment variables', {
-      url: cfg.url ? 'Set' : 'Missing',
-      key: cfg.key ? 'Set' : 'Missing',
-      env: import.meta.env.MODE
-    });
-  } else {
-    console.log('Supabase environment check:', {
-      url: 'Set',
-      key: 'Set',
-      env: import.meta.env.MODE,
-      origin: typeof window !== 'undefined' ? window.location.origin : 'SSR'
-    });
-  }
-}
-
-// Create client factory
-function createSupabaseInstance() {
-  // Return existing instance if available
+function createSupabaseClient() {
   if (clientInstance) {
-    return clientInstance;
+    return clientInstance
   }
-  
-  const cfg = getConfig();
-  
-  if (!cfg.url || !cfg.key) {
-    console.warn('Creating mock Supabase client due to missing configuration');
-    clientInstance = createMockClient();
-    return clientInstance;
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.warn('Creating mock Supabase client due to missing configuration')
+    clientInstance = createMockClient()
+    return clientInstance
   }
 
   try {
-    clientInstance = createClient(cfg.url, cfg.key, {
+    clientInstance = createClient(supabaseUrl, supabaseKey, {
       auth: {
         autoRefreshToken: true,
         persistSession: true,
         detectSessionInUrl: true,
-        debug: import.meta.env.DEV,
         storageKey: 'portfolio-supabase-auth',
         flowType: 'pkce'
-      },
-      global: {
-        headers: {
-          'X-Client-Info': 'portfolio-app@1.0.0'
-        }
-      },
-      db: {
-        schema: 'public'
-      },
-      realtime: {
-        params: {
-          eventsPerSecond: 10
-        }
       }
-    });
+    })
 
-    console.log('✅ Supabase client created successfully');
-    return clientInstance;
+    console.log('✅ Supabase client created successfully')
+    return clientInstance
   } catch (error) {
-    console.error('❌ Failed to create Supabase client:', error);
-    clientInstance = createMockClient();
-    return clientInstance;
+    console.error('❌ Failed to create Supabase client:', error)
+    clientInstance = createMockClient()
+    return clientInstance
   }
 }
 
@@ -124,18 +80,6 @@ function createMockClient() {
   }
 }
 
-// Create and export singleton instance
-function getSupabaseClient() {
-  if (!clientInstance) {
-    // Log config status on first access
-    logConfigStatus();
-    clientInstance = createSupabaseInstance();
-  }
-  return clientInstance;
-}
-
-// Export the factory function as default
-const supabaseClient = getSupabaseClient();
-
-export default supabaseClient;
-export { createSupabaseInstance, getConfig as config, getSupabaseClient };
+// Export the client
+const supabaseClient = createSupabaseClient()
+export default supabaseClient
