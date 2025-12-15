@@ -1,0 +1,23 @@
+{
+    "languages": [
+        "Dart",
+        "TypeScript",
+        "SQL",
+        "Go"
+    ],
+    "frameworks": [
+        "Flutter",
+        "Next.js",
+        "Vue"
+    ],
+    "tools": [
+        "Git",
+        "GitHub",
+        "Firebase",
+        "Supabase"
+    ],
+    "design": [
+        "UX/UI",
+        "Figma"
+    ]
+}
