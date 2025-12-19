@@ -1,3 +1,4 @@
+import { ProjectCarousel } from "@/components/sections/ProjectCarousel";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Experience } from "@/components/sections/Experience";
@@ -9,6 +10,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-text-primary selection:bg-primary selection:text-white overflow-x-hidden">
       <Hero />
+      <ProjectCarousel />
       <About />
       <Experience />
       <Skills />

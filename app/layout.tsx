@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Open_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const openSans = Open_Sans({
+  variable: "--font-opensans",
   subsets: ["latin"],
 });
 
@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Yuri Santos | FullStack Developer",
+  title: "Yuri Santos | Mobile Developer",
   description: "Portfolio ultraminimalista de Yuri Santos - Flutter, Next.js, Mobile First",
 };
 
@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-background text-text-primary font-sans selection:bg-primary selection:text-white`}
+        className={`${openSans.variable} ${jetbrainsMono.variable} antialiased bg-background text-text-primary font-sans selection:bg-primary selection:text-white`}
       >
         <Header />
         {children}

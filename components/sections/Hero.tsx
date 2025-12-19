@@ -1,10 +1,22 @@
 "use client";
 
+import { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { motion } from "framer-motion";
-import { TextReveal } from "@/components/animations/TextReveal";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ASCIIVideoBackground } from "@/components/ui/ASCIIVideoBackground";
 
 export const Hero = () => {
+    const container = useRef<HTMLElement>(null);
+    const titleRef = useRef<HTMLHeadingElement>(null);
+    const subtitleRef = useRef<HTMLHeadingElement>(null);
+    const ctaRef = useRef<HTMLDivElement>(null);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const scrollToProjects = () => {
         const element = document.getElementById("experience");
         if (element) {
@@ -12,46 +24,72 @@ export const Hero = () => {
         }
     };
 
+    useGSAP(() => {
+        if (!mounted) return;
+
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+        // Initial setup
+        gsap.set(titleRef.current, { y: 40, opacity: 0 });
+        gsap.set(subtitleRef.current, { y: 20, opacity: 0 });
+        gsap.set(ctaRef.current, { y: 20, opacity: 0 });
+
+        // Clean, minimal animation sequence
+        tl.to(titleRef.current, {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+        })
+            .to(subtitleRef.current, {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+            }, "-=0.4")
+            .to(ctaRef.current, {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+            }, "-=0.5");
+
+    }, { scope: container, dependencies: [mounted] });
+
     return (
-        <section className="min-h-screen flex flex-col justify-center px-6 md:px-24 max-w-7xl mx-auto relative overflow-hidden">
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="space-y-8 z-10"
+        <section ref={container} className="relative min-h-screen w-full overflow-hidden bg-background">
+            {/* ASCII Video Background */}
+            <ASCIIVideoBackground />
+
+            {/* Title - Top Left Corner */}
+            <div className="absolute top-24 md:top-32 left-6 md:left-24 z-10">
+                <h1
+                    ref={titleRef}
+                    className="text-4xl md:text-6xl lg:text-7xl font-thin tracking-tight text-text-primary"
+                >
+                    Yuri Santos
+                </h1>
+
+                {/* Subtitle */}
+                <h2
+                    ref={subtitleRef}
+                    className="mt-2 text-base md:text-lg text-text-secondary font-light tracking-wide"
+                >
+                    Software Engineer | Mobile Developer
+                </h2>
+            </div>
+
+            {/* CTA - Centered near bottom */}
+            <div
+                ref={ctaRef}
+                className="absolute bottom-16 md:bottom-24 left-1/2 -translate-x-1/2 z-10"
             >
-                <div>
-                    <h1 className="text-6xl md:text-9xl font-bold tracking-tighter text-text-primary mb-4">
-                        <TextReveal>Yuri Santos</TextReveal>
-                    </h1>
-                    <h2 className="text-2xl md:text-4xl text-text-secondary font-light tracking-wide">
-                        FullStack Developer
-                    </h2>
-                </div>
-
-                <p className="text-lg md:text-xl text-accent font-mono">
-                    Flutter • Next.js • Mobile First
-                </p>
-
-                <div className="pt-8">
-                    <Button
-                        variant="outline"
-                        onClick={scrollToProjects}
-                        className="group"
-                    >
-                        Ver projetos
-                        <span className="ml-2 group-hover:translate-y-1 transition-transform inline-block">↓</span>
-                    </Button>
-                </div>
-            </motion.div>
-
-            {/* Decorative background element */}
-            <motion.div
-                className="absolute -right-20 top-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1.5, delay: 0.5 }}
-            />
+                <Button
+                    variant="outline"
+                    onClick={scrollToProjects}
+                    className="text-sm tracking-wide"
+                >
+                    Ver projetos
+                    <span className="ml-2">↓</span>
+                </Button>
+            </div>
         </section>
     );
 };

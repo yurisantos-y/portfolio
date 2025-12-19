@@ -25,7 +25,7 @@
   --color-accent: var(--accent);
 
   /* Fonts */
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-opensans);
   --font-mono: var(--font-jetbrains);
 }
 
