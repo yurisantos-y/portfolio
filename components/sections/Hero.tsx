@@ -73,8 +73,8 @@ export const Hero = () => {
                 scrollTrigger: {
                     trigger: container.current,
                     start: "top top",
-                    end: "35% top",
-                    scrub: 0.5, // Faster response for smoother reverse
+                    end: "50% top",
+                    scrub: 0.5,
                 }
             }
         );
@@ -88,8 +88,8 @@ export const Hero = () => {
                 ease: "none",
                 scrollTrigger: {
                     trigger: container.current,
-                    start: "5% top",
-                    end: "40% top",
+                    start: "10% top",
+                    end: "60% top",
                     scrub: 0.5,
                 }
             }
@@ -105,7 +105,7 @@ export const Hero = () => {
                 scrollTrigger: {
                     trigger: container.current,
                     start: "top top",
-                    end: "15% top",
+                    end: "25% top",
                     scrub: 0.5,
                 }
             }
@@ -133,10 +133,10 @@ export const Hero = () => {
     return (
         <section
             ref={container}
-            className="relative h-[150vh] w-full overflow-hidden bg-background"
+            className="relative h-screen w-full overflow-hidden bg-background"
         >
-            {/* Sticky Hero Container - stays fixed during first scroll */}
-            <div className="sticky top-0 h-screen w-full overflow-hidden">
+            {/* Hero Container */}
+            <div className="relative h-full w-full overflow-hidden">
                 {/* ASCII Video Background with parallax ref */}
                 <div
                     ref={backgroundRef}
