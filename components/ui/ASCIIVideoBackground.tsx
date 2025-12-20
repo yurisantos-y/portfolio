@@ -241,6 +241,7 @@ export const ASCIIVideoBackground = () => {
   const targetMouseRef = useRef({ x: 0, y: 0 });
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const animationRef = useRef<number>(0);
+  const isVisibleRef = useRef(true);
   const [isMounted, setIsMounted] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
 
@@ -315,17 +316,33 @@ export const ASCIIVideoBackground = () => {
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
     camera.position.z = 1;
 
-    // Renderer
+    // Renderer with explicit context loss handling
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
       powerPreference: "high-performance",
+      failIfMajorPerformanceCaveat: false,
     });
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
+
+    // Handle WebGL context loss
+    const handleContextLost = (e: Event) => {
+      e.preventDefault();
+      console.warn("ASCIIVideoBackground: WebGL context lost");
+      cancelAnimationFrame(animationRef.current);
+    };
+
+    const handleContextRestored = () => {
+      console.log("ASCIIVideoBackground: WebGL context restored");
+      animate();
+    };
+
+    renderer.domElement.addEventListener("webglcontextlost", handleContextLost);
+    renderer.domElement.addEventListener("webglcontextrestored", handleContextRestored);
 
     // Create video texture
     const videoTexture = new THREE.VideoTexture(video);
@@ -397,14 +414,32 @@ export const ASCIIVideoBackground = () => {
       const height = container.clientHeight;
 
       renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       uniforms.uResolution.value.set(width, height);
     };
 
-    // Animation loop
+    // Intersection Observer to pause rendering when not visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisibleRef.current = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(container);
+
+    // Animation loop with visibility check
     const clock = new THREE.Clock();
 
     const animate = () => {
+      // Skip rendering if not visible - saves GPU resources
+      if (!isVisibleRef.current) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       const elapsedTime = clock.getElapsedTime();
 
       // Smooth mouse following
@@ -434,9 +469,12 @@ export const ASCIIVideoBackground = () => {
 
     // Cleanup
     return () => {
+      observer.disconnect();
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("resize", handleResize);
+      renderer.domElement.removeEventListener("webglcontextlost", handleContextLost);
+      renderer.domElement.removeEventListener("webglcontextrestored", handleContextRestored);
       cancelAnimationFrame(animationRef.current);
 
       if (rendererRef.current && container.contains(renderer.domElement)) {
