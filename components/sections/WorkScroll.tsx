@@ -8,8 +8,6 @@ import * as THREE from "three";
 import Lenis from "lenis";
 import "./WorkScroll.css";
 
-// Dynamic import for Orb component (Three.js needs client-side only)
-const Orb = dynamic(() => import("./Orb"), { ssr: false });
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -345,22 +343,6 @@ export const WorkScroll = () => {
                             </div>
                         ))}
                     </div>
-                </div>
-            </section>
-
-            {/* Outro Section with Orb */}
-            <section className="work-scroll-outro">
-                <div className="outro-content">
-                    <h1>( Continue )</h1>
-                </div>
-                <div className="orb-wrapper">
-                    <Orb
-                        totalItems={50}
-                        sphereRadius={5}
-                        baseWidth={1}
-                        baseHeight={1}
-                        backgroundColor="0A0A0A"
-                    />
                 </div>
             </section>
         </>

@@ -82,7 +82,6 @@
     transform-origin: center;
     transform-style: preserve-3d;
     will-change: transform;
-    text-shadow: 0 0 60px rgba(255, 107, 53, 0.3);
     pointer-events: none;
 }
 
