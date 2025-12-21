@@ -1,7 +1,7 @@
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import Orb from "@/components/Orb";
-import Projects from "@/components/sections/Projects";
+
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
           backgroundColor="000000" // Transparent-ish or black to blend
         />
       </section>
-      <Projects />
+
     </main>
   );
 }
