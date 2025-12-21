@@ -1,11 +1,15 @@
 "use client";
 
 import { useRef, useEffect, useCallback } from "react";
+import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 import Lenis from "lenis";
 import "./WorkScroll.css";
+
+// Dynamic import for Orb component (Three.js needs client-side only)
+const Orb = dynamic(() => import("./Orb"), { ssr: false });
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,15 +17,17 @@ interface Project {
     title: string;
     id: string;
     image?: string;
+    size: 'vertical' | 'horizontal' | 'square';
+    position: 'up' | 'down';
 }
 
 const projects: Project[] = [
-    { title: "Project Alpha", id: "001" },
-    { title: "Project Beta", id: "002" },
-    { title: "Project Gamma", id: "003" },
-    { title: "Project Delta", id: "004" },
-    { title: "Project Epsilon", id: "005" },
-    { title: "Project Zeta", id: "006" },
+    { title: "App Mobile 1", id: "001", size: "vertical", position: "up" },
+    { title: "Project Beta", id: "002", size: "horizontal", position: "down" },
+    { title: "App Mobile 2", id: "003", size: "vertical", position: "up" },
+    { title: "Project Delta", id: "004", size: "square", position: "down" },
+    { title: "Project Epsilon", id: "005", size: "horizontal", position: "up" },
+    { title: "Project Zeta", id: "006", size: "square", position: "down" },
 ];
 
 export const WorkScroll = () => {
@@ -166,10 +172,18 @@ export const WorkScroll = () => {
         const letters = ["W", "O", "R", "K"];
         const letterSpeedMultipliers = [0.8, 1, 0.7, 0.9];
 
+        // Indices that should have z-front class (appear above cards)
+        // W (line 0) and K (line 3) with specific indices
+        const zFrontLetters: Record<number, number[]> = {
+            0: [2, 5, 8, 11, 14], // W letters at front
+            3: [1, 4, 7, 10, 13], // K letters at front
+        };
+
         letterElementsRef.current = paths.map((line, lineIndex) => {
-            return Array.from({ length: 15 }, () => {
+            return Array.from({ length: 15 }, (_, i) => {
                 const el = document.createElement("span");
-                el.className = "work-letter";
+                const isZFront = zFrontLetters[lineIndex]?.includes(i);
+                el.className = `work-letter${isZFront ? ' z-front' : ''}`;
                 el.textContent = letters[lineIndex];
                 textContainer.appendChild(el);
                 letterPositionsRef.current.set(el, {
@@ -303,7 +317,10 @@ export const WorkScroll = () => {
                 <div className="work-cards-wrapper">
                     <div ref={cardsContainerRef} className="work-cards">
                         {projects.map((project) => (
-                            <div key={project.id} className="work-card">
+                            <div
+                                key={project.id}
+                                className={`work-card card-${project.size} pos-${project.position}`}
+                            >
                                 <div className="work-card-img">
                                     {project.image ? (
                                         <img src={project.image} alt={project.title} />
@@ -331,9 +348,20 @@ export const WorkScroll = () => {
                 </div>
             </section>
 
-            {/* Outro Section */}
+            {/* Outro Section with Orb */}
             <section className="work-scroll-outro">
-                <h1>( Continue )</h1>
+                <div className="outro-content">
+                    <h1>( Continue )</h1>
+                </div>
+                <div className="orb-wrapper">
+                    <Orb
+                        totalItems={50}
+                        sphereRadius={5}
+                        baseWidth={1}
+                        baseHeight={1}
+                        backgroundColor="0A0A0A"
+                    />
+                </div>
             </section>
         </>
     );
