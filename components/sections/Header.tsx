@@ -18,7 +18,6 @@ export const Header = () => {
     }, []);
 
     const navItems = [
-        { label: "Sobre", href: "#about" },
         { label: "Experiência", href: "#experience" },
         { label: "Skills", href: "#skills" },
         { label: "Formação", href: "#education" },

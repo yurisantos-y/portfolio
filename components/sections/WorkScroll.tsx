@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
-import dynamic from "next/dynamic";
+import { useRef, useEffect, useCallback, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
+
 import Lenis from "lenis";
 import "./WorkScroll.css";
 
@@ -33,6 +33,8 @@ export const WorkScroll = () => {
     const cardsContainerRef = useRef<HTMLDivElement>(null);
     const textContainerRef = useRef<HTMLDivElement>(null);
     const gridCanvasRef = useRef<HTMLCanvasElement>(null);
+    const entranceOverlayRef = useRef<HTMLDivElement>(null);
+
     const lettersCanvasRef = useRef<HTMLDivElement>(null);
     const letterElementsRef = useRef<HTMLSpanElement[][]>([]);
     const letterPositionsRef = useRef<Map<HTMLSpanElement, { current: { x: number; y: number }; target: { x: number; y: number } }>>(new Map());
@@ -43,6 +45,9 @@ export const WorkScroll = () => {
     const lettersCameraRef = useRef<THREE.PerspectiveCamera | null>(null);
     const lettersRendererRef = useRef<THREE.WebGLRenderer | null>(null);
     const animationFrameRef = useRef<number>(0);
+    
+    const [entranceOpacity, setEntranceOpacity] = useState(1);
+    const [entranceScale, setEntranceScale] = useState(1.1);
 
     const lerp = (start: number, end: number, t: number) => start + (end - start) * t;
 
@@ -125,6 +130,8 @@ export const WorkScroll = () => {
         if (!workSection || !cardsContainer || !textContainer) return;
 
         const moveDistance = typeof window !== "undefined" ? window.innerWidth * 5 : 0;
+
+
 
         // Setup grid canvas
         resizeGridCanvas();
@@ -236,13 +243,29 @@ export const WorkScroll = () => {
         const animate = () => {
             updateLetterPositions();
             updateCardPositions();
+
             if (lettersRendererRef.current && lettersSceneRef.current && lettersCameraRef.current) {
                 lettersRendererRef.current.render(lettersSceneRef.current, lettersCameraRef.current);
             }
             animationFrameRef.current = requestAnimationFrame(animate);
         };
 
-        // Create ScrollTrigger
+        // Entrance animation - fade in as section comes into view
+        ScrollTrigger.create({
+            trigger: workSection,
+            start: "top bottom",
+            end: "top top",
+            scrub: 0.5,
+            onUpdate: (self) => {
+                const progress = self.progress;
+                // Fade overlay out (1 to 0)
+                setEntranceOpacity(1 - progress);
+                // Scale from 1.1 to 1
+                setEntranceScale(1.1 - (progress * 0.1));
+            },
+        });
+
+        // Create ScrollTrigger for main horizontal scroll
         ScrollTrigger.create({
             trigger: workSection,
             start: "top top",
@@ -273,6 +296,9 @@ export const WorkScroll = () => {
             if (lettersRendererRef.current) {
                 lettersRendererRef.current.setSize(window.innerWidth, window.innerHeight);
             }
+
+
+
             updateTargetPositions(scrollProgressRef.current);
         };
 
@@ -294,19 +320,38 @@ export const WorkScroll = () => {
                 lettersRendererRef.current.domElement.remove();
             }
 
+
+
             ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
         };
     }, [createTextAnimationPath, drawGrid, resizeGridCanvas]);
 
     return (
         <>
-            {/* Intro Section */}
-            <section className="work-scroll-intro">
-                <h1>( Work )</h1>
-            </section>
-
             {/* Work Section with Cards */}
             <section ref={workSectionRef} className="work-section">
+                {/* Entrance overlay for smooth transition */}
+                <div 
+                    ref={entranceOverlayRef}
+                    className="absolute inset-0 z-[200] pointer-events-none"
+                    style={{
+                        opacity: entranceOpacity,
+                        background: 'linear-gradient(to bottom, rgba(10,10,10,1) 0%, rgba(10,10,10,0.95) 50%, rgba(10,10,10,0.8) 100%)',
+                        willChange: 'opacity',
+                    }}
+                >
+                    {/* Parallax dots pattern that fades with entrance */}
+                    <div 
+                        className="absolute inset-0"
+                        style={{
+                            backgroundImage: `radial-gradient(circle, rgba(255, 107, 53, 0.15) 1px, transparent 1px)`,
+                            backgroundSize: '30px 30px',
+                            transform: `scale(${entranceScale})`,
+                            willChange: 'transform',
+                        }}
+                    />
+                </div>
+                
                 <canvas ref={gridCanvasRef} id="grid-canvas" />
                 <div ref={lettersCanvasRef} className="letters-canvas-container" />
                 {/* Text container for animated letters - separate from cards */}
