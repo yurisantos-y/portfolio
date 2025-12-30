@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Canvas } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import styles from "./Work.module.css";
+import { ASCIIParallaxModel, preloadASCIIModel } from "@/components/ui/ASCIIParallaxModel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,30 +29,9 @@ const projects: Project[] = [
     { id: "06", title: "Project Zeta", category: "Mobile App", image: "/work.jpg" },
 ];
 
-// Componente do modelo 3D - estático, sem animação
-interface ParallaxModelProps {
-    path: string;
-    position?: [number, number, number];
-    rotation?: [number, number, number];
-    scale?: number;
-}
-
-const ParallaxModel = ({ path, position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }: ParallaxModelProps) => {
-    const { scene } = useGLTF(path);
-
-    return (
-        <primitive
-            object={scene.clone()}
-            position={position}
-            rotation={rotation}
-            scale={scale}
-        />
-    );
-};
-
 // Preload dos modelos
-useGLTF.preload("/parallax-1.glb");
-useGLTF.preload("/parallax-2.glb");
+preloadASCIIModel("/parallax-1.glb");
+preloadASCIIModel("/parallax-2.glb");
 
 // Componente do Card
 interface CardProps {
@@ -76,6 +56,8 @@ const ProjectCard = ({ project, index }: CardProps) => {
 export const Work = () => {
     const sectionRef = useRef<HTMLElement>(null);
     const cardsContainerRef = useRef<HTMLDivElement>(null);
+    const parallax1Ref = useRef<HTMLDivElement>(null);
+    const parallax2Ref = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -88,7 +70,7 @@ export const Work = () => {
         const cards = cardsContainerRef.current;
         const totalWidth = cards.scrollWidth - window.innerWidth;
 
-        // Scroll horizontal com GSAP ScrollTrigger
+        // Scroll horizontal dos cards
         gsap.to(cards, {
             x: -totalWidth,
             ease: "none",
@@ -107,7 +89,38 @@ export const Work = () => {
             },
         });
 
-        // Os objetos parallax 3D agora ficam fixos nas suas posições
+        // Animação de entrada dos objetos Parallax (Vindo do overflow)
+        if (parallax1Ref.current && parallax2Ref.current) {
+            // Parallax 1 (Top Right) - Vem da direita
+            gsap.fromTo(parallax1Ref.current,
+                { x: "100%" },
+                {
+                    x: "0%",
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top bottom", // Inicia quando o topo da seção atinge o fundo da tela
+                        end: "top center",   // Termina quando o topo da seção está no meio
+                        scrub: 1,
+                    }
+                }
+            );
+
+            // Parallax 2 (Bottom Left) - Vem da esquerda
+            gsap.fromTo(parallax2Ref.current,
+                { x: "-100%" },
+                {
+                    x: "0%",
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top bottom",
+                        end: "center center",
+                        scrub: 1,
+                    }
+                }
+            );
+        }
 
     }, { scope: sectionRef, dependencies: [mounted] });
 
@@ -118,41 +131,43 @@ export const Work = () => {
 
             {/* Parallax 3D Objects Layer - fixos nas posições */}
             <div className={styles.parallaxLayer}>
-                {/* Parallax-1: Canto superior direito */}
-                <div className={`${styles.parallax1} ${styles.parallaxObject}`}>
+                {/* Parallax-1: Canto superior direito - com efeito ASCII */}
+                <div ref={parallax1Ref} className={`${styles.parallax1} ${styles.parallaxObject}`}>
                     <Canvas
                         camera={{ position: [0, 0, 5], fov: 45 }}
                         gl={{ antialias: true, alpha: true }}
                     >
-                        <ambientLight intensity={0.8} />
-                        <directionalLight position={[5, 5, 5]} intensity={1.2} />
-                        <directionalLight position={[-3, 3, 2]} intensity={0.6} />
                         <Suspense fallback={null}>
-                            <ParallaxModel
+                            <ASCIIParallaxModel
                                 path="/parallax-1.glb"
                                 position={[0, 0, 0]}
                                 rotation={[0, -0.3, 0]}
                                 scale={2.5}
+                                cellSize={3}
+                                oscillate={false}
+                                oscillationSpeed={0.25}
+                                oscillationAngle={20}
                             />
                         </Suspense>
                     </Canvas>
                 </div>
 
-                {/* Parallax-2: Canto inferior esquerdo */}
-                <div className={`${styles.parallax2} ${styles.parallaxObject}`}>
+                {/* Parallax-2: Canto inferior esquerdo - com efeito ASCII */}
+                <div ref={parallax2Ref} className={`${styles.parallax2} ${styles.parallaxObject}`}>
                     <Canvas
                         camera={{ position: [0, 0, 6], fov: 45 }}
                         gl={{ antialias: true, alpha: true }}
                     >
-                        <ambientLight intensity={0.8} />
-                        <directionalLight position={[5, 5, 5]} intensity={1.2} />
-                        <directionalLight position={[-3, 3, 2]} intensity={0.6} />
                         <Suspense fallback={null}>
-                            <ParallaxModel
+                            <ASCIIParallaxModel
                                 path="/parallax-2.glb"
                                 position={[0, 0, 0]}
                                 rotation={[0, -0.5, 0]}
-                                scale={2}
+                                scale={1}
+                                cellSize={3}
+                                oscillate={false}
+                                oscillationSpeed={0.35}
+                                oscillationAngle={15}
                             />
                         </Suspense>
                     </Canvas>

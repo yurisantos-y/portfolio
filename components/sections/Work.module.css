@@ -31,6 +31,22 @@
     will-change: transform;
 }
 
+/* Overlay de escurecimento para os objetos parallax */
+.parallaxObject::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center,
+            rgba(0, 0, 0, 0.85) 0%,
+            rgba(0, 0, 0, 0.6) 30%,
+            rgba(0, 0, 0, 0.3) 60%,
+            transparent 80%);
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(40px);
+    transform: scale(1.3);
+}
+
 /* Parallax-1: Canto superior direito - colado */
 .parallax1 {
     top: 0;
