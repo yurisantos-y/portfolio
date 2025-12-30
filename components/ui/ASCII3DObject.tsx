@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 // ASCII characters ordered by brightness (dark to light)
 const ASCII_CHARS = " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
@@ -163,7 +163,7 @@ export const ASCII3DObject = ({
   const objectRef = useRef<THREE.Group | null>(null);
   const uniformsRef = useRef<{ uOpacity: { value: number } } | null>(null);
   const scrollProgressRef = useRef(scrollProgress);
-  
+
   const [isMounted, setIsMounted] = useState(false);
   const [objectLoaded, setObjectLoaded] = useState(false);
 
@@ -301,40 +301,44 @@ export const ASCII3DObject = ({
       side: THREE.DoubleSide,
     });
 
-    // Load OBJ
-    const loader = new OBJLoader();
+    // Load GLB/GLTF
+    const loader = new GLTFLoader();
     loader.load(
       objPath,
-      (obj) => {
+      (gltf) => {
+        const model = gltf.scene;
+
         // Apply custom material to all meshes
-        obj.traverse((child) => {
+        model.traverse((child: THREE.Object3D) => {
           if (child instanceof THREE.Mesh) {
             child.material = objectMaterial;
           }
         });
 
         // Center and scale the object
-        const box = new THREE.Box3().setFromObject(obj);
+        const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
-        
+
         // Normalize size - make it much larger
         const maxDim = Math.max(size.x, size.y, size.z);
         const scale = 4.5 / maxDim;
-        obj.scale.setScalar(scale);
-        
+        model.scale.setScalar(scale);
+
         // Center the object
-        obj.position.sub(center.multiplyScalar(scale));
-        
-        scene.add(obj);
-        objectRef.current = obj;
+        model.position.sub(center.multiplyScalar(scale));
+
+        scene.add(model);
+        objectRef.current = model;
         setObjectLoaded(true);
       },
-      (progress) => {
-        console.log(`Loading OBJ: ${(progress.loaded / progress.total * 100).toFixed(1)}%`);
+      (progress: ProgressEvent) => {
+        if (progress.total > 0) {
+          console.log(`Loading model: ${(progress.loaded / progress.total * 100).toFixed(1)}%`);
+        }
       },
-      (error) => {
-        console.error("Error loading OBJ:", error);
+      (error: unknown) => {
+        console.error("Error loading model:", error);
       }
     );
 
@@ -353,7 +357,7 @@ export const ASCII3DObject = ({
         const baseRotationY = elapsedTime * 0.2;
         const mouseRotationY = mouseRef.current.x * 0.5;
         const mouseRotationX = mouseRef.current.y * 0.3;
-        
+
         objectRef.current.rotation.y = baseRotationY + mouseRotationY;
         objectRef.current.rotation.x = mouseRotationX;
       }
@@ -421,7 +425,7 @@ export const ASCII3DObject = ({
         className="absolute inset-0 z-0"
         style={{ width: "100%", height: "100%" }}
       />
-      
+
       {/* Loading indicator */}
       {!objectLoaded && (
         <div className="absolute inset-0 flex items-center justify-center">

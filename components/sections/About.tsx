@@ -48,7 +48,7 @@ export const About = () => {
     return (
         <section
             ref={sectionRef}
-            className="relative min-h-screen w-full bg-background overflow-hidden"
+            className="relative min-h-[300vh] w-full bg-background overflow-hidden"
         >
             {/* Container principal */}
             <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden py-20">
@@ -82,7 +82,7 @@ export const About = () => {
                 >
                     <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 w-[80vw] h-[120vh] md:w-[70vw] md:h-[140vh]">
                         <ASCII3DObject
-                            objPath="/objeto-about-me.obj"
+                            objPath="/objeto-about-me.glb"
                             className="w-full h-full"
                             cellSize={5}
                             scrollProgress={scrollProgress}
