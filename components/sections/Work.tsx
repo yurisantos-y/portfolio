@@ -137,7 +137,7 @@ export const Work = () => {
                 {/* Parallax-2: Canto inferior esquerdo */}
                 <div className={`${styles.parallax2} ${styles.parallaxObject}`}>
                     <Canvas
-                        camera={{ position: [0, 0, 12], fov: 45 }}
+                        camera={{ position: [0, 0, 6], fov: 45 }}
                         gl={{ antialias: true, alpha: true }}
                     >
                         <ambientLight intensity={0.8} />
@@ -148,7 +148,7 @@ export const Work = () => {
                                 path="/parallax-2.glb"
                                 position={[0, 0, 0]}
                                 rotation={[0, -0.5, 0]}
-                                scale={1.7}
+                                scale={4}
                             />
                         </Suspense>
                     </Canvas>

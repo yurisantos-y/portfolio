@@ -31,19 +31,19 @@
     will-change: transform;
 }
 
-/* Parallax-1: Canto superior direito */
+/* Parallax-1: Canto superior direito - colado */
 .parallax1 {
-    top: -15%;
+    top: 0;
     right: -10%;
-    width: 60vw;
-    height: 70vh;
+    width: 50vw;
+    height: 60vh;
 }
 
-/* Parallax-2: Canto inferior esquerdo - colado no footer */
+/* Parallax-2: Canto inferior esquerdo - colado no bottom */
 .parallax2 {
     bottom: -50%;
-    left: -37%;
-    width: 100vw;
+    left: -26%;
+    width: 80vw;
     height: 100vh;
 }
 
@@ -151,17 +151,17 @@
 /* Responsive adjustments */
 @media (max-width: 1024px) {
     .parallax1 {
-        top: -10%;
-        right: -15%;
-        width: 70vw;
-        height: 60vh;
+        top: 0;
+        right: 0;
+        width: 55vw;
+        height: 55vh;
     }
 
     .parallax2 {
-        bottom: -20%;
-        left: -25%;
-        width: 65vw;
-        height: 55vh;
+        bottom: -15%;
+        left: -10%;
+        width: 70vw;
+        height: 85vh;
     }
 
     .cards {
@@ -177,17 +177,17 @@
 
 @media (max-width: 768px) {
     .parallax1 {
-        top: -5%;
-        right: -20%;
-        width: 80vw;
+        top: 0;
+        right: 0;
+        width: 60vw;
         height: 50vh;
     }
 
     .parallax2 {
-        bottom: -15%;
-        left: -30%;
-        width: 70vw;
-        height: 50vh;
+        bottom: -10%;
+        left: -10%;
+        width: 65vw;
+        height: 70vh;
     }
 
     .cards {
