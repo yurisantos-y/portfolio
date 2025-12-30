@@ -70,10 +70,17 @@ const asciiFragmentShader = `
   uniform float uCellSize;
   uniform float uOpacity;
   uniform float uTime;
+  uniform float uDispersalAmount;
+  uniform vec2 uMousePos;
   
   varying vec2 vUv;
   
   const float CHAR_COUNT = 70.0;
+  
+  // Pseudo-random function for particle variation
+  float random(vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+  }
   
   void main() {
     vec2 uv = vUv;
@@ -83,10 +90,58 @@ const asciiFragmentShader = `
     float aspectRatio = uResolution.x / uResolution.y;
     
     vec2 cellSizeVec = vec2(cellSize / aspectRatio, cellSize);
-    vec2 cellUv = floor(uv / cellSizeVec) * cellSizeVec;
+    vec2 cellIndex = floor(uv / cellSizeVec);
+    vec2 cellCenter = (cellIndex + 0.5) * cellSizeVec;
     
-    // Sample scene at cell position for brightness
-    vec4 sceneColor = texture2D(uScene, cellUv + cellSizeVec * 0.5);
+    // Calculate dispersal offset based on mouse position
+    // Mouse position comes in as -1 to 1, convert to 0 to 1 UV space
+    vec2 mouseUv = uMousePos * 0.5 + 0.5;
+    
+    vec2 toMouse = cellCenter - mouseUv;
+    float distToMouse = length(toMouse);
+    
+    // Black hole effect - create a gradient void
+    float blackHoleRadius = 0.05; // Inner radius where it's fully transparent
+    float blackHoleOuter = 0.25; // Outer radius where fade begins
+    
+    // Calculate a smooth fade factor based on distance
+    // 0.0 at center, 1.0 at outer edge
+    float blackHoleFactor = smoothstep(blackHoleRadius, blackHoleOuter, distToMouse);
+    
+    // Mix with 1.0 when not hovering (uDispersalAmount < 0.1)
+    blackHoleFactor = mix(1.0, blackHoleFactor, smoothstep(0.0, 1.0, uDispersalAmount));
+    
+    // Dispersal effect - particles fly away from cursor
+    float dispersalRadius = 0.45; // Increased slightly for smoother transition
+    float dispersalStrength = 0.12; // Slightly reduced for better control
+    
+    // Create unique random values for each cell
+    float cellRandom = random(cellIndex);
+    float cellRandom2 = random(cellIndex + vec2(17.0, 31.0));
+    
+    // Calculate push direction and amount
+    vec2 pushDir = normalize(toMouse + vec2(0.001)); // Avoid division by zero
+    float pushAmount = smoothstep(dispersalRadius, 0.0, distToMouse) * uDispersalAmount;
+    
+    // Add some randomness to the push direction for particle-like effect
+    float angle = (cellRandom - 0.5) * 3.14159 * 0.5; // Random angle variation
+    mat2 rotation = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
+    pushDir = rotation * pushDir;
+    
+    // Apply dispersal with easing and random variation
+    vec2 offset = pushDir * pushAmount * dispersalStrength * (0.5 + cellRandom2);
+    
+    // Add slight rotation/spin effect
+    float spinAmount = pushAmount * (cellRandom - 0.5) * 0.3;
+    
+    // Offset the cell UV
+    vec2 dispersedUv = uv + offset;
+    
+    // Recalculate cell position with dispersal
+    vec2 dispersedCellUv = floor(dispersedUv / cellSizeVec) * cellSizeVec;
+    
+    // Sample scene at dispersed cell position for brightness
+    vec4 sceneColor = texture2D(uScene, dispersedCellUv + cellSizeVec * 0.5);
     float brightness = dot(sceneColor.rgb, vec3(0.299, 0.587, 0.114));
     
     // Skip if too dark (background)
@@ -98,7 +153,17 @@ const asciiFragmentShader = `
     float charIndex = floor(brightness * (CHAR_COUNT - 1.0));
     
     // Position within the cell for character rendering
-    vec2 cellLocalUv = fract(uv / cellSizeVec);
+    vec2 cellLocalUv = fract(dispersedUv / cellSizeVec);
+    
+    // Apply rotation to local UV for spin effect
+    vec2 centeredLocalUv = cellLocalUv - 0.5;
+    float spinAngle = spinAmount * 6.28318; // Full rotation possible
+    mat2 spinRotation = mat2(cos(spinAngle), -sin(spinAngle), sin(spinAngle), cos(spinAngle));
+    centeredLocalUv = spinRotation * centeredLocalUv;
+    cellLocalUv = centeredLocalUv + 0.5;
+    
+    // Clamp to prevent sampling outside cell
+    cellLocalUv = clamp(cellLocalUv, 0.0, 1.0);
     
     // Calculate UV in the ASCII texture atlas
     float charWidth = 1.0 / CHAR_COUNT;
@@ -126,11 +191,23 @@ const asciiFragmentShader = `
       color = mix(brightOrange, hotOrange, (brightness - 0.5) * 2.0);
     }
     
+    // Add slight color variation based on dispersal for "energy" effect
+    color = mix(color, hotOrange, pushAmount * 0.3);
+    
+    // Darken particles near the black hole for better gradient effect
+    color *= smoothstep(0.0, 0.6, blackHoleFactor);
+    
     // Character visibility
     float charAlpha = charSample.r;
     
     // Base alpha from character and brightness
     float alpha = charAlpha * (0.6 + brightness * 0.5);
+    
+    // Fade out particles that are pushed far
+    alpha *= 1.0 - pushAmount * 0.5;
+    
+    // Apply black hole gradient fade
+    alpha *= blackHoleFactor;
     
     // Add subtle scan line effect
     float scanLine = sin(uv.y * uResolution.y * 0.5 + uTime * 2.0) * 0.05 + 0.95;
@@ -143,11 +220,14 @@ const asciiFragmentShader = `
   }
 `;
 
+
 interface ASCII3DObjectProps {
   objPath: string;
   className?: string;
   cellSize?: number;
   scrollProgress?: number;
+  isHovered?: boolean;
+  onHoverChange?: (isHovered: boolean) => void;
 }
 
 export const ASCII3DObject = ({
@@ -155,14 +235,18 @@ export const ASCII3DObject = ({
   className = "",
   cellSize = 8.0,
   scrollProgress = 1,
+  isHovered = false,
+  onHoverChange,
 }: ASCII3DObjectProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const animationRef = useRef<number>(0);
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
   const objectRef = useRef<THREE.Group | null>(null);
-  const uniformsRef = useRef<{ uOpacity: { value: number } } | null>(null);
+  const uniformsRef = useRef<{ uOpacity: { value: number }; uDispersalAmount: { value: number }; uMousePos: { value: THREE.Vector2 } } | null>(null);
   const scrollProgressRef = useRef(scrollProgress);
+  const isHoveredRef = useRef(isHovered);
+  const dispersalAmountRef = useRef(0);
 
   const [isMounted, setIsMounted] = useState(false);
   const [objectLoaded, setObjectLoaded] = useState(false);
@@ -171,6 +255,11 @@ export const ASCII3DObject = ({
   useEffect(() => {
     scrollProgressRef.current = scrollProgress;
   }, [scrollProgress]);
+
+  // Update hover ref when prop changes
+  useEffect(() => {
+    isHoveredRef.current = isHovered;
+  }, [isHovered]);
 
   // Create ASCII texture atlas
   const createAsciiTexture = useCallback(() => {
@@ -206,18 +295,28 @@ export const ASCII3DObject = ({
     setIsMounted(true);
   }, []);
 
-  // Mouse tracking
+  // Mouse tracking - relative to container
   useEffect(() => {
-    if (!isMounted) return;
+    if (!isMounted || !containerRef.current) return;
+
+    const container = containerRef.current;
 
     const handleMouseMove = (e: MouseEvent) => {
-      // Normalize mouse position to -1 to 1
-      mouseRef.current.targetX = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseRef.current.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+      // Get container bounds
+      const rect = container.getBoundingClientRect();
+
+      // Calculate mouse position relative to container (0 to 1)
+      const relativeX = (e.clientX - rect.left) / rect.width;
+      const relativeY = (e.clientY - rect.top) / rect.height;
+
+      // Convert to -1 to 1 range for shader
+      mouseRef.current.targetX = relativeX * 2 - 1;
+      mouseRef.current.targetY = -(relativeY * 2 - 1); // Flip Y for WebGL coordinates
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    // Use container for mouse tracking instead of window
+    container.addEventListener("mousemove", handleMouseMove);
+    return () => container.removeEventListener("mousemove", handleMouseMove);
   }, [isMounted]);
 
   // Main Three.js setup
@@ -279,6 +378,8 @@ export const ASCII3DObject = ({
       uCellSize: { value: cellSize },
       uOpacity: { value: 0 },
       uTime: { value: 0 },
+      uDispersalAmount: { value: 0 },
+      uMousePos: { value: new THREE.Vector2(0, 0) },
     };
     uniformsRef.current = postUniforms;
 
@@ -320,9 +421,9 @@ export const ASCII3DObject = ({
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
 
-        // Normalize size - make it much larger
+        // Normalize size - smaller to fit container without clipping
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 4.5 / maxDim;
+        const scale = 3.0 / maxDim;
         model.scale.setScalar(scale);
 
         // Center the object
@@ -352,11 +453,21 @@ export const ASCII3DObject = ({
       mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.05;
       mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.05;
 
-      // Rotate object based on mouse
+      // Rotate object with pendulum motion (oscillating between -45° and +45°)
+      // This ensures the user NEVER sees the back of the object
       if (objectRef.current) {
-        const baseRotationY = elapsedTime * 0.2;
-        const mouseRotationY = mouseRef.current.x * 0.5;
-        const mouseRotationX = mouseRef.current.y * 0.3;
+        // Convert 45 degrees to radians - small angle to keep front visible
+        const maxAngle = (45 * Math.PI) / 180; // ~0.785 radians
+
+        // Use sine wave for smooth pendulum-like oscillation
+        // Speed factor controls how fast the oscillation is
+        const oscillationSpeed = 0.4;
+        // Add Math.PI (180°) to flip the object so the front faces the camera
+        const baseRotationY = Math.PI + Math.sin(elapsedTime * oscillationSpeed) * maxAngle;
+
+        // Mouse influence (very small to prevent showing back)
+        const mouseRotationY = mouseRef.current.x * 0.08;
+        const mouseRotationX = mouseRef.current.y * 0.05;
 
         objectRef.current.rotation.y = baseRotationY + mouseRotationY;
         objectRef.current.rotation.x = mouseRotationX;
@@ -365,9 +476,19 @@ export const ASCII3DObject = ({
       // Update time uniform
       postUniforms.uTime.value = elapsedTime;
 
+      // Update dispersal amount with smooth transition
+      const targetDispersal = isHoveredRef.current ? 1.0 : 0.0;
+      dispersalAmountRef.current += (targetDispersal - dispersalAmountRef.current) * 0.1;
+      postUniforms.uDispersalAmount.value = dispersalAmountRef.current;
+
+      // Update mouse position for dispersal effect
+      postUniforms.uMousePos.value.set(mouseRef.current.x, mouseRef.current.y);
+
       // Update opacity based on scroll progress
       if (uniformsRef.current) {
         uniformsRef.current.uOpacity.value = scrollProgressRef.current;
+        uniformsRef.current.uDispersalAmount.value = dispersalAmountRef.current;
+        uniformsRef.current.uMousePos.value.set(mouseRef.current.x, mouseRef.current.y);
       }
 
       // Render scene to render target
@@ -419,11 +540,15 @@ export const ASCII3DObject = ({
   }, [isMounted, objPath, createAsciiTexture, cellSize]);
 
   return (
-    <div className={`relative ${className}`}>
+    <div
+      className={`relative ${className}`}
+      onMouseEnter={() => onHoverChange?.(true)}
+      onMouseLeave={() => onHoverChange?.(false)}
+    >
       <div
         ref={containerRef}
         className="absolute inset-0 z-0"
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: "100%", height: "100%", cursor: "pointer" }}
       />
 
       {/* Loading indicator */}

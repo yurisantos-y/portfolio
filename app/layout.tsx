@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Open_Sans, JetBrains_Mono } from "next/font/google";
+import { Open_Sans, JetBrains_Mono, Playfair_Display, Badeen_Display } from "next/font/google";
 import "./globals.css";
 
 const openSans = Open_Sans({
@@ -10,6 +10,19 @@ const openSans = Open_Sans({
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
+});
+
+const playfairDisplay = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  style: "italic",
+});
+
+const badeenDisplay = Badeen_Display({
+  variable: "--font-badeen",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -29,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body
-        className={`${openSans.variable} ${jetbrainsMono.variable} antialiased bg-background text-text-primary font-sans selection:bg-primary selection:text-white`}
+        className={`${openSans.variable} ${jetbrainsMono.variable} ${playfairDisplay.variable} ${badeenDisplay.variable} antialiased bg-background text-text-primary font-sans selection:bg-primary selection:text-white`}
       >
         <Header />
         {children}

@@ -148,18 +148,20 @@ export const Hero = () => {
                 {/* Content Container */}
                 <div className="relative z-10 h-full flex flex-col">
                     {/* Title - Top Left Corner */}
-                    <div className="absolute top-24 md:top-32 left-6 md:left-24">
+                    <div className="absolute top-24 md:top-32 left-6 md:left-24 relative">
                         <h1
                             ref={titleRef}
-                            className="text-4xl md:text-6xl lg:text-7xl font-thin tracking-tight text-text-primary will-change-transform"
+                            className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-normal tracking-wide text-text-primary will-change-transform"
+                            style={{ fontFamily: 'var(--font-badeen)' }}
                         >
-                            Yuri Santos
+                            YURI SANTOS
                         </h1>
 
-                        {/* Subtitle */}
+                        {/* Subtitle - positioned absolute overlapping the title */}
                         <h2
                             ref={subtitleRef}
-                            className="mt-2 text-base md:text-lg text-text-secondary font-light tracking-wide will-change-transform"
+                            className="absolute bottom-1 left-4 md:left-8 lg:left-12 text-base md:text-xl lg:text-2xl text-[#FF6B00] tracking-wide font-semibold drop-shadow-md will-change-transform translate-y-1/2"
+                            style={{ fontFamily: 'var(--font-playfair)', fontStyle: 'italic' }}
                         >
                             Software Engineer | Mobile Developer
                         </h2>
