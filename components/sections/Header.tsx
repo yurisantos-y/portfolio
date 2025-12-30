@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 export const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [isInWorkSection, setIsInWorkSection] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -15,6 +16,32 @@ export const Header = () => {
         };
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    // Detectar quando o usuário está na seção Work
+    useEffect(() => {
+        const checkWorkSection = () => {
+            const workSection = document.querySelector('[data-section="work"]') as HTMLElement;
+            if (!workSection) return;
+
+            // Usar offsetTop para pegar a posição original da seção (antes do pin)
+            const sectionTop = workSection.offsetTop;
+            const sectionHeight = workSection.offsetHeight;
+            const scrollY = window.scrollY;
+            const viewportHeight = window.innerHeight;
+
+            // Considera que está na seção Work quando o scroll está dentro da área da seção
+            // Adiciona uma margem para começar a esconder um pouco antes
+            const isInWork = scrollY >= sectionTop - 100 && scrollY < sectionTop + sectionHeight + viewportHeight;
+            setIsInWorkSection(isInWork);
+        };
+
+        // Verificar no scroll
+        window.addEventListener("scroll", checkWorkSection);
+        // Verificar inicialmente após um pequeno delay para garantir que o DOM está pronto
+        setTimeout(checkWorkSection, 100);
+
+        return () => window.removeEventListener("scroll", checkWorkSection);
     }, []);
 
     const navItems = [
@@ -28,7 +55,8 @@ export const Header = () => {
         <>
             <motion.header
                 initial={{ y: -100 }}
-                animate={{ y: 0 }}
+                animate={{ y: isInWorkSection ? -100 : 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
                 className={cn(
                     "fixed top-0 left-0 right-0 z-50 transition-colors duration-300 px-6 md:px-12 py-4 flex justify-between items-center",
                     scrolled ? "bg-background/80 backdrop-blur-md border-b border-white/5" : "bg-transparent"
