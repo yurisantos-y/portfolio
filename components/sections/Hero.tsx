@@ -160,7 +160,7 @@ export const Hero = () => {
                         {/* Subtitle - positioned absolute overlapping the title */}
                         <h2
                             ref={subtitleRef}
-                            className="absolute bottom-1 left-4 md:left-8 lg:left-12 text-base md:text-xl lg:text-2xl text-[#FF6B00] tracking-wide font-semibold drop-shadow-md will-change-transform translate-y-1/2"
+                            className="absolute -bottom-2 left-2 md:left-4 lg:left-8 text-2xl md:text-3xl lg:text-4xl text-[#FF6B00] tracking-wide font-semibold drop-shadow-md will-change-transform translate-y-1/2"
                             style={{ fontFamily: 'var(--font-playfair)', fontStyle: 'italic' }}
                         >
                             Software Engineer | Mobile Developer
