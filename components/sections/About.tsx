@@ -31,6 +31,26 @@ export const About = () => {
     useGSAP(() => {
         if (!mounted) return;
 
+        // Text entry animation
+        if (textRef.current) {
+            gsap.fromTo(textRef.current.children,
+                { y: 50, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    stagger: 0.2,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top 70%",
+                        end: "top 40%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        }
+
         // Trigger 1: Entrada (Antes de fixar)
         // O objeto começa a aparecer assim que a seção entra na tela
         ScrollTrigger.create({
@@ -104,18 +124,17 @@ export const About = () => {
                 {/* Texto centralizado - sempre visível */}
                 <div
                     ref={textRef}
-                    className="relative z-20 text-center px-6 max-w-2xl"
+                    className="relative z-20 text-center px-6 max-w-4xl"
                 >
-                    <span className="block text-xs font-mono tracking-[0.5em] uppercase text-text-secondary/60 mb-6">
+                    <h2
+                        className="text-4xl md:text-5xl lg:text-6xl text-[#FF6B00] font-semibold tracking-wide drop-shadow-md mb-10"
+                        style={{ fontFamily: 'var(--font-playfair)', fontStyle: 'italic' }}
+                    >
                         Sobre Mim
-                    </span>
-
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extralight leading-tight text-text-primary mb-8">
-                        Desenvolvedor de software com paixão por criar experiências móveis excepcionais.
                     </h2>
 
-                    <p className="text-base md:text-lg font-light leading-relaxed text-text-secondary/80 max-w-lg mx-auto">
-                        Especializado em React Native e Flutter, transformo ideias em aplicativos que combinam design elegante com performance impecável.
+                    <p className="text-xl md:text-2xl font-medium tracking-tight leading-relaxed text-text-primary/90 max-w-4xl mx-auto drop-shadow-md">
+                        Sou desenvolvedor front-end e mobile com experiência desde 2018. Comecei com Visual Basic, migrei para front-end em 2020 (foco em UI/UX) e, desde 2023, atuo em desenvolvimento mobile criando soluções centradas no usuário.
                     </p>
                 </div>
 
