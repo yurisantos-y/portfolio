@@ -15,6 +15,10 @@ export const About = () => {
     const objectContainerRef = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
 
+    // Refs para efeito parallax
+    const titleRef = useRef<HTMLHeadingElement>(null);
+    const descriptionRef = useRef<HTMLParagraphElement>(null);
+
     // Animation states
     const [scrollProgress, setScrollProgress] = useState(0); // Começa invisível
     // Posição do objeto: começa fora da tela na diagonal inferior-direita
@@ -51,6 +55,34 @@ export const About = () => {
             );
         }
 
+        // Parallax Effect (Novo)
+        // Move os textos em velocidades diferentes enquanto a seção está fixada
+        if (titleRef.current && descriptionRef.current) {
+            // Título move-se mais devagar
+            gsap.to(titleRef.current, {
+                y: -50,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top top",
+                    end: "+=100%",
+                    scrub: true
+                }
+            });
+
+            // Descrição move-se mais rápido (sensação de profundidade)
+            gsap.to(descriptionRef.current, {
+                y: -100,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top top",
+                    end: "+=100%",
+                    scrub: true
+                }
+            });
+        }
+
         // Trigger 1: Entrada (Antes de fixar)
         // O objeto começa a aparecer assim que a seção entra na tela
         ScrollTrigger.create({
@@ -75,22 +107,22 @@ export const About = () => {
         ScrollTrigger.create({
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=200%", // Duração da fase fixada
+            end: "+=100%", // Duração da fase fixada (reduzido de 200% para diminuir scroll)
             scrub: 0.3,
             pin: contentRef.current,
             onUpdate: (self) => {
                 const progress = self.progress;
 
                 // Fase 2: Objeto fixo no centro (enquanto lê o sobre mim)
-                // Mantemos por 70% do scroll pinned
-                if (progress < 0.7) {
+                // Mantemos por 40% do scroll pinned (reduzido de 70% para ficar menos tempo)
+                if (progress < 0.4) {
                     setObjectX(0);
                     setObjectY(0);
                     setScrollProgress(1);
                 }
                 // Fase 3: Saída para cima/esquerda (final do scroll)
                 else {
-                    const phaseProgress = (progress - 0.7) / 0.3; // Normaliza de 0.7-1.0 para 0-1
+                    const phaseProgress = (progress - 0.4) / 0.6; // Normaliza de 0.4-1.0 para 0-1
                     const easeProgress = Math.pow(phaseProgress, 2); // easeInQuad
 
                     // Objeto sai para cima/esquerda
@@ -113,7 +145,7 @@ export const About = () => {
         <section
             ref={sectionRef}
             className="relative w-full bg-background overflow-hidden"
-            style={{ minHeight: '350vh' }}
+            style={{ minHeight: '200vh' }}
         >
             {/* Container principal - será fixado durante o scroll */}
             <div
@@ -127,13 +159,17 @@ export const About = () => {
                     className="relative z-20 text-center px-6 max-w-4xl"
                 >
                     <h2
+                        ref={titleRef}
                         className="text-4xl md:text-5xl lg:text-6xl text-[#FF6B00] font-semibold tracking-wide drop-shadow-md mb-10"
                         style={{ fontFamily: 'var(--font-playfair)', fontStyle: 'italic' }}
                     >
                         Sobre Mim
                     </h2>
 
-                    <p className="text-xl md:text-2xl font-medium tracking-tight leading-relaxed text-text-primary/90 max-w-4xl mx-auto drop-shadow-md">
+                    <p
+                        ref={descriptionRef}
+                        className="text-xl md:text-2xl font-medium tracking-tight leading-relaxed text-text-primary/90 max-w-4xl mx-auto drop-shadow-md"
+                    >
                         Sou desenvolvedor front-end e mobile com experiência desde 2018. Comecei com Visual Basic, migrei para front-end em 2020 (foco em UI/UX) e, desde 2023, atuo em desenvolvimento mobile criando soluções centradas no usuário.
                     </p>
                 </div>
