@@ -100,6 +100,10 @@ export const Work = () => {
                 scrub: 1,
                 anticipatePin: 1,
                 invalidateOnRefresh: true,
+                onToggle: (self) => {
+                    const event = new CustomEvent("work-section-changed", { detail: { isActive: self.isActive } });
+                    window.dispatchEvent(event);
+                },
             },
         });
 
@@ -148,7 +152,7 @@ export const Work = () => {
                                 path="/parallax-2.glb"
                                 position={[0, 0, 0]}
                                 rotation={[0, -0.5, 0]}
-                                scale={4}
+                                scale={2}
                             />
                         </Suspense>
                     </Canvas>

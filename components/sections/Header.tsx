@@ -20,28 +20,13 @@ export const Header = () => {
 
     // Detectar quando o usuário está na seção Work
     useEffect(() => {
-        const checkWorkSection = () => {
-            const workSection = document.querySelector('[data-section="work"]') as HTMLElement;
-            if (!workSection) return;
-
-            // Usar offsetTop para pegar a posição original da seção (antes do pin)
-            const sectionTop = workSection.offsetTop;
-            const sectionHeight = workSection.offsetHeight;
-            const scrollY = window.scrollY;
-            const viewportHeight = window.innerHeight;
-
-            // Considera que está na seção Work quando o scroll está dentro da área da seção
-            // Adiciona uma margem para começar a esconder um pouco antes
-            const isInWork = scrollY >= sectionTop - 100 && scrollY < sectionTop + sectionHeight + viewportHeight;
-            setIsInWorkSection(isInWork);
+        const handleWorkSectionChange = (e: Event) => {
+            const customEvent = e as CustomEvent;
+            setIsInWorkSection(customEvent.detail.isActive);
         };
 
-        // Verificar no scroll
-        window.addEventListener("scroll", checkWorkSection);
-        // Verificar inicialmente após um pequeno delay para garantir que o DOM está pronto
-        setTimeout(checkWorkSection, 100);
-
-        return () => window.removeEventListener("scroll", checkWorkSection);
+        window.addEventListener("work-section-changed", handleWorkSectionChange);
+        return () => window.removeEventListener("work-section-changed", handleWorkSectionChange);
     }, []);
 
     const navItems = [

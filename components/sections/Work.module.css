@@ -36,15 +36,15 @@
     top: 0;
     right: -10%;
     width: 50vw;
-    height: 60vh;
+    height: 80vh;
 }
 
 /* Parallax-2: Canto inferior esquerdo - colado no bottom */
 .parallax2 {
-    bottom: -50%;
-    left: -26%;
-    width: 80vw;
-    height: 100vh;
+    bottom: -60%;
+    left: -36%;
+    width: 100vw;
+    height: 120vh;
 }
 
 /* Cards Wrapper - fica ATRÁS dos objetos parallax */
