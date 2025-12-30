@@ -31,41 +31,46 @@ export const About = () => {
     useGSAP(() => {
         if (!mounted) return;
 
-        // Animação em 3 fases:
-        // Fase 1 (0-30%): Objeto entra da direita e vai até o centro
-        // Fase 2 (30-80%): Objeto visível e fixo no centro
-        // Fase 3 (80-100%): Objeto sai da tela (para cima/esquerda)
+        // Trigger 1: Entrada (Antes de fixar)
+        // O objeto começa a aparecer assim que a seção entra na tela
+        ScrollTrigger.create({
+            trigger: sectionRef.current,
+            start: "top 60%", // Começa quando o topo da seção atinge 60% da altura da tela (delay no início)
+            end: "top top",      // Termina quando a seção chega no topo (ocupa 100%)
+            scrub: 0.5,
+            onUpdate: (self) => {
+                const progress = self.progress;
+                // Easing cubic out para entrada suave
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+                // Transição da posição inicial (80, 40) para o centro (0, 0)
+                setObjectX(80 * (1 - easeProgress));
+                setObjectY(40 * (1 - easeProgress));
+                // Fade in gradual da opacidade
+                setScrollProgress(easeProgress);
+            }
+        });
+
+        // Trigger 2: Fixação e Saída (Quando a seção já ocupa 100%)
         ScrollTrigger.create({
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=250%", // Duração total da animação
+            end: "+=200%", // Duração da fase fixada
             scrub: 0.3,
             pin: contentRef.current,
             onUpdate: (self) => {
                 const progress = self.progress;
 
-                // Fase 1: Entrada diagonal (inferior-direita para o centro) (0% a 30%)
-                if (progress < 0.3) {
-                    const phaseProgress = progress / 0.3; // Normaliza para 0-1
-                    // Easing suave para entrada (easeOutCubic)
-                    const easeProgress = 1 - Math.pow(1 - phaseProgress, 3);
-
-                    // Objeto entra da diagonal inferior-direita até o centro
-                    // Começa em (80%, 40%) e vai até (0%, 0%)
-                    setObjectX(80 * (1 - easeProgress));
-                    setObjectY(40 * (1 - easeProgress));
-                    // Fade in gradual
-                    setScrollProgress(easeProgress);
-                }
-                // Fase 2: Fixo no centro (30% a 80%)
-                else if (progress < 0.8) {
+                // Fase 2: Objeto fixo no centro (enquanto lê o sobre mim)
+                // Mantemos por 70% do scroll pinned
+                if (progress < 0.7) {
                     setObjectX(0);
                     setObjectY(0);
                     setScrollProgress(1);
                 }
-                // Fase 3: Saída para cima/esquerda (80% a 100%)
+                // Fase 3: Saída para cima/esquerda (final do scroll)
                 else {
-                    const phaseProgress = (progress - 0.8) / 0.2; // Normaliza para 0-1
+                    const phaseProgress = (progress - 0.7) / 0.3; // Normaliza de 0.7-1.0 para 0-1
                     const easeProgress = Math.pow(phaseProgress, 2); // easeInQuad
 
                     // Objeto sai para cima/esquerda
@@ -132,6 +137,7 @@ export const About = () => {
                             scrollProgress={scrollProgress}
                             isHovered={isObjectHovered}
                             onHoverChange={handleObjectHoverChange}
+                            mouseControlMode="global"
                         />
                     </div>
                 </div>

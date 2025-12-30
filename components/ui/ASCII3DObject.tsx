@@ -100,20 +100,12 @@ const asciiFragmentShader = `
     vec2 toMouse = cellCenter - mouseUv;
     float distToMouse = length(toMouse);
     
-    // Black hole effect - create a gradient void
-    float blackHoleRadius = 0.05; // Inner radius where it's fully transparent
-    float blackHoleOuter = 0.25; // Outer radius where fade begins
-    
-    // Calculate a smooth fade factor based on distance
-    // 0.0 at center, 1.0 at outer edge
-    float blackHoleFactor = smoothstep(blackHoleRadius, blackHoleOuter, distToMouse);
-    
-    // Mix with 1.0 when not hovering (uDispersalAmount < 0.1)
-    blackHoleFactor = mix(1.0, blackHoleFactor, smoothstep(0.0, 1.0, uDispersalAmount));
+    // Black hole effect - REMOVED (Fixed to 1.0 to disable void)
+    float blackHoleFactor = 1.0;
     
     // Dispersal effect - particles fly away from cursor
-    float dispersalRadius = 0.45; // Increased slightly for smoother transition
-    float dispersalStrength = 0.12; // Slightly reduced for better control
+    float dispersalRadius = 0.3; // Interaction radius
+    float dispersalStrength = 0.05; // Reduced strength to prevent opening a large hole
     
     // Create unique random values for each cell
     float cellRandom = random(cellIndex);
@@ -228,6 +220,7 @@ interface ASCII3DObjectProps {
   scrollProgress?: number;
   isHovered?: boolean;
   onHoverChange?: (isHovered: boolean) => void;
+  mouseControlMode?: "element" | "global";
 }
 
 export const ASCII3DObject = ({
@@ -237,6 +230,7 @@ export const ASCII3DObject = ({
   scrollProgress = 1,
   isHovered = false,
   onHoverChange,
+  mouseControlMode = "element",
 }: ASCII3DObjectProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -295,29 +289,38 @@ export const ASCII3DObject = ({
     setIsMounted(true);
   }, []);
 
-  // Mouse tracking - relative to container
+  // Mouse tracking
   useEffect(() => {
-    if (!isMounted || !containerRef.current) return;
-
-    const container = containerRef.current;
+    if (!isMounted) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      // Get container bounds
-      const rect = container.getBoundingClientRect();
+      if (mouseControlMode === "global") {
+        // Global tracking (relative to window)
+        const relativeX = e.clientX / window.innerWidth;
+        const relativeY = e.clientY / window.innerHeight;
 
-      // Calculate mouse position relative to container (0 to 1)
-      const relativeX = (e.clientX - rect.left) / rect.width;
-      const relativeY = (e.clientY - rect.top) / rect.height;
+        mouseRef.current.targetX = relativeX * 2 - 1;
+        mouseRef.current.targetY = -(relativeY * 2 - 1);
+      } else {
+        // Element tracking (relative to container)
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
 
-      // Convert to -1 to 1 range for shader
-      mouseRef.current.targetX = relativeX * 2 - 1;
-      mouseRef.current.targetY = -(relativeY * 2 - 1); // Flip Y for WebGL coordinates
+        const relativeX = (e.clientX - rect.left) / rect.width;
+        const relativeY = (e.clientY - rect.top) / rect.height;
+
+        mouseRef.current.targetX = relativeX * 2 - 1;
+        mouseRef.current.targetY = -(relativeY * 2 - 1);
+      }
     };
 
-    // Use container for mouse tracking instead of window
-    container.addEventListener("mousemove", handleMouseMove);
-    return () => container.removeEventListener("mousemove", handleMouseMove);
-  }, [isMounted]);
+    const target = mouseControlMode === "global" ? window : containerRef.current;
+
+    if (target) {
+      target.addEventListener("mousemove", handleMouseMove as EventListener);
+      return () => target.removeEventListener("mousemove", handleMouseMove as EventListener);
+    }
+  }, [isMounted, mouseControlMode]);
 
   // Main Three.js setup
   useEffect(() => {
