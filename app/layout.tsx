@@ -41,6 +41,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
+      <head>
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+        />
+      </head>
       <body
         className={`${openSans.variable} ${jetbrainsMono.variable} ${playfairDisplay.variable} ${badeenDisplay.variable} antialiased bg-background text-text-primary font-sans selection:bg-primary selection:text-white`}
       >
