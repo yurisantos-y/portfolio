@@ -35,9 +35,10 @@ export const PillarModel = ({
             1000
         );
         // Adjust camera distance based on scale to prevent clipping for taller pillars
-        // Increased factor from 6 to 8 to ensure full visibility of tall pillars
-        camera.position.z = Math.max(6, 8 * scale);
-        camera.position.y = 0;
+        // Closer camera for more zoom
+        camera.position.z = Math.max(5, 8 * scale);
+        // Move camera down to show more of the top - more for larger pillars
+        camera.position.y = -0.3 * scale;
 
         // Renderer
         const renderer = new THREE.WebGLRenderer({
@@ -73,12 +74,18 @@ export const PillarModel = ({
 
         // Load GLB model
         const loader = new GLTFLoader();
-        let modelGroup: THREE.Group | null = null;
+        let pivotGroup: THREE.Group | null = null;
+
+        // Store initial positions of all children to reset them each frame
+        const childInitialPositions = new Map<THREE.Object3D, THREE.Vector3>();
 
         loader.load(
             "/pilar.glb",
             (gltf) => {
                 const model = gltf.scene;
+
+                // IMPORTANT: Do NOT use any animations from the GLB file
+                // We completely ignore gltf.animations
 
                 // Center and scale
                 const box = new THREE.Box3().setFromObject(model);
@@ -90,10 +97,18 @@ export const PillarModel = ({
                 const baseScale = (3.5 / maxDim) * scale;
                 model.scale.setScalar(baseScale);
 
-                // Center the model properly
-                model.position.x = -center.x * baseScale;
-                model.position.y = -center.y * baseScale + positionY;
-                model.position.z = -center.z * baseScale;
+                // Center the model at origin
+                model.position.set(
+                    -center.x * baseScale,
+                    -center.y * baseScale + positionY,
+                    -center.z * baseScale
+                );
+
+                // Store initial positions of ALL objects in the scene graph
+                // This will prevent any animation from moving them
+                model.traverse((child: THREE.Object3D) => {
+                    childInitialPositions.set(child, child.position.clone());
+                });
 
                 // Apply materials - create outline effect
                 model.traverse((child: THREE.Object3D) => {
@@ -117,10 +132,14 @@ export const PillarModel = ({
                     }
                 });
 
-                model.rotation.y = rotationY;
+                // Create a pivot group for rotation at the center
+                // This way we rotate around the center, not around the model origin
+                const pivot = new THREE.Group();
+                pivot.add(model);
+                pivot.rotation.y = rotationY;
 
-                scene.add(model);
-                modelGroup = model;
+                scene.add(pivot);
+                pivotGroup = pivot;
             },
             undefined,
             (error) => {
@@ -130,9 +149,14 @@ export const PillarModel = ({
 
         // Animation loop
         const animate = () => {
-            if (modelGroup) {
-                // Slow rotation for subtle movement
-                modelGroup.rotation.y += 0.002;
+            if (pivotGroup) {
+                // Only rotate the pivot on Y axis - the model stays fixed inside
+                pivotGroup.rotation.y += 0.002;
+
+                // Reset ALL child positions to prevent any drift from animations
+                childInitialPositions.forEach((initialPos, child) => {
+                    child.position.copy(initialPos);
+                });
             }
 
             renderer.render(scene, camera);

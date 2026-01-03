@@ -29,10 +29,10 @@ interface SkillColumn {
     pillarHeight: number; // 1-4 representing rows of skills
 }
 
-// Left side columns (3 pillars with varying heights)
+// Left side columns (3 pillars) - Order: Tall (corner) -> Medium -> Short (near center)
 const leftColumns: SkillColumn[] = [
     {
-        // Column 1 - Tall pillar (4 skills)
+        // Column 1 - Tall pillar (4 skills) - Corner
         pillarHeight: 4,
         skills: [
             { name: "React", icon: "devicon-react-original", color: "#61DAFB" },
@@ -42,7 +42,7 @@ const leftColumns: SkillColumn[] = [
         ],
     },
     {
-        // Column 2 - Medium pillar (3 skills)
+        // Column 2 - Medium pillar (3 skills) - Middle
         pillarHeight: 3,
         skills: [
             { name: "TypeScript", icon: "devicon-typescript-plain", color: "#3178C6" },
@@ -51,7 +51,7 @@ const leftColumns: SkillColumn[] = [
         ],
     },
     {
-        // Column 3 - Short pillar (2 skills)
+        // Column 3 - Short pillar (2 skills) - Near center
         pillarHeight: 2,
         skills: [
             { name: "CSS3", icon: "devicon-css3-plain", color: "#1572B6" },
@@ -60,10 +60,10 @@ const leftColumns: SkillColumn[] = [
     },
 ];
 
-// Right side columns (3 pillars with varying heights)
+// Right side columns (3 pillars) - Order: Short (near center) -> Medium -> Tall (corner)
 const rightColumns: SkillColumn[] = [
     {
-        // Column 1 - Short pillar (2 skills)
+        // Column 1 - Short pillar (2 skills) - Near center
         pillarHeight: 2,
         skills: [
             { name: "Swift", icon: "devicon-swift-plain", color: "#FA7343" },
@@ -71,7 +71,7 @@ const rightColumns: SkillColumn[] = [
         ],
     },
     {
-        // Column 2 - Medium pillar (3 skills)
+        // Column 2 - Medium pillar (3 skills) - Middle
         pillarHeight: 3,
         skills: [
             { name: "Dart", icon: "devicon-dart-plain", color: "#0175C2" },
@@ -80,7 +80,7 @@ const rightColumns: SkillColumn[] = [
         ],
     },
     {
-        // Column 3 - Tall pillar (4 skills)
+        // Column 3 - Tall pillar (4 skills) - Corner
         pillarHeight: 4,
         skills: [
             { name: "Flutter", icon: "devicon-flutter-plain", color: "#02569B" },
