@@ -159,13 +159,40 @@
 /* Center skills row */
 .centerSkillsRow {
     position: absolute;
+    bottom: 24%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2.5rem;
+    z-index: 5;
+}
+
+/* Wrapper for each center skill with capitel */
+.centerSkillWrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Capitel wrapper positioned BEHIND the skill */
+.capitelWrapper {
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    display: flex;
-    gap: 1.5rem;
-    z-index: 5;
-    margin-top: 8.5rem;
+    width: 180px;
+    height: 180px;
+    z-index: 1;
+    overflow: visible;
+}
+
+/* Make skill block appear in front of capitel */
+.centerSkillWrapper .skillBlock {
+    position: relative;
+    z-index: 2;
+    margin-top: 35px;
 }
 
 /* Tooltip for skill names */
@@ -307,6 +334,11 @@
         justify-content: center;
         gap: 1rem;
         margin-top: 2rem;
+    }
+
+    .capitelWrapper {
+        width: 60px;
+        height: 40px;
     }
 
     .pillarWrapper {

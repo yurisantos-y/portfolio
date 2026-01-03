@@ -15,6 +15,12 @@ const PillarModel = dynamic(
     { ssr: false }
 );
 
+// Dynamic import for CapitelModel (top of pillar only)
+const CapitelModel = dynamic(
+    () => import("@/components/ui/CapitelModel").then((mod) => mod.CapitelModel),
+    { ssr: false }
+);
+
 // Skill interface
 interface Skill {
     name: string;
@@ -274,11 +280,19 @@ export const Skills = () => {
             {/* Center Skills Row */}
             <div className={styles.centerSkillsRow}>
                 {centerSkills.map((skill, index) => (
-                    <SkillBlock
-                        key={`center-${skill.name}`}
-                        skill={skill}
-                        delay={0.6 + index * 0.1}
-                    />
+                    <div key={`center-${skill.name}`} className={styles.centerSkillWrapper}>
+                        {/* Capitel above each skill */}
+                        <div className={styles.capitelWrapper}>
+                            <CapitelModel
+                                scale={0.8}
+                                rotationY={Math.PI * 0.1 * (index % 2 === 0 ? 1 : -1)}
+                            />
+                        </div>
+                        <SkillBlock
+                            skill={skill}
+                            delay={0.6 + index * 0.1}
+                        />
+                    </div>
                 ))}
             </div>
         </section>
