@@ -31,8 +31,7 @@ export const metadata: Metadata = {
 };
 
 import { Header } from "@/components/sections/Header";
-
-// ... (imports)
+import { IntroWrapper } from "@/components/ui/IntroWrapper";
 
 export default function RootLayout({
   children,
@@ -51,8 +50,10 @@ export default function RootLayout({
       <body
         className={`${openSans.variable} ${jetbrainsMono.variable} ${playfairDisplay.variable} ${badeenDisplay.variable} antialiased bg-background text-text-primary font-sans selection:bg-primary selection:text-white`}
       >
-        <Header />
-        {children}
+        <IntroWrapper>
+          <Header />
+          {children}
+        </IntroWrapper>
       </body>
     </html>
   );
