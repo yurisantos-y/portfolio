@@ -500,6 +500,7 @@ export const ASCIIVideoBackground = () => {
         playsInline
         autoPlay
         preload="auto"
+        suppressHydrationWarning
         style={{
           position: "absolute",
           width: "1px",
