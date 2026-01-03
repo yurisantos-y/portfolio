@@ -4,9 +4,16 @@ import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import dynamic from "next/dynamic";
 import styles from "./Skills.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Dynamic import for PillarModel to avoid SSR issues
+const PillarModel = dynamic(
+    () => import("@/components/ui/PillarModel").then((mod) => mod.PillarModel),
+    { ssr: false }
+);
 
 // Skill interface
 interface Skill {
@@ -15,51 +22,73 @@ interface Skill {
     color?: string;
 }
 
-// Skills data organized by pyramid position
-const leftPyramidSkills: Skill[][] = [
-    // Row 1 (top - 1 block)
-    [{ name: "React", icon: "devicon-react-original", color: "#61DAFB" }],
-    // Row 2 (2 blocks)
-    [
-        { name: "Next.js", icon: "devicon-nextjs-plain", color: "#ffffff" },
-        { name: "TypeScript", icon: "devicon-typescript-plain", color: "#3178C6" },
-    ],
-    // Row 3 (3 blocks)
-    [
-        { name: "JavaScript", icon: "devicon-javascript-plain", color: "#F7DF1E" },
-        { name: "HTML5", icon: "devicon-html5-plain", color: "#E34F26" },
-        { name: "CSS3", icon: "devicon-css3-plain", color: "#1572B6" },
-    ],
-    // Row 4 (4 blocks)
-    [
-        { name: "Node.js", icon: "devicon-nodejs-plain", color: "#339933" },
-        { name: "Git", icon: "devicon-git-plain", color: "#F05032" },
-        { name: "TailwindCSS", icon: "devicon-tailwindcss-original", color: "#06B6D4" },
-        { name: "Sass", icon: "devicon-sass-original", color: "#CC6699" },
-    ],
+// Skills data organized by column with pillars
+// Each column has skills stacked vertically with a pillar behind
+interface SkillColumn {
+    skills: Skill[];
+    pillarHeight: number; // 1-4 representing rows of skills
+}
+
+// Left side columns (3 pillars with varying heights)
+const leftColumns: SkillColumn[] = [
+    {
+        // Column 1 - Tall pillar (4 skills)
+        pillarHeight: 4,
+        skills: [
+            { name: "React", icon: "devicon-react-original", color: "#61DAFB" },
+            { name: "Next.js", icon: "devicon-nextjs-plain", color: "#ffffff" },
+            { name: "JavaScript", icon: "devicon-javascript-plain", color: "#F7DF1E" },
+            { name: "Node.js", icon: "devicon-nodejs-plain", color: "#339933" },
+        ],
+    },
+    {
+        // Column 2 - Medium pillar (3 skills)
+        pillarHeight: 3,
+        skills: [
+            { name: "TypeScript", icon: "devicon-typescript-plain", color: "#3178C6" },
+            { name: "HTML5", icon: "devicon-html5-plain", color: "#E34F26" },
+            { name: "Git", icon: "devicon-git-plain", color: "#F05032" },
+        ],
+    },
+    {
+        // Column 3 - Short pillar (2 skills)
+        pillarHeight: 2,
+        skills: [
+            { name: "CSS3", icon: "devicon-css3-plain", color: "#1572B6" },
+            { name: "TailwindCSS", icon: "devicon-tailwindcss-original", color: "#06B6D4" },
+        ],
+    },
 ];
 
-const rightPyramidSkills: Skill[][] = [
-    // Row 1 (top - 1 block)
-    [{ name: "Flutter", icon: "devicon-flutter-plain", color: "#02569B" }],
-    // Row 2 (2 blocks)
-    [
-        { name: "Dart", icon: "devicon-dart-plain", color: "#0175C2" },
-        { name: "Firebase", icon: "devicon-firebase-plain", color: "#FFCA28" },
-    ],
-    // Row 3 (3 blocks)
-    [
-        { name: "Swift", icon: "devicon-swift-plain", color: "#FA7343" },
-        { name: "Kotlin", icon: "devicon-kotlin-plain", color: "#7F52FF" },
-        { name: "Android", icon: "devicon-android-plain", color: "#3DDC84" },
-    ],
-    // Row 4 (4 blocks)
-    [
-        { name: "PostgreSQL", icon: "devicon-postgresql-plain", color: "#4169E1" },
-        { name: "MongoDB", icon: "devicon-mongodb-plain", color: "#47A248" },
-        { name: "Docker", icon: "devicon-docker-plain", color: "#2496ED" },
-        { name: "Figma", icon: "devicon-figma-plain", color: "#F24E1E" },
-    ],
+// Right side columns (3 pillars with varying heights)
+const rightColumns: SkillColumn[] = [
+    {
+        // Column 1 - Short pillar (2 skills)
+        pillarHeight: 2,
+        skills: [
+            { name: "Swift", icon: "devicon-swift-plain", color: "#FA7343" },
+            { name: "PostgreSQL", icon: "devicon-postgresql-plain", color: "#4169E1" },
+        ],
+    },
+    {
+        // Column 2 - Medium pillar (3 skills)
+        pillarHeight: 3,
+        skills: [
+            { name: "Dart", icon: "devicon-dart-plain", color: "#0175C2" },
+            { name: "Kotlin", icon: "devicon-kotlin-plain", color: "#7F52FF" },
+            { name: "MongoDB", icon: "devicon-mongodb-plain", color: "#47A248" },
+        ],
+    },
+    {
+        // Column 3 - Tall pillar (4 skills)
+        pillarHeight: 4,
+        skills: [
+            { name: "Flutter", icon: "devicon-flutter-plain", color: "#02569B" },
+            { name: "Firebase", icon: "devicon-firebase-plain", color: "#FFCA28" },
+            { name: "Android", icon: "devicon-android-plain", color: "#3DDC84" },
+            { name: "Docker", icon: "devicon-docker-plain", color: "#2496ED" },
+        ],
+    },
 ];
 
 const centerSkills: Skill[] = [
@@ -67,7 +96,7 @@ const centerSkills: Skill[] = [
     { name: "GitHub", icon: "devicon-github-original", color: "#ffffff" },
     { name: "NPM", icon: "devicon-npm-original-wordmark", color: "#CB3837" },
     { name: "Vercel", icon: "devicon-vercel-original", color: "#ffffff" },
-    { name: "Linux", icon: "devicon-linux-plain", color: "#FCC624" },
+    { name: "Figma", icon: "devicon-figma-plain", color: "#F24E1E" },
 ];
 
 // Component for individual skill block
@@ -91,6 +120,46 @@ const SkillBlock = ({ skill, delay }: SkillBlockProps) => {
     );
 };
 
+// Component for a column with pillar and skills
+interface SkillColumnComponentProps {
+    column: SkillColumn;
+    columnIndex: number;
+    side: "left" | "right";
+}
+
+const SkillColumnComponent = ({ column, columnIndex, side }: SkillColumnComponentProps) => {
+    const baseDelay = side === "left" ? columnIndex * 0.15 : 0.5 + columnIndex * 0.15;
+
+    return (
+        <div
+            className={styles.skillColumn}
+            style={{
+                "--pillar-height": column.pillarHeight,
+            } as React.CSSProperties}
+        >
+            {/* Pillar behind skills */}
+            <div className={styles.pillarWrapper}>
+                <PillarModel
+                    scale={column.pillarHeight * 0.4}
+                    rotationY={side === "left" ? 0.15 : -0.15}
+                    positionY={0}
+                />
+            </div>
+
+            {/* Skills stacked on top of pillar */}
+            <div className={styles.skillStack}>
+                {column.skills.map((skill, skillIndex) => (
+                    <SkillBlock
+                        key={`${side}-${columnIndex}-${skill.name}`}
+                        skill={skill}
+                        delay={baseDelay + skillIndex * 0.08}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
+
 export const Skills = () => {
     const sectionRef = useRef<HTMLElement>(null);
     const [mounted, setMounted] = useState(false);
@@ -104,6 +173,27 @@ export const Skills = () => {
 
         const blocks = sectionRef.current.querySelectorAll(`.${styles.skillBlock}`);
         const title = sectionRef.current.querySelector(`.${styles.title}`);
+        const pillars = sectionRef.current.querySelectorAll(`.${styles.pillarWrapper}`);
+
+        // Animate pillars first
+        gsap.fromTo(pillars,
+            {
+                opacity: 0,
+                scaleY: 0,
+            },
+            {
+                opacity: 1,
+                scaleY: 1,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse",
+                },
+            }
+        );
 
         // Animate blocks on scroll
         gsap.fromTo(blocks,
@@ -154,35 +244,29 @@ export const Skills = () => {
             {/* Title */}
             <h2 className={styles.title}>Skills</h2>
 
-            {/* Pyramid Container */}
-            <div className={styles.pyramidContainer}>
-                {/* Left Pyramid */}
-                <div className={`${styles.pyramid} ${styles.pyramidLeft}`}>
-                    {leftPyramidSkills.map((row, rowIndex) => (
-                        <div key={`left-row-${rowIndex}`} className={styles.pyramidRow}>
-                            {row.map((skill, skillIndex) => (
-                                <SkillBlock
-                                    key={`left-${skill.name}`}
-                                    skill={skill}
-                                    delay={rowIndex * 0.1 + skillIndex * 0.05}
-                                />
-                            ))}
-                        </div>
+            {/* Columns Container */}
+            <div className={styles.columnsContainer}>
+                {/* Left Columns */}
+                <div className={styles.columnsGroup}>
+                    {leftColumns.map((column, index) => (
+                        <SkillColumnComponent
+                            key={`left-column-${index}`}
+                            column={column}
+                            columnIndex={index}
+                            side="left"
+                        />
                     ))}
                 </div>
 
-                {/* Right Pyramid */}
-                <div className={`${styles.pyramid} ${styles.pyramidRight}`}>
-                    {rightPyramidSkills.map((row, rowIndex) => (
-                        <div key={`right-row-${rowIndex}`} className={styles.pyramidRow}>
-                            {row.map((skill, skillIndex) => (
-                                <SkillBlock
-                                    key={`right-${skill.name}`}
-                                    skill={skill}
-                                    delay={rowIndex * 0.1 + skillIndex * 0.05 + 0.3}
-                                />
-                            ))}
-                        </div>
+                {/* Right Columns */}
+                <div className={styles.columnsGroup}>
+                    {rightColumns.map((column, index) => (
+                        <SkillColumnComponent
+                            key={`right-column-${index}`}
+                            column={column}
+                            columnIndex={index}
+                            side="right"
+                        />
                     ))}
                 </div>
             </div>
